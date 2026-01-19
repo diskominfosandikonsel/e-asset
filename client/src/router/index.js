@@ -101,6 +101,13 @@ function isLoggedIn(to, from, next) {
     beforeEnter: isLoggedIn,
   },
 
+  {
+    path: '/p_peralatanMesin',
+    name: 'p_peralatanMesin',
+    component: () => import('../views/pengadaan/p_peralatanMesin.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
 
 
   {
