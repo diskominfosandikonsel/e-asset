@@ -5,7 +5,6 @@
             <div class="row">
                <div class="col-12 col-md-3">
                   <div class="text-h6 h_titleHead">Home</div>
-                  <!-- <div class="text-subtitle2">by John Doe</div> -->
                </div>
             </div>
          </q-card-section>
@@ -22,18 +21,19 @@
                            style="font-size:420%; color:white" />
                      </div>
                      <div class="col-8 frWidgetSub2 main1">
-                        <span class="frWidgetText1">Total Aset</span> <br>
+                        <span class="frWidgetText1">Total Aset Daerah</span> <br>
                         <span class="frWidgetText2">25</span>
                      </div>
                   </div>
                </div>
-               <div class="col-12 col-md-3 frWidget ">
+
+               <div class="col-12 col-md-3 frWidget">
                   <div class="row shadow-5 frWidgetSub">
                      <div class="col-4 frWidgetSub1 text-center main2x row items-center justify-center">
                         <q-icon name="block" style="font-size:420%; color:white" />
                      </div>
                      <div class="col-8 frWidgetSub2 main2">
-                        <span class="frWidgetText1">Dibukukan</span> <br>
+                        <span class="frWidgetText1">Nilai Buku</span> <br>
                         <span class="frWidgetText2">11</span>
                      </div>
                   </div>
@@ -41,28 +41,83 @@
 
                <div class="col-12 col-md-3 frWidget">
                   <div class="row shadow-5 frWidgetSub">
-                     <div class="col-4 frWidgetSub1 text-center main6x  row items-center justify-center">
-                        <q-icon name="error_outline" style="font-size:420%; color:#646464" />
+                     <div class="col-4 frWidgetSub1 text-center main3x  row items-center justify-center">
+                        <q-icon name="error_outline" style="font-size:420%; color:white" />
                      </div>
-                     <div class="col-8 frWidgetSub2 main6">
-                        <span class="frWidgetText1Dark">Inventarisasi</span> <br>
-                        <span class="frWidgetText2Dark">12</span>
+                     <div class="col-8 frWidgetSub2 main3">
+                        <span class="frWidgetText1">Inventarisasi</span> <br>
+                        <span class="frWidgetText2">12</span>
                      </div>
                   </div>
                </div>
 
                <div class="col-12 col-md-3 frWidget">
                   <div class="row shadow-5 frWidgetSub">
-                     <div class="col-4 frWidgetSub1 text-center main3x  row items-center justify-center">
-                        <q-icon name="error_outline" style="font-size:420%; color:#646464" />
+                     <div class="col-4 frWidgetSub1 text-center main4x  row items-center justify-center">
+                        <q-icon name="error_outline" style="font-size:420%; color:white" />
                      </div>
-                     <div class="col-8 frWidgetSub2 main3">
-                        <span class="frWidgetText1Dark">Dilaporkan</span> <br>
-                        <span class="frWidgetText2Dark">12</span>
+                     <div class="col-8 frWidgetSub2 main4">
+                        <span class="frWidgetText1">Dilaporkan</span> <br>
+                        <span class="frWidgetText2">12</span>
                      </div>
                   </div>
                </div>
+            </div>
 
+            <div class="row">
+               <div class="col-12 col-md-8 padding1-5">
+                  <div class="frameChart shadow-5">
+                     <span class="frWidgetText1Dark">Aset Terbaru</span>
+                     <hr class="hrpagin2">
+                     <q-list bordered class="rounded-borders">
+                        <q-item clickable v-ripple v-for="(item) in asetList" :key="item.id">
+                           <q-item-section avatar>
+                              <q-avatar>
+                                 <img :src="item.avatar">
+                              </q-avatar>
+                           </q-item-section>
+
+                           <q-item-section>
+                              <q-item-label lines="1">{{ item.nama }}</q-item-label>
+                              <q-item-label caption lines="2">
+                                 <span class="text-weight-bold">{{ item.opd }}</span>
+                              </q-item-label>
+                           </q-item-section>
+
+                           <q-item-section side top>
+                              {{ item.waktu }}
+                           </q-item-section>
+                        </q-item>
+
+                        <q-separator inset="item" v-if="index < asetList.length - 1" />
+                     </q-list>
+
+
+                  </div>
+               </div>
+
+               <div class="col-12 col-md-4 padding1-5">
+                  <div class="frameChart shadow-5">
+                     <span class="frWidgetText1Dark">Aset OPD Terbanyak</span>
+                     <hr class="hrpagin2">
+                     <div class="tbl_responsive" id="printMe" style="margin-right:1%">
+                        <table width="100%">
+                           <thead>
+                              <tr class="h_table_head bg-blue-4" style="color:white">
+                                 <th>OPD</th>
+                                 <th>Jumlah Aset</th>
+                              </tr>
+                           </thead>
+                           <tbody class="h_table_body">
+                              <tr v-for="(item, index) in dummyAsetOPD" :key="index">
+                                 <td>{{ item.opd }}</td>
+                                 <td>{{ item.jumlah }}</td>
+                              </tr>
+                           </tbody>
+                        </table>
+                     </div>
+                  </div>
+               </div>
             </div>
 
             <div class="row">
@@ -71,9 +126,10 @@
                      <div id="kondisiAset" style="width:100%; height:400px;"></div>
                   </div>
                </div>
+
                <div class="col-12 col-md-6 padding1-5">
                   <div class="frameChart shadow-5">
-                     <div id="nilaiAsetx" style="width:100%; height:400px;"></div>
+                     <div id="usiaAset" style="width:100%; height:400px;"></div>
                   </div>
                </div>
             </div>
@@ -81,15 +137,10 @@
             <div class="row">
                <div class="col-12 col-md-12 padding1-5">
                   <div class="frameChart shadow-5">
-                     <div id="container" style="width:100%; height:400px;"></div>
+                     <div id="container" style="width:100%; height:500px;"></div>
                   </div>
                </div>
             </div>
-
-
-
-
-
 
          </q-card-section>
       </q-card>
@@ -161,24 +212,62 @@ export default {
             { name: 'Rusak', y: 340 },
             { name: 'Rusak Berat', y: 120 }
          ],
-         nilaiAsetDataMiliar: [
-            { name: "Tanah", y: 125000 },
-            { name: "Peralatan & Mesin", y: 57000 },
-            { name: "Gedung & Bangunan", y: 98000 },
-            { name: "Jalan, Irigasi & Jaringan", y: 143000 },
-            { name: "Aset Tetap Lainnya", y: 8000 }
+         dummyAsetOPD: [
+            { opd: "Dinas Pekerjaan Umum dan Penataan Ruang", jumlah: 1245 },
+            { opd: "Dinas Pendidikan dan Kebudayaan", jumlah: 987 },
+            { opd: "Dinas Kesehatan", jumlah: 842 },
+            { opd: "Sekretariat Daerah", jumlah: 615 },
+            { opd: "Dinas Perhubungan", jumlah: 488 },
+            { opd: "Dinas Pertanian", jumlah: 436 },
+            { opd: "Dinas Komunikasi dan Informatika", jumlah: 312 },
+            { opd: "Dinas Lingkungan Hidup", jumlah: 276 },
+            { opd: "Dinas Sosial", jumlah: 198 },
+            { opd: "Badan Keuangan dan Aset Daerah", jumlah: 154 }
          ],
-         asetPerOPD: [
-            { name: "Sekretariat Daerah", y: 185 },
-            { name: "Dinas Pendidikan", y: 742 },
-            { name: "Dinas Kesehatan", y: 516 },
-            { name: "Dinas PU & Tata Ruang", y: 392 },
-            { name: "Dinas Sosial", y: 144 },
-            { name: "Dinas Perhubungan", y: 278 },
-            { name: "Inspektorat", y: 88 },
+         asetList: [
+            {
+               id: 1,
+               nama: 'Kijang Innova 2.0 G/MT Lux',
+               opd: 'Dinas Komunikasi Informatika dan Persandian',
+               waktu: '1 min ago',
+               avatar: 'https://cdn.quasar.dev/img/avatar2.jpg'
+            },
+            {
+               id: 2,
+               nama: 'Sepeda Motor Dinas',
+               opd: 'Dinas Transmigrasi dan Ketenagakerjaan',
+               waktu: '5 min ago',
+               avatar: 'https://cdn.quasar.dev/img/avatar4.jpg'
+            },
+            {
+               id: 3,
+               nama: 'Toyota Hilux Double Cabin',
+               opd: 'Dinas Pekerjaan Umum dan Penataan Ruang',
+               waktu: '12 min ago',
+               avatar: 'https://cdn.quasar.dev/img/avatar3.jpg'
+            },
+            {
+               id: 4,
+               nama: 'Isuzu ELF Minibus',
+               opd: 'Dinas Kesehatan',
+               waktu: '30 min ago',
+               avatar: 'https://cdn.quasar.dev/img/avatar6.jpg'
+            },
+            {
+               id: 5,
+               nama: 'Laptop Dell Latitude 5420',
+               opd: 'Badan Keuangan dan Aset Daerah',
+               waktu: '1 hour ago',
+               avatar: 'https://cdn.quasar.dev/img/avatar5.jpg'
+            },
+            {
+               id: 6,
+               nama: 'Printer HP LaserJet Pro',
+               opd: 'Inspektorat Daerah',
+               waktu: '2 hours ago',
+               avatar: 'https://cdn.quasar.dev/img/avatar1.jpg'
+            }
          ],
-
-
       }
    },
    methods: {
@@ -190,124 +279,6 @@ export default {
             // we're done, we reset loading state
             this[`simpan${number}`] = false
          }, 3000)
-      },
-
-      KehadiranPie: function () {
-         Highcharts.chart('KehadiranPie', {
-            chart: {
-               type: 'pie',
-               backgroundColor: 'transparent'
-            },
-            credits: {
-               enabled: false
-            },
-            tooltip: {
-               pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            accessibility: {
-               point: {
-                  valueSuffix: '%'
-               }
-            },
-            plotOptions: {
-               pie: {
-                  allowPointSelect: true,
-                  cursor: 'pointer',
-                  dataLabels: {
-                     enabled: false
-                  },
-                  showInLegend: true
-               }
-            },
-            series: [{
-               name: 'Persentase',
-               colorByPoint: true,
-               data: [
-                  {
-                     name: 'Hadir',
-                     y: 52.08,
-                     color: '#1e88e5',
-                     // sliced: true,
-                     // selected: true
-                  },
-                  {
-                     name: 'Izin',
-                     y: 22.92,
-                     color: '#7cb342',
-                  },
-                  {
-                     name: 'Tanpa Keterangan',
-                     y: 25.00,
-                     color: '#ff8a65',
-                  },
-
-               ]
-            }]
-         });
-
-
-
-      },
-
-      KehadiranApelPie: function () {
-
-
-         Highcharts.chart('KehadiranApelPie', {
-            chart: {
-               type: 'pie',
-               backgroundColor: 'transparent',
-               options3d: {
-                  enabled: true,
-                  alpha: 45,
-                  beta: 0
-               }
-            },
-            credits: {
-               enabled: false
-            },
-            accessibility: {
-               point: {
-                  valueSuffix: '%'
-               }
-            },
-            tooltip: {
-               pointFormat: '{series.name}: <b>{point.percentage:.1f}%</b>'
-            },
-            plotOptions: {
-               pie: {
-                  allowPointSelect: true,
-                  cursor: 'pointer',
-                  depth: 35,
-                  dataLabels: {
-                     enabled: true,
-                     format: '{point.name}'
-                  }
-               }
-            },
-            series: [{
-               type: 'pie',
-               name: 'Persentase',
-               data: [
-                  {
-                     name: 'Hadir',
-                     y: 52.08,
-                     color: '#1e88e5',
-                     // sliced: true,
-                     // selected: true
-                  },
-                  {
-                     name: 'Izin',
-                     y: 22.92,
-                     color: '#7cb342',
-                  },
-                  {
-                     name: 'Tanpa Keterangan',
-                     y: 25.00,
-                     color: '#ff8a65',
-                  },
-               ]
-            }]
-         });
       },
 
       kondisiAset: function () {
@@ -356,154 +327,113 @@ export default {
       asetOPD: function () {
          Highcharts.chart('container', {
             chart: {
-               type: 'column',
+               type: 'bar', // Mengubah 'column' menjadi 'bar' membuatnya otomatis vertikal/horizontal bar
+               height: 500,
                backgroundColor: 'transparent',
             },
             title: {
-               text: 'Aset OPD'
+               text: 'Laporan Kekayaan Daerah Per Kategori (KIB)'
             },
             credits: {
                enabled: false
             },
             xAxis: {
-               type: 'category',
-               labels: {
-                  autoRotation: [-45, -90],
-                  style: {
-                     fontSize: '13px',
-                     fontFamily: 'Verdana, sans-serif'
-                  }
+               categories: [
+                  'KIB A (Tanah)',
+                  'KIB B (Peralatan & Mesin)',
+                  'KIB C (Gedung & Bangunan)',
+                  'KIB D (Jalan, Irigasi & Jaringan)',
+                  'KIB E (Aset Tetap Lainnya)',
+                  'KIB F (Konstruksi Dlm Pengerjaan)',
+                  'KIB G (Aset Tak Berwujud)'
+               ],
+               title: {
+                  text: null
                }
             },
             yAxis: {
                min: 0,
                title: {
-                  text: ''
+                  text: 'Nilai Aset (Miliar Rupiah)',
+                  align: 'high'
+               },
+               labels: {
+                  overflow: 'justify'
                }
-            },
-            legend: {
-               enabled: false
             },
             tooltip: {
-               pointFormat: 'Total Aset: <b>{point.y}</b>'
+               valueSuffix: ' Miliar'
             },
-            series: [{
-               name: 'Aset',
-               colorByPoint: true,
-               groupPadding: 0,
-               data: this.asetPerOPD,
-               dataLabels: {
-                  enabled: true,
-                  rotation: -90,
-                  color: '#FFFFFF',
-                  inside: true,
-                  verticalAlign: 'top',
-                  y: 10, // 10 pixels down from the top
-                  style: {
-                     fontSize: '13px',
-                     fontFamily: 'Verdana, sans-serif'
-                  }
-               }
-            }]
-         })
-      },
-
-      nilaiAset: function () {
-         Highcharts.chart('nilaiAsetx', {
-            chart: {
-               type: 'pie',
-               backgroundColor: 'transparent',
-               custom: {},
-               events: {
-                  render: function () {
-                     var chart = this;
-                     var series = chart.series[0];
-                     var customLabel = chart.options.chart.custom.label;
-
-                     if (!customLabel) {
-                        customLabel = chart.options.chart.custom.label =
-                           chart.renderer
-                              .label(
-                                 'Total<br/>' +
-                                 '<strong>2 877 820</strong>'
-                              )
-                              .css({
-                                 color: '#000',
-                                 textAnchor: 'middle'
-                              })
-                              .add();
-                     }
-
-                     var x = series.center[0] + chart.plotLeft;
-                     var y = series.center[1] + chart.plotTop -
-                        (customLabel.attr('height') / 2);
-
-                     customLabel.attr({ x: x, y: y });
-
-                     // Atur ukuran font berdasarkan diameter
-                     customLabel.css({
-                        fontSize: (series.center[2] / 12) + 'px'
-                     });
-                  }
-               }
-            },
-
-            accessibility: {
-               point: {
-                  valueSuffix: '%'
-               }
-            },
-
-            title: {
-               text: '2023 Norway car registrations'
-            },
-
-            subtitle: {
-               text: 'Source: SSB'
-            },
-
-            tooltip: {
-               pointFormat: '{series.name}: <b>{point.percentage:.0f}%</b>'
-            },
-
-            legend: {
-               enabled: false
-            },
-
             plotOptions: {
-               series: {
-                  allowPointSelect: true,
-                  cursor: 'pointer',
-                  borderRadius: 8,
-                  dataLabels: [
-                     {
-                        enabled: true,
-                        distance: 20,
-                        format: '{point.name}'
-                     },
-                     {
-                        enabled: true,
-                        distance: -15,
-                        format: '{point.percentage:.0f}%',
-                        style: { fontSize: '0.9em' }
-                     }
-                  ]
+               bar: {
+                  dataLabels: {
+                     enabled: true,
+                     format: 'Rp {point.y} M' // Menampilkan angka langsung di ujung bar
+                  },
+                  colorByPoint: true // Memberikan warna berbeda tiap bar agar lebih menarik bagi Bupati
                }
             },
-
+            legend: {
+               enabled: false // Dimatikan karena label sudah ada di sumbu Y
+            },
             series: [{
-               name: 'Registrations',
-               colorByPoint: true,
-               innerSize: '75%',
-               data: [
-                  { name: 'EV', y: 23.9 },
-                  { name: 'Hybrids', y: 12.6 },
-                  { name: 'Diesel', y: 37.0 },
-                  { name: 'Petrol', y: 26.4 }
-               ]
+               name: 'Nilai Perolehan',
+               data: [1250, 450, 850, 2100, 75, 120, 35],
+               colors: ['#2c3e50', '#2980b9', '#27ae60', '#f1c40f', '#e67e22', '#e74c3c', '#9b59b6']
             }]
          });
       },
+
+      usiaAset: function () {
+         Highcharts.chart('usiaAset', {
+            chart: {
+               type: 'column',
+               backgroundColor: 'transparent',
+            },
+            title: {
+               text: 'Usia Aset'
+            },
+            credits: {
+               enabled: false
+            },
+            legend: {
+               enabled: false // HILANGKAN "Series 1"
+            },
+            xAxis: {
+               categories: [
+                  '≤ 5 Tahun',
+                  '> 5 – 10 Tahun',
+                  '> 10 Tahun',
+                  '> 20 Tahun'
+               ]
+            },
+            yAxis: {
+               title: {
+                  text: null // HILANGKAN judul sumbu Y
+               },
+               labels: {
+                  enabled: false // HILANGKAN angka vertikal
+               }
+            },
+            tooltip: {
+               pointFormat: '<b>{point.y}</b> unit'
+            },
+            plotOptions: {
+               column: {
+                  dataLabels: {
+                     enabled: true // angka tetap tampil di atas bar
+                  }
+               }
+            },
+            series: [
+               {
+                  data: [485, 732, 619, 284],
+                  colorByPoint: true
+               }
+            ]
+         });
+      },
+
 
 
       async button() {
@@ -515,10 +445,9 @@ export default {
    },
 
    mounted() {
-      this.KehadiranApelPie();
       this.button();
       this.kondisiAset();
-      this.nilaiAset();
+      this.usiaAset();
       this.asetOPD();
    },
 }

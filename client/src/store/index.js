@@ -1,7 +1,7 @@
 import Vue from 'vue'
 import Vuex from 'vuex'
 
-import { Loading,  QSpinnerFacebook,  } from 'quasar'
+import { Loading,  QSpinnerFacebook, QSpinnerHourglass,  } from 'quasar'
 import { Notify } from 'quasar'
 
 Vue.use(Vuex)
@@ -94,14 +94,14 @@ export default new Vuex.Store({
       state.unit_kerja = get_profile.profile.unit_kerja; 
     },
     shoWLoading(){
-      const spinner = typeof QSpinnerFacebook !== 'undefined'
-        ? QSpinnerFacebook // Non-UMD, imported above
-        : Quasar.components.QSpinnerFacebook // eslint-disable-line
+      const spinner = typeof QSpinnerHourglass !== 'undefined'
+        ? QSpinnerHourglass // Non-UMD, imported above
+        : Quasar.components.QSpinnerHourglass // eslint-disable-line
 
 
       Loading.show({
         spinner,
-        spinnerColor: 'yellow',
+        spinnerColor: 'blue-2',
         spinnerSize: 140,
         backgroundColor: 'purple',
         // message: 'Loading... Tunggu beberapa saat, system sedang menyesuaikan akun anda..!',

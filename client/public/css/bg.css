@@ -42,36 +42,35 @@ background: linear-gradient(180deg, rgba(78,176,1,1) 14%, rgba(113,180,61,1) 36%
 }
 
 
-.main1x{
-    background-color: #006377 !important;
-}
-
 .main1{
-    background-color: #008099 !important;
+    background-color: #F9BF91 !important;
 }
 
-
-.main2x{
-    background-color: #02738a !important;
+.main1x{
+    background-color: #F6A361 !important;
 }
 
 .main2{
-    background-color: #0095b3 !important;
+    background-color: #B5BECF !important;
 }
 
+.main2x{
+    background-color: #96A3BB !important;
+}
+
+.main3{
+    background-color: #9196F9 !important;
+}
 
 .main3x{
-    background-color: #d3cdbf !important;
-}
-.main3{
-    background-color: #faf6ed !important;
+    background-color: #6168F6 !important;
 }
 
-.main4x{
-    background-color: #779e21 !important;
-}
 .main4{
-    background-color: #9acb34 !important;
+    background-color: #FFB2F3 !important;
+}
+.main4x{
+    background-color: #FF7FEB !important;
 }
 
 .main5x{

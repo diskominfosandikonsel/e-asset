@@ -35,7 +35,7 @@
                </form>
                <br>
                <hr>
-               <div class="transAbu">
+               <div class="transAbu text-center">
                   <span class="h_fotter_title">Copyright : Diskominfo & Bkad Kab. Konawe Selatan</span>
                </div>
             </div>

@@ -70,6 +70,24 @@ function isLoggedIn(to, from, next) {
     component: () => import('../views/dataMaster/registrasi.vue'),
     beforeEnter: isLoggedIn,
   },
+
+
+
+  {
+    path: '/p_tanah',
+    name: 'p_tanah',
+    component: () => import('../views/pengadaan/p_tanah.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+
+
+  {
+    path: '/tanah',
+    name: 'tanah',
+    component: () => import('../views/kartuInventaris/tanah.vue'),
+    beforeEnter: isLoggedIn,
+  },
   
 
   {
