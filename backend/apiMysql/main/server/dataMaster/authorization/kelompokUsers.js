@@ -1,17 +1,7 @@
 const express = require('express');
 var db = require('../../../../../db/MySql/umum');
 
-
-// var db = require('../../../../../db');
-
-
-
-// var uniqid = require('uniqid');
 const router = express.Router();
-
-
-
-
 
 router.post('/view', (req, res) => {
     var data_batas = parseInt(req.body.page_limit);
@@ -27,12 +17,8 @@ router.post('/view', (req, res) => {
         LIMIT `+ data_star + `,` + data_batas + `
     `;
 
-
-
     var akses_menu = req.menu_akses
     const levelAkses = akses_menu.find(({ route }) => route === '/klpUsers');
-
-    // console.log(levelAkses);
 
     if (levelAkses.readx == 1) {
         db.query(jml_data, (err, row) => {
@@ -42,7 +28,6 @@ router.post('/view', (req, res) => {
             } else {
                 halaman = Math.ceil(row.length / data_batas);
                 if (halaman < 1) { halaman = 1 }
-                // ========================
                 db.query(view, (err, result) => {
                     if (err) { res.json(err) }
                     else {
@@ -55,27 +40,17 @@ router.post('/view', (req, res) => {
                         })
                     }
                 })
-                // ========================
-    
             }
         })
 
     } else {
         res.json("ANDA TIDAK MEMILIKI HAK AKSES..!!")
     }
-
-
-
-
-
-
-
 });
 
 router.post('/addData', (req, res) => {
 
     var form = req.body.form
-
 
     // ==================== FLATEN OBJECT NESTED ====================
     var list_menu = req.body.list_menu
@@ -91,13 +66,9 @@ router.post('/addData', (req, res) => {
     });
     // ================== END FLATEN OBJECT NESTED ====================
 
-
-
     var query = `
         INSERT INTO menu_klp (uraian) VALUES ('`+ form.uraian + `');
     `
-
-
 
     var akses_menu = req.menu_akses
     const levelAkses = akses_menu.find(({ route }) => route === '/klpUsers');
@@ -120,7 +91,6 @@ router.post('/addData', (req, res) => {
                             `+ element.addx + `
                         );
                     `
-                    // console.log(query1)
                     db.query(query1, (err1, row1) => {
                         if (err) {
                             console.log(err1);
@@ -128,19 +98,12 @@ router.post('/addData', (req, res) => {
                         }
                     })
                 });
-    
             }
         })
-    
         res.send('OK')
-
     } else {
         res.json("ANDA TIDAK MEMILIKI HAK AKSES..!!")
     }
-
-
-
-
 
 });
 
@@ -162,22 +125,11 @@ router.post('/editData', (req, res) => {
     });
     // ================== END FLATEN OBJECT NESTED ====================
 
-
-
-
-
-
-
-
-
-
     var query = `
         UPDATE menu_klp SET
         uraian = '`+ form.uraian + `'
         WHERE id = `+ form.id+ `
     `
-
-
 
     var akses_menu = req.menu_akses
     const levelAkses = akses_menu.find(({ route }) => route === '/klpUsers');
@@ -187,10 +139,7 @@ router.post('/editData', (req, res) => {
             if (err) {
                 console.log(err);
                 res.send(err);
-            } else {
-                
-    
-    
+            } else {                
                 data.forEach(element => {
                     var query1 = '';
     
@@ -217,8 +166,6 @@ router.post('/editData', (req, res) => {
                             WHERE id = `+ element.menu_klp_list_id+ `
                         `
                     }
-    
-                    // console.log(query1)
                     db.query(query1, (err1, row1) => {
                         if (err) {
                             console.log(err1);
@@ -226,22 +173,12 @@ router.post('/editData', (req, res) => {
                         }
                     })
                 });
-    
-    
-    
-    
             }
         })
-    
         res.send('OK')
     } else {
         res.json("ANDA TIDAK MEMILIKI HAK AKSES..!!")
     }
-
-
-
-
-
 })
 
 router.post('/removeData', (req, res) => {
@@ -276,11 +213,7 @@ router.post('/removeData', (req, res) => {
     } else {
         res.json("ANDA TIDAK MEMILIKI HAK AKSES..!!")
     }
-
-
-
 })
-
 
 router.get('/list', (req, res) => {
 
@@ -290,17 +223,12 @@ router.get('/list', (req, res) => {
 
     db.query(view, (err, rows) => {
         if (err) {
-            // console.log(err);
             res.send(err);
         } else {
             res.send(rows)
         }
     })
-
-   
 });
-
-
 
 router.post('/list', (req, res) => {
 
@@ -310,19 +238,15 @@ router.post('/list', (req, res) => {
 
     db.query(view, (err, rows) => {
         if (err) {
-            // console.log(err);
             res.send(err);
         } else {
             res.send(rows)
         }
-    })
-
-   
+    }) 
 });
 
 
 router.get('/listAdd', (req, res) => {
-    // console.log(req.body)
     var query = `
        SELECT menu.*, 
        true as readx,
@@ -338,7 +262,6 @@ router.get('/listAdd', (req, res) => {
             console.log(err);
             res.send(err);
         } else {
-
             const nest = (items, id = null, link = 'parrent') =>
                 items
                     .filter(item => item[link] === id)
@@ -347,15 +270,9 @@ router.get('/listAdd', (req, res) => {
             res.send(nest(rows))
         }
     })
-
 });
 
-
-
 router.post('/listEdit', (req, res) => {
-
-
-    // console.log(req.body)
     var query = `
         SELECT menu.*,
         IF(ISNULL(menu_klp_list.id), null, menu_klp_list.id) as menu_klp_list_id,
@@ -364,13 +281,10 @@ router.post('/listEdit', (req, res) => {
         IF(ISNULL(menu_klp_list.deletex), false, menu_klp_list.deletex) as deletex,
         IF(ISNULL(menu_klp_list.addx), false, menu_klp_list.addx) as addx
 
-
         FROM menu
         
         LEFT JOIN menu_klp_list
         ON menu.id = menu_klp_list.menu_id AND menu_klp_list.menu_klp_id = `+ req.body.menu_klp_id + `
-
-
 
         ORDER BY menu.urutan
     `
@@ -391,10 +305,8 @@ router.post('/listEdit', (req, res) => {
 
 });
 
-
 router.post('/listSidebar', (req, res) => {
 
-    // console.log(req.body)
     var query = `
         SELECT menu.*,
         menu_klp_list.id as menu_klp_list_id,
@@ -404,7 +316,6 @@ router.post('/listSidebar', (req, res) => {
         IF(ISNULL(menu_klp_list.deletex), false, menu_klp_list.deletex) as deletex,
         IF(ISNULL(menu_klp_list.addx), false, menu_klp_list.addx) as addx
 
-
         FROM menu
         
         LEFT JOIN menu_klp_list
@@ -413,10 +324,6 @@ router.post('/listSidebar', (req, res) => {
         WHERE IF(menu.type = 1, true, menu_klp_list.readx) = true
         ORDER BY menu.urutan
     `
-
-
-    // WHERE IF(menu.type = 1, true, menu_klp_list.readx) = true
-
 
     db.query(query, (err, rows) => {
         if (err) {
@@ -439,7 +346,6 @@ router.post('/listSidebar', (req, res) => {
               })  
             });
 
-
             datax.forEach((el1, index1, item1) => {
                 if (el1.subItem.length <= 0 && el1.type == 1) {
                     // console.log(index1)
@@ -450,13 +356,6 @@ router.post('/listSidebar', (req, res) => {
             res.send(datax)
         }
     })
-
 });
-
-
-
-
-
-
 module.exports = router;
 

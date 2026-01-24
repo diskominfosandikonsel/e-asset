@@ -115,9 +115,6 @@ export default {
                },
                body: JSON.stringify(body),
             }).then((response) => {
-
-               // console.log(response);
-
                if (response.ok) {
                   return response.json();
                   this.$store.commit("shoWLoading");
@@ -129,7 +126,6 @@ export default {
                });
             })
                .then((result) => {
-                  console.log("=============================");
                   // console.log(result);
                   // menyimpan token yang tergenerate dari server
                   localStorage.token = result.token;

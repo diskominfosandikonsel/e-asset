@@ -44,17 +44,9 @@ function isLoggedIn(req, res, next){
      }
 }
 
-
-
-
 function sideMenuMidleware(req, res, next){
-     console.log(req.body);
 
      var profile = req.user.profile
-
-
-          // req.menu = 'SOOOOIMAAAH INI REQ MENUUUU'
-
 
           var query = `
                SELECT 
@@ -68,8 +60,6 @@ function sideMenuMidleware(req, res, next){
 
           `;
 
-
-
           db_absensi.query(query, (err, rows) => {
                if (err) {
                     console.log(err);
@@ -79,15 +69,10 @@ function sideMenuMidleware(req, res, next){
 
                }
           })
-
-
-
-          console.log(profile.template_vue);
 }
 
 module.exports = {
      checkTokenSeetUser,
      isLoggedIn,
      sideMenuMidleware,
-     // checkUserProfile,
 }

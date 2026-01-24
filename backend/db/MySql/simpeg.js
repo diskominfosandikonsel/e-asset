@@ -1,4 +1,4 @@
-var mysql = require('mysql');
+var mysql = require('mysql2');
 var db  = mysql.createPool({
     connectionLimit : process.env.LIMIT_DB_MYSQL,
     host     : process.env.HOST_DB_MYSQL,
