@@ -38,6 +38,15 @@ app.use('/api/v1/dm_registrasi', middleware.isLoggedIn, middleware.sideMenuMidle
 const checkAuth = require('./apiMysql/checkAuth');
 app.use('/api/v1/checkAuth', middleware.isLoggedIn, checkAuth);
 
+const master_asal = require('./apiMysql/main/server/masterAsal');
+app.use('/api/v1/master_asal', middleware.isLoggedIn, middleware.sideMenuMidleware, master_asal);
+
+const master_hak = require('./apiMysql/main/server/masterHak');
+app.use('/api/v1/master_hak', middleware.isLoggedIn, middleware.sideMenuMidleware, master_hak);
+
+const master_kondisi = require('./apiMysql/main/server/masterKondisi');
+app.use('/api/v1/master_kondisi', middleware.isLoggedIn, middleware.sideMenuMidleware, master_kondisi);
+
 // API ENDPOINTS
 
 // ERROR HANDLER
