@@ -63,7 +63,7 @@ router.post('/addData', (req,res)=>{
     var insert = '';
 
     insert = `INSERT INTO master_hak (id, uraian, keterangan, unitId, userId, createAt) 
-        VALUES ('`+uniqid()+`' ,'`+req.body.hak+`' ,'`+req.body.keterangan+`' ,'`+req.user.unitId+`' ,'`+req.user._id+`' , NOW() )
+        VALUES ('`+uniqid()+`' ,'`+req.body.uraian+`' ,'`+req.body.keterangan+`' ,'`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
         `;
 
     db.query(insert, (err, row)=>{
@@ -84,9 +84,9 @@ router.post('/editData', (req,res)=>{
         UPDATE master_hak SET
         uraian = '`+req.body.uraian+`',
         keterangan = '`+req.body.keterangan+`',
-        unitId = '`+req.user.unitId+`',
+        unitId = '`+req.user.profile.unit_kerja+`',
         userId = '`+req.user._id+`',
-        editeAt = NOW()
+        editedAt = NOW()
         WHERE id = '`+req.body.id+`'
         `;
     
@@ -103,7 +103,7 @@ router.post('/editData', (req,res)=>{
 router.post('/removeData', (req, res)=> {
 
     var query = `
-        DELETE FROM hak WHERE id = '`+req.body.id+`'; 
+        DELETE FROM master_hak WHERE id = '`+req.body.id+`'; 
     `;
     db.query(query, (err, row)=>{
         if(err){
