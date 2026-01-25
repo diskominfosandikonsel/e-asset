@@ -115,12 +115,82 @@ function isLoggedIn(to, from, next) {
     beforeEnter: isLoggedIn,
   },
 
+  {
+    path: '/p_jalanIrigasi',
+    name: 'p_jalanIrigasi',
+    component: () => import('../views/pengadaan/p_jalanIrigasi.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/p_asetTetap',
+    name: 'p_asetTetap',
+    component: () => import('../views/pengadaan/p_asetTetap.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/p_konstruksi',
+    name: 'p_konstruksi',
+    component: () => import('../views/pengadaan/p_konstruksi.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/p_asetLainnya',
+    name: 'p_asetLainnya',
+    component: () => import('../views/pengadaan/p_asetLainnya.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
 
 
   {
     path: '/tanah',
     name: 'tanah',
-    component: () => import('../views/kartuInventaris/tanah.vue'),
+    component: () => import('../views/penatausahaan/tanah.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/asetLainnya',
+    name: 'asetLainnya',
+    component: () => import('../views/penatausahaan/asetLainnya.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/asetTetapLainnya',
+    name: 'asetTetapLainnya',
+    component: () => import('../views/penatausahaan/asetTetapLainnya.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/gedungBangunan',
+    name: 'gedungBangunan',
+    component: () => import('../views/penatausahaan/gedungBangunan.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/jalanIrigasi',
+    name: 'jalanIrigasi',
+    component: () => import('../views/penatausahaan/jalanIrigasi.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/konstruksi',
+    name: 'konstruksi',
+    component: () => import('../views/penatausahaan/konstruksi.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/peralatanMesin',
+    name: 'peralatanMesin',
+    component: () => import('../views/penatausahaan/peralatanMesin.vue'),
     beforeEnter: isLoggedIn,
   },
   
