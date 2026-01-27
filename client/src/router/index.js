@@ -93,6 +93,12 @@ function isLoggedIn(to, from, next) {
   },
 
 
+  {
+    path: '/pengadaan',
+    name: 'pengadaan',
+    component: () => import('../views/pengadaan/pengadaan.vue'),
+    beforeEnter: isLoggedIn,
+  },
 
   {
     path: '/p_tanah',

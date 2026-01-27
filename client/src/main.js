@@ -58,7 +58,16 @@ import ProgressLoading from './components/ProgressLoading.vue'
 Vue.component('ProgressLoading', ProgressLoading);
 
 import mDatePicker from 'vue-multi-date-picker'
-Vue.use(mDatePicker)
+Vue.use(mDatePicker);
+
+import kompRincian from './components/komponen/rincian.vue'
+Vue.component('kompRincian', kompRincian);
+
+import kompBast from './components/komponen/bast.vue'
+Vue.component('kompBast', kompBast);
+
+import kompSp2d from './components/komponen/sp2d.vue'
+Vue.component('kompSp2d', kompSp2d);
 
 
 

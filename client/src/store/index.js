@@ -24,6 +24,8 @@ export default new Vuex.Store({
     url : {
       URL_APP : URL,
 
+      checkAuth : URL + 'api/v1/checkAuth/',
+
       URL_simpeg_biodata : URL+'api/v1/dm_biodata/',
       URL_simpeg_unit_kerja: URL+'api/v1/dm_unitKerja/',
       URL_simpeg_instansi : URL+'api/v1/dm_instansi/',
@@ -31,7 +33,10 @@ export default new Vuex.Store({
       URL_DM_REGISTER : URL+'api/v1/dm_registrasi/',
       URL_DM_MENU : URL+'api/v1/dm_menuList/',
       URL_DM_KLP_USERS : URL+'api/v1/dm_kelompokUsers/',
-      checkAuth : URL + 'api/v1/checkAuth/',
+
+      URL_DM_KONDISI : URL+'api/v1/master_kondisi/',
+      URL_DM_HAK : URL+'api/v1/master_hak/',
+      URL_DM_ASAL_USUL : URL+'api/v1/master_asal/',
     },
 
     // ====================================== CONTOH AUTOCOMPLETE ====================================
