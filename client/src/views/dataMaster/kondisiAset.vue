@@ -38,7 +38,7 @@
                             <th width="30%">Keterangan</th>
                             <th width="20%"></th>
                         </tr>
-                        <tr class="h_table_body" v-for="(data, index) in listData" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ indexing(index + 1) }}.</td>
                             <td>{{ data.uraian }}</td>
                             <td>{{ data.keterangan }}</td>
@@ -196,43 +196,7 @@ export default {
             autocomplete_db: '',
             // ====================================== CONTOH AUTOCOMPLETE ====================================
 
-
-
-
             list_data: [],
-
-            listData: [
-                {
-                    id: 1,
-                    uraian: "Baik",
-                    keterangan: "Aset dalam kondisi baik dan berfungsi normal"
-                },
-                {
-                    id: 2,
-                    uraian: "Rusak Ringan",
-                    keterangan: "Aset mengalami kerusakan ringan namun masih dapat digunakan",
-                },
-                {
-                    id: 3,
-                    uraian: "Rusak Berat",
-                    keterangan: "Aset mengalami kerusakan berat dan tidak dapat digunakan",
-                },
-                {
-                    id: 4,
-                    uraian: "Hilang",
-                    keterangan: "Aset tidak ditemukan atau hilang dalam penguasaan",
-                },
-                {
-                    id: 5,
-                    uraian: "Dalam Pemeliharaan",
-                    keterangan: "Aset sedang dalam proses perbaikan atau pemeliharaan",
-                },
-                {
-                    id: 6,
-                    uraian: "Tidak Digunakan",
-                    keterangan: "Aset tidak digunakan dan berpotensi untuk pemanfaatan atau penghapusan",
-                },
-            ],
 
             page_first: 1,
             page_last: 0,
@@ -255,7 +219,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "view", {
+            fetch(this.$store.state.url.URL_DM_KONDISI + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -277,7 +241,7 @@ export default {
 
 
         addData: function (number) {
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "addData", {
+            fetch(this.$store.state.url.URL_DM_KONDISI + "addData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -290,9 +254,8 @@ export default {
             });
         },
 
-
         editData: function () {
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "editData", {
+            fetch(this.$store.state.url.URL_DM_KONDISI + "editData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -306,7 +269,7 @@ export default {
         },
 
         removeData: function (E) {
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "removeData", {
+            fetch(this.$store.state.url.URL_DM_KONDISI + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -385,7 +348,7 @@ export default {
     },
 
     mounted() {
-        // this.getView();
+        this.getView();
     },
 }
 </script>

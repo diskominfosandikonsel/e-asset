@@ -36,7 +36,7 @@
                             <th width="30%">Keterangan</th>
                             <th width="20%"></th>
                         </tr>
-                        <tr class="h_table_body" v-for="(data, index) in listData" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ indexing(index + 1) }}.</td>
                             <td>{{ data.uraian }}</td>
                             <td>{{ data.keterangan }}</td>
@@ -192,68 +192,7 @@ export default {
             autocomplete_db: '',
             // ====================================== CONTOH AUTOCOMPLETE ====================================
 
-
-
-
             list_data: [],
-
-            listData: [
-                {
-                    "id": 1,
-                    "uraian": "Pembelian",
-                    "keterangan": "Aset diperoleh melalui pembelian menggunakan APBD"
-                },
-                {
-                    "id": 2,
-                    "uraian": "Hibah",
-                    "keterangan": "Aset diperoleh melalui hibah dari pihak lain"
-                },
-                {
-                    "id": 3,
-                    "uraian": "Bantuan Pemerintah Pusat",
-                    "keterangan": "Aset berasal dari bantuan Pemerintah Pusat"
-                },
-                {
-                    "id": 4,
-                    "uraian": "Bantuan Pemerintah Provinsi",
-                    "keterangan": "Aset berasal dari bantuan Pemerintah Provinsi"
-                },
-                {
-                    "id": 5,
-                    "uraian": "Bantuan Pemerintah Kabupaten/Kota",
-                    "keterangan": "Aset berasal dari bantuan Pemerintah Kabupaten/Kota"
-                },
-                {
-                    "id": 6,
-                    "uraian": "Tukar Menukar",
-                    "keterangan": "Aset diperoleh melalui proses tukar menukar"
-                },
-                {
-                    "id": 7,
-                    "uraian": "Putusan Pengadilan",
-                    "keterangan": "Aset diperoleh berdasarkan putusan pengadilan yang berkekuatan hukum tetap"
-                },
-                {
-                    "id": 8,
-                    "uraian": "Penyertaan Modal Pemerintah Daerah",
-                    "keterangan": "Aset diperoleh melalui penyertaan modal pemerintah daerah"
-                },
-                {
-                    "id": 9,
-                    "uraian": "Rampasan",
-                    "keterangan": "Aset berasal dari barang rampasan negara"
-                },
-                {
-                    "id": 10,
-                    "uraian": "Hasil Sitaan",
-                    "keterangan": "Aset berasal dari barang sitaan"
-                },
-                {
-                    "id": 11,
-                    "uraian": "Lainnya",
-                    "keterangan": "Aset diperoleh dari sumber lain yang sah"
-                }
-            ],
 
             page_first: 1,
             page_last: 0,
@@ -276,7 +215,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "view", {
+            fetch(this.$store.state.url.URL_DM_HAK + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -298,7 +237,7 @@ export default {
 
 
         addData: function (number) {
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "addData", {
+            fetch(this.$store.state.url.URL_DM_HAK + "addData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -313,7 +252,7 @@ export default {
 
 
         editData: function () {
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "editData", {
+            fetch(this.$store.state.url.URL_DM_HAK + "editData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -327,7 +266,7 @@ export default {
         },
 
         removeData: function (E) {
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "removeData", {
+            fetch(this.$store.state.url.URL_DM_HAK + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -406,7 +345,7 @@ export default {
     },
 
     mounted() {
-        // this.getView();
+        this.getView();
     },
 }
 </script>

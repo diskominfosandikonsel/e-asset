@@ -38,7 +38,7 @@
                             <th width="30%">Keterangan</th>
                             <th width="20%"></th>
                         </tr>
-                        <tr class="h_table_body" v-for="(data, index) in listData" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ indexing(index + 1) }}.</td>
                             <td>{{ data.uraian }}</td>
                             <td>{{ data.keterangan }}</td>
@@ -259,7 +259,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "view", {
+            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -281,7 +281,7 @@ export default {
 
 
         addData: function (number) {
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "addData", {
+            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "addData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -296,7 +296,7 @@ export default {
 
 
         editData: function () {
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "editData", {
+            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "editData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -310,7 +310,7 @@ export default {
         },
 
         removeData: function (E) {
-            fetch(this.$store.state.url.URL_DM_JENIS_LAYANAN + "removeData", {
+            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -389,7 +389,7 @@ export default {
     },
 
     mounted() {
-        // this.getView();
+        this.getView();
     },
 }
 </script>
