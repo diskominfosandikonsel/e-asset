@@ -10,8 +10,10 @@
                     <div class="col-12 col-md-2"></div>
                     <div class="col-12 col-md-4">
                         <div class="row">
-                            <q-input v-model="cari_value" @keyup="cari_data()" outlined square :dense="true" class="bg-white" style="width:90%" />
-                            <q-btn glossy class="bg-red-4" @click="mdl_add = true" dense flat icon="add" style="width:10%">
+                            <q-input v-model="cari_value" @keyup="cari_data()" outlined square :dense="true"
+                                class="bg-white" style="width:90%" />
+                            <q-btn glossy class="bg-red-4" @click="mdl_add = true" dense flat icon="add"
+                                style="width:10%">
                                 <q-tooltip content-class="bg-red-4" content-style="font-size: 13px">
                                     Click untuk menambah data
                                 </q-tooltip>
@@ -34,22 +36,25 @@
                     <table width="100%">
                         <tr class="h_table_head bg-blue-2">
                             <th width="10%" class="text-center">No</th>
-                            <th width="30%">Kode</th>
-                            <th width="40%">Uraian</th>
-                            <th width="20%"></th>
+                            <th width="15%" colspan="2" class="text-center">Kode</th>
+                            <th width="50%" class="text-center">Uraian</th>
+                            <th width="30%"></th>
                         </tr>
-                        <tr class="h_table_body" v-for="(data, index) in listData" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in listKelompok" :key="data.id">
                             <td class="text-center">{{ indexing(index + 1) }}.</td>
-                            <td>{{ data.kode }}</td>
+                            <td class="text-center">{{ data.aset_id }}</td>
+                            <td class="text-center">{{ data.kode }}</td>
                             <td>{{ data.uraian }}</td>
                             <td class="text-center">
                                 <q-btn-group>
-                                    <q-btn @click="mdl_edit = true, selectData(data)" glossy color="orange" icon="create" class="tbl_btn">
+                                    <q-btn @click="mdl_edit = true, selectData(data)" glossy color="orange"
+                                        icon="create" class="tbl_btn">
                                         <q-tooltip content-class="bg-orange-9" content-style="font-size: 13px">
                                             Click untuk mengubah data ini
                                         </q-tooltip>
                                     </q-btn>
-                                    <q-btn @click="mdl_hapus = true, selectData(data)" glossy color="negative" icon="delete_forever" class="tbl_btn">
+                                    <q-btn @click="mdl_hapus = true, selectData(data)" glossy color="negative"
+                                        icon="delete_forever" class="tbl_btn">
                                         <q-tooltip content-class="bg-red" content-style="font-size: 13px">
                                             Click untuk menghapus data ini
                                         </q-tooltip>
@@ -91,12 +96,20 @@
                         <br>
                         <div class="row">
                             <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable ">Aset</span>
+                                <q-select v-model="form.aset_id" :options="listAset" option-value="kode"
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Kode</span>
-                                <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn" type="number" />
+                                <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn"
+                                    type="number" />
                             </div>
                             <div class="col-12 col-md-12 frame_cari frame_cari">
                                 <span class="h_lable ">Uraian</span>
-                                <q-input v-model="form.uraian" outlined square :dense="true" class="bg-white margin_btn" />
+                                <q-input v-model="form.uraian" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
                             </div>
                         </div>
                     </q-card-section>
@@ -121,8 +134,15 @@
                     <br>
                     <div class="row">
                         <div class="col-12 col-md-12 frame_cari">
+                            <span class="h_lable ">Aset</span>
+                            <q-select v-model="form.aset_id" :options="listAset" option-value="kode"
+                                :option-label="opt => `${opt.kode} - ${opt.uraian}`" outlined square :dense="true"
+                                class="bg-white margin_btn" />
+                        </div>
+                        <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable ">Kode</span>
-                            <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn" type="number" />
+                            <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn"
+                                type="number" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari frame_cari">
                             <span class="h_lable ">Uraian</span>
@@ -188,6 +208,7 @@ export default {
 
             form: {
                 id: '',
+                aset_id: null,
                 kode: '',
                 uraian: '',
             },
@@ -201,11 +222,26 @@ export default {
 
             list_data: [],
 
-            listData: [
+            listAset: [
                 {
                     "id": 1,
                     "kode": "01",
                     "uraian": "Aset",
+                },
+            ],
+
+            listKelompok: [
+                {
+                    "id": 1,
+                    "aset_id": "01",
+                    "kode": "03",
+                    "uraian": "Aset Tetap",
+                },
+                {
+                    "id": 2,
+                    "aset_id": "01",
+                    "kode": "05",
+                    "uraian": "Aset Lainnya",
                 },
             ],
 
@@ -298,6 +334,9 @@ export default {
 
         selectData: function (data) {
             this.form.id = data.id;
+            this.form.aset_id = this.listAset.find(
+                a => a.kode === data.aset_id
+            );
             this.form.kode = data.kode;
             this.form.uraian = data.uraian;
         },

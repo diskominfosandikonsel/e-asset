@@ -79,6 +79,13 @@ function isLoggedIn(to, from, next) {
   },
 
   {
+    path: '/kelompok',
+    name: 'kelompok',
+    component: () => import('../views/dataMaster/kodeAset/kelompok.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
     path: '/asalUsul',
     name: 'asalUsul',
     component: () => import('../views/dataMaster/asalUsul.vue'),
