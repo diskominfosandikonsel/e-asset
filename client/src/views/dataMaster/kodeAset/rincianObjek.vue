@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="text-h6 h_titleHead">Kode Aset</div>
-                        <div class="text-subtitle2">Objek</div>
+                        <div class="text-subtitle2">Rincian Objek</div>
                     </div>
                     <div class="col-12 col-md-2"></div>
                     <div class="col-12 col-md-4">
@@ -35,15 +35,16 @@
                     <table width="100%">
                         <tr class="h_table_head bg-blue-2">
                             <th width="10%" class="text-center">No</th>
-                            <th width="15%" colspan="4" class="text-center">Kode</th>
+                            <th width="15%" colspan="5" class="text-center">Kode</th>
                             <th width="50%" class="text-center">Uraian</th>
                             <th width="30%"></th>
                         </tr>
-                        <tr class="h_table_body" v-for="(data, index) in listObjek" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in listRincian" :key="data.id">
                             <td class="text-center">{{ indexing(index + 1) }}.</td>
                             <td class="text-center">{{ data.aset_id }}</td>
                             <td class="text-center">{{ data.kelompok_id }}</td>
                             <td class="text-center">{{ data.jenis_id }}</td>
+                            <td class="text-center">{{ data.objek_id }}</td>
                             <td class="text-center">{{ data.kode }}</td>
                             <td>{{ data.uraian }}</td>
                             <td class="text-center">
@@ -137,6 +138,19 @@
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Kode Objek</span>
+                                <q-select
+                                    v-model="form.objek_id"
+                                    :options="listObjek"
+                                    option-value="kode"
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                    outlined
+                                    square
+                                    :dense="true"
+                                    class="bg-white margin_btn"
+                                    />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable ">Kode</span>
                                 <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                             </div>
                             <div class="col-12 col-md-12 frame_cari frame_cari">
@@ -203,6 +217,19 @@
                                 :dense="true"
                                 class="bg-white margin_btn"
                             />
+                        </div>
+                        <div class="col-12 col-md-12 frame_cari">
+                            <span class="h_lable ">Kode Objek</span>
+                            <q-select
+                                v-model="form.objek_id"
+                                :options="listObjek"
+                                option-value="kode"
+                                :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                outlined
+                                square
+                                :dense="true"
+                                class="bg-white margin_btn"
+                                />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable ">Kode</span>
@@ -396,6 +423,36 @@ export default {
                 },
             ],
 
+            listRincian: [
+                {
+                    "id": 1,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "01",
+                    "kode": "01",
+                    "uraian": "ALAT BESAR DARAT",
+                },
+                {
+                    "id": 2,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "01",
+                    "kode": "02",
+                    "uraian": "ALAT BESAR APUNG",
+                },
+                {
+                    "id": 3,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "01",
+                    "kode": "03",
+                    "uraian": "ALAT BANTU",
+                },
+            ],
+
 
             page_first: 1,
             page_last: 0,
@@ -488,6 +545,7 @@ export default {
             this.form.aset_id = this.listAset.find( a => a.kode === data.aset_id );
             this.form.kelompok_id = this.listKelompok.find( a => a.kode === data.kelompok_id );
             this.form.jenis_id = this.listJenis.find( a => a.kode === data.jenis_id );
+            this.form.objek_id = this.listObjek.find( a => a.kode === data.objek_id );
             this.form.kode = data.kode;
             this.form.uraian = data.uraian;
         },

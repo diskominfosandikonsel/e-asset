@@ -100,6 +100,13 @@ function isLoggedIn(to, from, next) {
   },
 
   {
+    path: '/rincianObjek',
+    name: 'rincianObjek',
+    component: () => import('../views/dataMaster/kodeAset/rincianObjek.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
     path: '/asalUsul',
     name: 'asalUsul',
     component: () => import('../views/dataMaster/asalUsul.vue'),
