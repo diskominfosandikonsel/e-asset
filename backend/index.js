@@ -38,6 +38,9 @@ app.use('/api/v1/dm_registrasi', middleware.isLoggedIn, middleware.sideMenuMidle
 const checkAuth = require('./apiMysql/checkAuth');
 app.use('/api/v1/checkAuth', middleware.isLoggedIn, checkAuth);
 
+const master_kode = require('./apiMysql/main/server/dataMaster/masterKode');
+app.use('/api/v1/master_kode', middleware.isLoggedIn, middleware.sideMenuMidleware, master_kode);
+
 const master_asal = require('./apiMysql/main/server/dataMaster/masterAsal');
 app.use('/api/v1/master_asal', middleware.isLoggedIn, middleware.sideMenuMidleware, master_asal);
 
@@ -47,8 +50,35 @@ app.use('/api/v1/master_hak', middleware.isLoggedIn, middleware.sideMenuMidlewar
 const master_kondisi = require('./apiMysql/main/server/dataMaster/masterKondisi');
 app.use('/api/v1/master_kondisi', middleware.isLoggedIn, middleware.sideMenuMidleware, master_kondisi);
 
-const kib_a = require('./apiMysql/main/server/kibA');
+const pengadaan = require('./apiMysql/main/server/pengadaan');
+app.use('/api/v1/pengadaan', middleware.isLoggedIn, middleware.sideMenuMidleware, pengadaan);
+
+const aset = require('./apiMysql/main/server/aset');
+app.use('/api/v1/aset', middleware.isLoggedIn, middleware.sideMenuMidleware, aset);
+
+const bast = require('./apiMysql/main/server/bast');
+app.use('/api/v1/bast', middleware.isLoggedIn, middleware.sideMenuMidleware, bast);
+
+const sppd = require('./apiMysql/main/server/sppd');
+app.use('/api/v1/sppd', middleware.isLoggedIn, middleware.sideMenuMidleware, sppd);
+
+const kib_a = require('./apiMysql/main/server/kib_a');
 app.use('/api/v1/kib_a', middleware.isLoggedIn, middleware.sideMenuMidleware, kib_a);
+
+const kib_b = require('./apiMysql/main/server/kib_b');
+app.use('/api/v1/kib_b', middleware.isLoggedIn, middleware.sideMenuMidleware, kib_b);
+
+const kib_c = require('./apiMysql/main/server/kib_c');
+app.use('/api/v1/kib_c', middleware.isLoggedIn, middleware.sideMenuMidleware, kib_c);
+
+const kib_d = require('./apiMysql/main/server/kib_d');
+app.use('/api/v1/kib_d', middleware.isLoggedIn, middleware.sideMenuMidleware, kib_d);
+
+const kib_e = require('./apiMysql/main/server/kib_e');
+app.use('/api/v1/kib_e', middleware.isLoggedIn, middleware.sideMenuMidleware, kib_e);
+
+const kib_f = require('./apiMysql/main/server/kib_f');
+app.use('/api/v1/kib_f', middleware.isLoggedIn, middleware.sideMenuMidleware, kib_f);
 
 // API ENDPOINTS
 

@@ -187,3 +187,182 @@ CREATE TABLE `kib_f` (
   `editedAt` timestamp NULL DEFAULT NULL,
   PRIMARY KEY (`id`) USING BTREE
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+// NEW TABLE 07 Februari 2026
+
+CREATE TABLE `pengadaan` (
+  `id` varchar(35) NOT NULL,
+  `no_spk` varchar(25) DEFAULT NULL,
+  `tgl_spk` date DEFAULT NULL,
+  `keterangan` text NOT NULL,
+  `jangka_waktu` double NOT NULL,
+  `nilai` double DEFAULT NULL,
+  `jenis` varchar(25) DEFAULT NULL,
+  `nama` varchar(250) NOT NULL,
+  `npwp` varchar(250) NOT NULL,
+  `bentuk` varchar(100) NOT NULL,
+  `bank` varchar(100) NOT NULL,
+  `alamat` text NOT NULL,
+  `alias` varchar(250) NOT NULL,
+  `pimpinan` varchar(250) NOT NULL,
+  `rekening` varchar(250) NOT NULL,
+  `unitId` varchar(35) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `aset` (
+  `id` varchar(35) NOT NULL,
+  `pengadaanId` varchar(35) NOT NULL,
+  `nomor` varchar(35) NOT NULL,
+  `akunId` varchar(35) DEFAULT NULL,
+  `kelompokId` varchar(35) DEFAULT NULL,
+  `jenisId` varchar(35) DEFAULT NULL,
+  `objekId` varchar(35) DEFAULT NULL,
+  `rincianId` varchar(35) DEFAULT NULL,
+  `subId` varchar(35) DEFAULT NULL,
+  `subSubId` varchar(35) DEFAULT NULL,
+  `merk` varchar(50) DEFAULT NULL,
+  `type` varchar(50) DEFAULT NULL,
+  `ukuran` double DEFAULT NULL,
+  `luas` double DEFAULT NULL,
+  `panjang` double DEFAULT NULL,
+  `lebar` double DEFAULT NULL,
+  `jumlah` double NOT NULL,
+  `harga` double NOT NULL,
+  `keterangan` text DEFAULT NULL,
+  `unitId` varchar(35) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `bast` (
+  `id` varchar(35) NOT NULL,
+  `pengadaanId` varchar(35) NOT NULL,
+  `nomor` varchar(35) NOT NULL,
+  `tgl` date DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
+  `file` text NOT NULL,
+  `unitId` varchar(35) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `sppd` (
+  `id` varchar(35) NOT NULL,
+  `pengadaanId` varchar(35) NOT NULL,
+  `nomor` varchar(35) NOT NULL,
+  `tgl` date DEFAULT NULL,
+  `nilai` double DEFAULT NULL,
+  `keterangan` text DEFAULT NULL,
+  `file` text NOT NULL,
+  `unitId` varchar(35) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `kode_akun` (
+  `id` varchar(35) NOT NULL,
+  `kode` char(5) NOT NULL,
+  `uraian` varchar(100) NOT NULL,
+  `unitId` varchar(30) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `kode_kelompok` (
+  `id` varchar(35) NOT NULL,
+  `akunId` varchar(35) NOT NULL,
+  `kode` char(5) NOT NULL,
+  `uraian` varchar(100) NOT NULL,
+  `unitId` varchar(30) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `kode_jenis` (
+  `id` varchar(35) NOT NULL,
+  `akunId` varchar(35) NOT NULL,
+  `kelompokId` varchar(35) NOT NULL,
+  `kode` char(5) NOT NULL,
+  `uraian` varchar(100) NOT NULL,
+  `unitId` varchar(30) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `kode_objek` (
+  `id` varchar(35) NOT NULL,
+  `akunId` varchar(35) NOT NULL,
+  `kelompokId` varchar(35) NOT NULL,
+  `jenisId` varchar(35) NOT NULL,
+  `kode` char(5) NOT NULL,
+  `uraian` varchar(100) NOT NULL,
+  `unitId` varchar(30) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `kode_rincian` (
+  `id` varchar(35) NOT NULL,
+  `akunId` varchar(35) NOT NULL,
+  `kelompokId` varchar(35) NOT NULL,
+  `jenisId` varchar(35) NOT NULL,
+  `objekId` varchar(35) NOT NULL,
+  `kode` char(5) NOT NULL,
+  `uraian` varchar(100) NOT NULL,
+  `unitId` varchar(30) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `kode_sub` (
+  `id` varchar(35) NOT NULL,
+  `akunId` varchar(35) NOT NULL,
+  `kelompokId` varchar(35) NOT NULL,
+  `jenisId` varchar(35) NOT NULL,
+  `objekId` varchar(35) NOT NULL,
+  `rincianId` varchar(35) NOT NULL,
+  `kode` char(5) NOT NULL,
+  `uraian` varchar(100) NOT NULL,
+  `unitId` varchar(30) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
+
+CREATE TABLE `kode_sub_sub` (
+  `id` varchar(35) NOT NULL,
+  `akunId` varchar(35) NOT NULL,
+  `kelompokId` varchar(35) NOT NULL,
+  `jenisId` varchar(35) NOT NULL,
+  `objekId` varchar(35) NOT NULL,
+  `rincianId` varchar(35) NOT NULL,
+  `subId` varchar(35) NOT NULL,
+  `kode` char(5) NOT NULL,
+  `uraian` varchar(100) NOT NULL,
+  `unitId` varchar(30) NOT NULL,
+  `userId` varchar(25) NOT NULL,
+  `createAt` timestamp NULL DEFAULT NULL,
+  `editedAt` timestamp NULL DEFAULT NULL,
+  PRIMARY KEY (`id`) USING BTREE
+) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
