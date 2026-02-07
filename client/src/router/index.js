@@ -72,6 +72,13 @@ function isLoggedIn(to, from, next) {
   },
 
   {
+    path: '/akun',
+    name: 'akun',
+    component: () => import('../views/dataMaster/kodeAset/akun.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
     path: '/asalUsul',
     name: 'asalUsul',
     component: () => import('../views/dataMaster/asalUsul.vue'),
