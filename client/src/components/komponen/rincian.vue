@@ -26,7 +26,8 @@
                             <td>{{ data.keterangan }}</td>
                             <td class="text-center">
                                 <q-btn-group flat>
-                                    <q-btn glossy color="blue" icon="search" size="sm" @click="mdl_lihat = true, selectData(data)">
+                                    <q-btn glossy color="blue" icon="search" size="sm"
+                                        @click="mdl_lihat = true, selectData(data)">
                                         <q-tooltip>Lihat Data</q-tooltip>
                                     </q-btn>
                                     <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true">
@@ -56,19 +57,100 @@
                 <q-card-section class="q-pa-md">
                     <div class="row q-col-gutter-sm">
                         <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Nomor</span>
+                            <span class="h_lable">Nomor (auto increment)</span>
                             <q-input v-model="form.no" value="1" outlined square dense disable class="bg-white" />
                         </div>
                         <div class="col-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
+                            <!-- <div class="grid-7-kolom q-mt-xs">
+                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
+                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
+                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
+                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
+                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
+                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
+                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
+                            </div> -->
+
+
                             <div class="grid-7-kolom q-mt-xs">
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
+                                <!-- ASET -->
+                                <q-select
+                                    v-model="form.aset_id"
+                                    :options="listAset"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.aset_id"
+                                    :label="form.aset_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- KELOMPOK -->
+                                <q-select
+                                    v-model="form.kelompok_id"
+                                    :options="listKelompok"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.kelompok_id"
+                                    :label="form.kelompok_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- JENIS -->
+                                <q-select
+                                    v-model="form.jenis_id"
+                                    :options="listJenis"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.jenis_id"
+                                    :label="form.jenis_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- OBJEK -->
+                                <q-select
+                                    v-model="form.objek_id"
+                                    :options="listObjek"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.objek_id"
+                                    :label="form.objek_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- RINCIAN -->
+                                <q-select
+                                    v-model="form.rincian_id"
+                                    :options="listRincian"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.rincian_id"
+                                    :label="form.rincian_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- SUB RINCIAN -->
+                                <q-select
+                                    v-model="form.sub_rincian_id"
+                                    :options="listRincian"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.sub_rincian_id"
+                                    :label="form.sub_rincian_id ? '' : '00'"
+                                    stack-label="false"
+                                />
                             </div>
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
@@ -219,62 +301,62 @@
 
         <q-dialog v-model="mdl_lihat" persistent>
             <q-card class="mdl-md">
-				<!-- Header -->
-				<q-card-section class="bg-blue-3 text-white flex items-center">
-					<div class="text-h6">Detil Aset</div>
-				</q-card-section>
+                <!-- Header -->
+                <q-card-section class="bg-blue-3 text-white flex items-center">
+                    <div class="text-h6">Detil Aset</div>
+                </q-card-section>
 
-				<q-separator />
+                <q-separator />
 
-				<!-- Body -->
-				<q-card-section class="q-gutter-md">
-					<div>
-						<div class="text-subtitle1 text-bold q-mb-sm">Informasi Aset</div>
-						<q-list dense bordered separator class="rounded-borders">
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Kode Aset</b></q-item-section>
-								<q-item-section>{{ form.kd_aset }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Nama Aset</b></q-item-section>
-								<q-item-section>{{ form.nm_aset }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Merk</b></q-item-section>
-								<q-item-section>{{ form.merk }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Type</b></q-item-section>
-								<q-item-section>{{ form.type }} m2</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Ukuran</b></q-item-section>
-								<q-item-section>{{ form.ukuran }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Luas</b></q-item-section>
-								<q-item-section>{{ form.luas }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Panjang</b></q-item-section>
-								<q-item-section>{{ form.panjang }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Lebar</b></q-item-section>
-								<q-item-section>{{ form.lebar }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Harga</b></q-item-section>
-								<q-item-section>{{ form.harga }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Keterangan</b></q-item-section>
-								<q-item-section>{{ form.keterangan }}</q-item-section>
-							</q-item>
-						</q-list>
-					</div>
+                <!-- Body -->
+                <q-card-section class="q-gutter-md">
+                    <div>
+                        <div class="text-subtitle1 text-bold q-mb-sm">Informasi Aset</div>
+                        <q-list dense bordered separator class="rounded-borders">
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Kode Aset</b></q-item-section>
+                                <q-item-section>{{ form.kd_aset }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Nama Aset</b></q-item-section>
+                                <q-item-section>{{ form.nm_aset }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Merk</b></q-item-section>
+                                <q-item-section>{{ form.merk }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Type</b></q-item-section>
+                                <q-item-section>{{ form.type }} m2</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Ukuran</b></q-item-section>
+                                <q-item-section>{{ form.ukuran }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Luas</b></q-item-section>
+                                <q-item-section>{{ form.luas }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Panjang</b></q-item-section>
+                                <q-item-section>{{ form.panjang }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Lebar</b></q-item-section>
+                                <q-item-section>{{ form.lebar }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Harga</b></q-item-section>
+                                <q-item-section>{{ form.harga }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Keterangan</b></q-item-section>
+                                <q-item-section>{{ form.keterangan }}</q-item-section>
+                            </q-item>
+                        </q-list>
+                    </div>
 
-					<!-- <div>
+                    <!-- <div>
 						<div class="text-subtitle1 text-bold q-mb-sm">Biodata Pemilik Lapak</div>
 						<q-list dense bordered separator class="rounded-borders">
 							<q-item>
@@ -300,14 +382,14 @@
 						</q-list>
 					</div> -->
 
-				</q-card-section>
+                </q-card-section>
 
-				<!-- Footer -->
-				<q-separator />
-				<q-card-actions class="bg-grey-3" align="right">
-					<q-btn label="Tutup" color="negative" v-close-popup />
-				</q-card-actions>
-			</q-card>
+                <!-- Footer -->
+                <q-separator />
+                <q-card-actions class="bg-grey-3" align="right">
+                    <q-btn label="Tutup" color="negative" v-close-popup />
+                </q-card-actions>
+            </q-card>
         </q-dialog>
     </div>
 </template>
@@ -409,6 +491,337 @@ export default {
                     total: 32000000,
 
                     keterangan: "Laptop MacBook Pro M2 untuk kebutuhan programmer an. Asrif Fajar"
+                },
+            ],
+
+            listAset: [
+                {
+                    "id": 1,
+                    "kode": "01",
+                    "uraian": "Aset",
+                },
+            ],
+
+            listKelompok: [
+                {
+                    "id": 1,
+                    "aset_id": "01",
+                    "kode": "03",
+                    "uraian": "Aset Tetap",
+                },
+                {
+                    "id": 2,
+                    "aset_id": "01",
+                    "kode": "05",
+                    "uraian": "Aset Lainnya",
+                },
+            ],
+
+            listJenis: [
+                {
+                    "id": 1,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "kode": "01",
+                    "uraian": "TANAH",
+                },
+                {
+                    "id": 2,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "kode": "02",
+                    "uraian": "PERALATAN DAN MESIN",
+                },
+                {
+                    "id": 3,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "kode": "03",
+                    "uraian": "GEDUNG DAN BANGUNAN",
+                },
+                {
+                    "id": 4,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "kode": "04",
+                    "uraian": "JALAN, JARINGAN DAN IRIGASI",
+                },
+                {
+                    "id": 5,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "kode": "05",
+                    "uraian": "ASET TETAP LAINNYA",
+                },
+                {
+                    "id": 6,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "kode": "06",
+                    "uraian": "KONSTRUKSI DALAM PENGERJAAN",
+                },
+                {
+                    "id": 7,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "kode": "07",
+                    "uraian": "AKUMULASI PENYUSUTAN",
+                },
+            ],
+
+            listObjek: [
+                {
+                    "id": 1,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "kode": "01",
+                    "uraian": "ALAT BESAR",
+                },
+                {
+                    "id": 2,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "kode": "02",
+                    "uraian": "ALAT ANGKUTAN",
+                },
+                {
+                    "id": 3,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "kode": "03",
+                    "uraian": "ALAT BENGKEL DAN ALAT UKUR",
+                },
+                {
+                    "id": 4,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "kode": "04",
+                    "uraian": "ALAT PERTANIAN",
+                },
+            ],
+
+            listRincian: [
+                {
+                    "id": 1,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "01",
+                    "kode": "01",
+                    "uraian": "ALAT BESAR DARAT",
+                },
+                {
+                    "id": 2,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "01",
+                    "kode": "02",
+                    "uraian": "ALAT BESAR APUNG",
+                },
+                {
+                    "id": 3,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "01",
+                    "kode": "03",
+                    "uraian": "ALAT BANTU",
+                },
+                {
+                    "id": 4,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "kode": "01",
+                    "uraian": "ALAT ANGKUTAN DARAT BERMOTOR",
+                },
+                {
+                    "id": 5,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "kode": "02",
+                    "uraian": "ALAT ANGKUTAN DARAT TAK BERMOTOR",
+                },
+                {
+                    "id": 6,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "kode": "03",
+                    "uraian": "ALAT ANGKUTAN APUNG BERMOTOR",
+                },
+                {
+                    "id": 7,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "kode": "04",
+                    "uraian": "ALAT ANGKUTAN APUNG TAK BERMOTOR",
+                },
+            ],
+
+            listSubRincian: [
+                {
+                    "id": 1,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "kode": "01",
+                    "uraian": "KENDARAAN DINAS BERMOTOR PERORANGAN",
+                },
+                {
+                    "id": 2,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "kode": "02",
+                    "uraian": "KENDARAAN BERMOTOR PENUMPANG",
+                },
+                {
+                    "id": 3,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "kode": "03",
+                    "uraian": "KENDARAAN BERMOTOR ANGKUTAN BARANG",
+                },
+                {
+                    "id": 4,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "kode": "04",
+                    "uraian": "KENDARAAN BERMOTOR BERODA DUA",
+                },
+                {
+                    "id": 5,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "kode": "05",
+                    "uraian": "KENDARAAN BERMOTOR BERODA TIGA",
+                },
+            ],
+
+            listSubRincianObjek: [
+                {
+                    "id": 1,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "sub_rincian_id": "01",
+                    "kode": "001",
+                    "uraian": "Sedan",
+                },
+                {
+                    "id": 2,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "sub_rincian_id": "01",
+                    "kode": "002",
+                    "uraian": "Jeep",
+                },
+                {
+                    "id": 3,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "sub_rincian_id": "01",
+                    "kode": "003",
+                    "uraian": "Station Wagon",
+                },
+                {
+                    "id": 4,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "sub_rincian_id": "01",
+                    "kode": "004",
+                    "uraian": "Multi Purpose Vehicle (MPV)",
+                },
+                {
+                    "id": 5,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "sub_rincian_id": "01",
+                    "kode": "005",
+                    "uraian": "Sport Utility Vehicle (SUV)",
+                },
+                {
+                    "id": 6,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "sub_rincian_id": "02",
+                    "kode": "001",
+                    "uraian": "Bus ( Penumpang 30 Orang Keatas )",
+                },
+                {
+                    "id": 7,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "sub_rincian_id": "02",
+                    "kode": "002",
+                    "uraian": "Micro Bus ( Penumpang 15 S/D 29 Orang )",
+                },
+                {
+                    "id": 8,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "sub_rincian_id": "02",
+                    "kode": "003",
+                    "uraian": "Mini Bus ( Penumpang 14 Orang Kebawah )",
+                },
+                {
+                    "id": 9,
+                    "aset_id": "01",
+                    "kelompok_id": "03",
+                    "jenis_id": "02",
+                    "objek_id": "02",
+                    "rincian_id": "01",
+                    "sub_rincian_id": "02",
+                    "kode": "004",
+                    "uraian": "Kendaraan Lapis Baja",
                 },
             ],
 
