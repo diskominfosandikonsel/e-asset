@@ -107,6 +107,13 @@ function isLoggedIn(to, from, next) {
   },
 
   {
+    path: '/subRincian',
+    name: 'subRincian',
+    component: () => import('../views/dataMaster/kodeAset/subRincian.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
     path: '/asalUsul',
     name: 'asalUsul',
     component: () => import('../views/dataMaster/asalUsul.vue'),
