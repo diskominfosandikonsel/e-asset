@@ -3,7 +3,7 @@
 -- https://www.phpmyadmin.net/
 --
 -- Host: localhost
--- Generation Time: Jan 27, 2026 at 10:50 AM
+-- Generation Time: Feb 07, 2026 at 04:49 PM
 -- Server version: 10.4.28-MariaDB
 -- PHP Version: 8.0.28
 
@@ -343,7 +343,7 @@ INSERT INTO `menu` (`id`, `title`, `icon`, `color`, `route`, `type`, `jenis`, `p
 (98, 'List Menu', '', '', '/menuList', 0, 2, 97, 1),
 (99, 'Kelompok User', '', '', '/klpUsers', 0, 2, 97, 0),
 (100, 'Registrasi', '', '', '/registrasi', 0, 2, 97, 2),
-(110, 'Kondisi Aset', '', '', '/kondisiAset', 0, 2, 72, 1),
+(110, 'Kondisi Aset', '', '', '/kondisiAset', 0, 2, 72, 8),
 (111, 'Data Entri', 'input', 'primary', '', 1, 1, NULL, 2),
 (118, 'Penatausahaan', '', '', '', 1, 2, 111, 5),
 (119, 'Tanah', '', '', '/tanah', 0, 2, 118, 1),
@@ -361,9 +361,19 @@ INSERT INTO `menu` (`id`, `title`, `icon`, `color`, `route`, `type`, `jenis`, `p
 (131, 'Aset Tetap Lainnya', '', '', '/p_asetTetap', 0, 2, 126, 5),
 (132, 'Konstruksi Dalam Pengerjaan', '', '', '/p_konstruksi', 0, 2, 126, 6),
 (133, 'Aset Lainnya', '', '', '/p_asetLainnya', 0, 2, 126, 7),
-(134, 'Asal Usul', '', '', '/asalUsul', 0, 2, 72, 2),
-(135, 'Hak Tanah', '', '', '/hakTanah', 0, 2, 72, 3),
-(136, 'Pengadaan', '', '', '/pengadaan', 0, 2, 126, 10);
+(134, 'Asal Usul', '', '', '/asalUsul', 0, 2, 72, 9),
+(135, 'Hak Tanah', '', '', '/hakTanah', 0, 2, 72, 10),
+(136, 'Pengadaan', '', '', '/pengadaan', 0, 2, 126, 10),
+(137, 'Kode Aset', '', '', '', 1, 2, 72, 1),
+(138, 'Akun', '', '', '/akun', 0, 2, 137, 1),
+(139, 'Kelompok', '', '', '/kelompok', 0, 2, 137, 2),
+(140, 'Jenis', '', '', '/jenis', 0, 2, 137, 3),
+(141, 'Objek', '', '', '/objek', 0, 2, 137, 4),
+(142, 'Rincian Objek', '', '', '/rincianObjek', 0, 2, 137, 5),
+(143, 'Sub Rincian Objek', '', '', '/subRincian', 0, 2, 137, 6),
+(144, 'Sub-sub Rincian Objek', '', '', '/subRincianObjek', 0, 2, 137, 7),
+(145, 'Perencanaan', '', '', '', 1, 2, 111, 3),
+(146, 'Perencanaan', '', '', '/perencanaan', 0, 2, 145, 1);
 
 -- --------------------------------------------------------
 
@@ -547,7 +557,17 @@ INSERT INTO `menu_klp_list` (`id`, `menu_id`, `menu_klp_id`, `readx`, `updatex`,
 (139, 127, 1, 1, 1, 1, 1),
 (140, 134, 1, 1, 1, 1, 1),
 (141, 135, 1, 1, 1, 1, 1),
-(142, 136, 1, 1, 1, 1, 1);
+(142, 136, 1, 1, 1, 1, 1),
+(143, 137, 1, 1, 1, 1, 1),
+(144, 138, 1, 1, 1, 1, 1),
+(145, 139, 1, 1, 1, 1, 1),
+(146, 140, 1, 1, 1, 1, 1),
+(147, 141, 1, 1, 1, 1, 1),
+(148, 143, 1, 1, 1, 1, 1),
+(149, 142, 1, 1, 1, 1, 1),
+(150, 144, 1, 1, 1, 1, 1),
+(151, 145, 1, 0, 0, 0, 0),
+(152, 146, 1, 1, 1, 1, 1);
 
 --
 -- Indexes for dumped tables
@@ -652,7 +672,7 @@ ALTER TABLE `lampiran`
 -- AUTO_INCREMENT for table `menu`
 --
 ALTER TABLE `menu`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=137;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=147;
 
 --
 -- AUTO_INCREMENT for table `menu_klp`
@@ -664,7 +684,7 @@ ALTER TABLE `menu_klp`
 -- AUTO_INCREMENT for table `menu_klp_list`
 --
 ALTER TABLE `menu_klp_list`
-  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=143;
+  MODIFY `id` int(11) NOT NULL AUTO_INCREMENT, AUTO_INCREMENT=153;
 COMMIT;
 
 /*!40101 SET CHARACTER_SET_CLIENT=@OLD_CHARACTER_SET_CLIENT */;
