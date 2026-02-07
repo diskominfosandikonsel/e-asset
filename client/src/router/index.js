@@ -150,6 +150,13 @@ function isLoggedIn(to, from, next) {
   },
 
   {
+    path: '/perencanaan',
+    name: 'perencanaan',
+    component: () => import('../views/perencanaan/perencanaan.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
     path: '/p_tanah',
     name: 'p_tanah',
     component: () => import('../views/pengadaan/p_tanah.vue'),

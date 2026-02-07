@@ -1,54 +1,146 @@
 <template>
-    <div>
-        <q-card-section class="bg-blue-3 text-white">
-            <div class="text-h6 h_modalhead">Rincian</div>
-        </q-card-section>
+    <div class="about" style="padding:15px">
+        <q-card bordered class="my-card">
+            <q-card-section class="bg-blue-3 text-white">
+                <div class="row">
+                    <div class="col-12 col-md-6">
+                        <div class="text-h6 h_titleHead">Perencanaan</div>
+                        <div class="text-subtitle2">Perencanaan</div>
+                    </div>
+                    <div class="col-12 col-md-2"></div>
+                    <div class="col-12 col-md-4">
+                        <div class="row">
+                            <q-input v-model="cari_value" @keyup="cari_data()" outlined square :dense="true"
+                                class="bg-white" style="width:90%" />
+                            <q-btn glossy class="bg-red-4" @click="mdl_add = true" dense flat icon="add"
+                                style="width:10%">
+                                <q-tooltip content-class="bg-red-4" content-style="font-size: 13px">
+                                    Click untuk menambah data
+                                </q-tooltip>
+                            </q-btn>
+                        </div>
+                    </div>
+                </div>
+            </q-card-section>
 
-        <q-card-section class="q-pt-none">
-            <q-btn label="Tambah" icon="add" size="sm" class="bg-blue-3 text-white q-mt-md" @click="mdl_add = true" />
+            <q-separator dark inset />
 
-            <div class="tbl_responsive q-mt-md">
-                <table width="100%" class="h_table">
-                    <thead>
-                        <tr class="h_table_head bg-blue-2">
-                            <th class="text-center" width="5%">No</th>
-                            <th class="text-center" width="20%">Kode Aset</th>
-                            <th class="text-center" width="25%">Nama Aset</th>
-                            <th class="text-center" width="25%">Keterangan</th>
-                            <th class="text-center" width="15%"></th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        <tr class="h_table_body" v-for="(data, index) in dataDummy" :key="data.id">
-                            <td class="text-center">{{ index + 1 }}.</td>
-                            <td>{{ data.kd_aset }}</td>
-                            <td>{{ data.nm_aset }}</td>
-                            <td>{{ data.keterangan }}</td>
-                            <td class="text-center">
-                                <q-btn-group flat>
-                                    <q-btn glossy color="blue" icon="search" size="sm"
-                                        @click="mdl_lihat = true, selectData(data)">
-                                        <q-tooltip>Lihat Data</q-tooltip>
-                                    </q-btn>
-                                    <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true">
-                                        <q-tooltip>Edit Data</q-tooltip>
-                                    </q-btn>
-                                    <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true">
-                                        <q-tooltip>Hapus Data</q-tooltip>
-                                    </q-btn>
-                                </q-btn-group>
-                            </td>
-                        </tr>
-                    </tbody>
-                </table>
-            </div>
-        </q-card-section>
+            <q-card-section>
+                <hr class="hrpagin2">
+                <div class="tbl_responsive">
+                    <!-- =================================================== KONTENT =========================================================== -->
+                    <table width="100%">
+                        <thead>
+                            <tr class="h_table_head bg-blue-2">
+                                <th class="text-center" width="5%">No</th>
+                                <th class="text-center" width="20%">Kode Aset</th>
+                                <th class="text-center" width="25%">Nama Aset</th>
+                                <th class="text-center" width="25%">Keterangan</th>
+                                <th class="text-center" width="15%"></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr class="h_table_body" v-for="(data, index) in dataDummy" :key="data.id">
+                                <td class="text-center">{{ index + 1 }}.</td>
+                                <td>{{ data.kd_aset }}</td>
+                                <td>{{ data.nm_aset }}</td>
+                                <td>{{ data.keterangan }}</td>
+                                <td class="text-center">
+                                    <q-btn-group flat>
+                                        <q-btn glossy color="blue" icon="search" size="sm"
+                                            @click="mdl_lihat = true, selectData(data)">
+                                            <q-tooltip>Lihat Data</q-tooltip>
+                                        </q-btn>
+                                        <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true">
+                                            <q-tooltip>Edit Data</q-tooltip>
+                                        </q-btn>
+                                        <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true">
+                                            <q-tooltip>Hapus Data</q-tooltip>
+                                        </q-btn>
+                                    </q-btn-group>
+                                </td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <!-- =================================================== KONTENT =========================================================== -->
+                </div>
+                <hr class="hrpagin2">
 
-        <q-card-actions class="bg-grey-3" align="right">
-            <q-btn label="Batal" color="negative" v-close-popup />
-        </q-card-actions>
+                <div class="flex flex-center">
+                    <q-pagination @click="getView()" v-model="page_first" :max="page_last" :max-pages="4"
+                        color="orange-14" :direction-links="true" :boundary-links="true" icon-first="skip_previous"
+                        icon-last="skip_next" icon-prev="fast_rewind" icon-next="fast_forward">
+                    </q-pagination>
+                </div>
+            </q-card-section>
 
-        <q-dialog v-model="mdl_add" persistent>
+            <!-- <q-card-section>
+                <hr class="hrpagin2">
+                <div class="lister">    
+                <div class="lister1" v-for="data in dataDummy" :key="data.id">
+                    <div class="lister_left">
+                        <a class="clear_underline h_judulDoc" href="javascript:void(0);" @click="selectData(data), mdl_detil = true">{{ data.keterangan }}</a>
+                        <div class="h_sidebar_menu">Rp. {{data.nilai}}</div>
+                        <div class="h_nip">{{ data.jns_posting }}</div>
+                        <div class="h_titleDoc">{{ data.no_spk }} - {{ data.tgl_spk }}</div>
+                        <div class="q-gutter-sm">
+                            <q-btn square class="bg-blue-3 text-white" size="xs" icon="school" @click="selectData(data), openModal('RINCIAN')">
+                                <q-tooltip content-class="bg-blue-4" content-style="font-size: 13px">
+                                    Rincian
+                                </q-tooltip>
+                            </q-btn>
+                            <q-btn square class="bg-teal-3 text-white" size="xs" icon="navigation" @click="selectData(data), openModal('BAST')">
+                                <q-tooltip content-class="bg-teal-4" content-style="font-size: 13px">
+                                    BAST
+                                </q-tooltip>
+                            </q-btn>
+                            <q-btn square class="bg-orange-3 text-white" size="xs" icon="work" @click="selectData(data), openModal('SP2D')">
+                                <q-tooltip content-class="bg-orange-4" content-style="font-size: 13px">
+                                    SP2D
+                                </q-tooltip>
+                            </q-btn>
+                        </div>
+                    </div>
+                    <div class="lister_right">
+                        <q-btn-dropdown class="rizwan_sex1" size="xs" glossy color="orange" icon="settings" label=""
+                            padding="xs">
+                            <q-list>
+                            <q-item clickable v-close-popup @click="selectData(data), mdl_detil = true">
+                                <q-item-section>
+                                    <q-item-label>Detile</q-item-label>
+                                </q-item-section>
+                            </q-item>
+
+                            <q-item clickable v-close-popup @click="selectData(data), mdl_edit = true">
+                                <q-item-section>
+                                    <q-item-label>Edit</q-item-label>
+                                </q-item-section>
+                            </q-item>
+
+                            <q-item clickable v-close-popup @click="selectData(data), mdl_hapus = true">
+                                <q-item-section>
+                                    <q-item-label>Hapus</q-item-label>
+                                </q-item-section>
+                            </q-item>
+                            </q-list>
+                        </q-btn-dropdown>
+                    </div>
+                </div>
+                </div>
+                <hr class="hrpagin">
+                <br>
+                <div class="flex flex-center">
+                <q-pagination @click="getView()" v-model="page_first" :max="page_last" :max-pages="4" color="orange-14"
+                    :direction-links="true" :boundary-links="true" icon-first="skip_previous" icon-last="skip_next"
+                    icon-prev="fast_rewind" icon-next="fast_forward">
+                </q-pagination>
+                </div>
+                <br>
+            </q-card-section> -->
+        </q-card>
+
+        <!-- =================================================== MODAL =========================================================== -->
+         <q-dialog v-model="mdl_add" persistent>
             <q-card class="mdl-md" style="min-width: 400px">
                 <q-card-section class="bg-primary text-white">
                     <div class="text-h6">Tambah Data</div>
@@ -62,17 +154,6 @@
                         </div>
                         <div class="col-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
-                            <!-- <div class="grid-7-kolom q-mt-xs">
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                            </div> -->
-
-
                             <div class="grid-7-kolom q-mt-xs">
                                 <!-- ASET -->
                                 <q-select
@@ -161,21 +242,9 @@
                             <span class="h_lable">Type</span>
                             <q-input v-model="form.type" outlined square dense type="number" class="bg-white" />
                         </div>
-                        <div class="col-12 col-md-6 frame_cari">
+                        <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Ukuran (cc)</span>
                             <q-input v-model="form.ukuran" outlined square dense type="number" class="bg-white" />
-                        </div>
-                        <div class="col-12 col-md-6 frame_cari">
-                            <span class="h_lable">Luas (M2)</span>
-                            <q-input v-model="form.luas" outlined square dense type="number" class="bg-white" />
-                        </div>
-                        <div class="col-12 col-md-6 frame_cari">
-                            <span class="h_lable">Panjang (km)</span>
-                            <q-input v-model="form.panjang" outlined square dense type="number" class="bg-white" />
-                        </div>
-                        <div class="col-12 col-md-6 frame_cari">
-                            <span class="h_lable">Lebar (Meter)</span>
-                            <q-input v-model="form.lebar" outlined square dense type="number" class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Jumlah</span>
@@ -190,9 +259,20 @@
                             <q-input v-model="form.total" outlined square dense type="number" class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
+                            <span class="h_lable ">Rekening</span>
+                            <q-input v-model="form.rekening" outlined square dense class="bg-white" />
+                        </div>
+                        <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable ">Keterangan</span>
-                            <q-input v-model="form.keterangan" outlined square :dense="true" class="bg-white margin_btn"
-                                type="textarea" />
+                            <q-input v-model="form.keterangan" outlined square :dense="true" class="bg-white margin_btn" type="textarea" />
+                        </div>
+                        <div class="col-12 col-md-12 frame_cari">
+                            <span class="h_lable ">Lampiran</span>
+                            <q-file v-model="form.file" outlined square :dense="true" class="bg-white margin_btn">
+                                <template v-slot:prepend>
+                                    <q-icon name="attach_file" />
+                                </template>
+                            </q-file>
                         </div>
                     </div>
                 </q-card-section>
@@ -213,19 +293,89 @@
                 <q-card-section class="q-pa-md">
                     <div class="row q-col-gutter-sm">
                         <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Nomor</span>
+                            <span class="h_lable">Nomor (auto increment)</span>
                             <q-input v-model="form.no" value="1" outlined square dense disable class="bg-white" />
                         </div>
                         <div class="col-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
                             <div class="grid-7-kolom q-mt-xs">
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
+                                <!-- ASET -->
+                                <q-select
+                                    v-model="form.aset_id"
+                                    :options="listAset"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.aset_id"
+                                    :label="form.aset_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- KELOMPOK -->
+                                <q-select
+                                    v-model="form.kelompok_id"
+                                    :options="listKelompok"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.kelompok_id"
+                                    :label="form.kelompok_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- JENIS -->
+                                <q-select
+                                    v-model="form.jenis_id"
+                                    :options="listJenis"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.jenis_id"
+                                    :label="form.jenis_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- OBJEK -->
+                                <q-select
+                                    v-model="form.objek_id"
+                                    :options="listObjek"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.objek_id"
+                                    :label="form.objek_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- RINCIAN -->
+                                <q-select
+                                    v-model="form.rincian_id"
+                                    :options="listRincian"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.rincian_id"
+                                    :label="form.rincian_id ? '' : '00'"
+                                    stack-label="false"
+                                />
+
+                                <!-- SUB RINCIAN -->
+                                <q-select
+                                    v-model="form.sub_rincian_id"
+                                    :options="listRincian"
+                                    option-value="kode"
+                                    :option-label="o => `${o.kode} - ${o.uraian}`"
+                                    emit-value map-options outlined square dense
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.sub_rincian_id"
+                                    :label="form.sub_rincian_id ? '' : '00'"
+                                    stack-label="false"
+                                />
                             </div>
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
@@ -236,21 +386,9 @@
                             <span class="h_lable">Type</span>
                             <q-input v-model="form.type" outlined square dense type="number" class="bg-white" />
                         </div>
-                        <div class="col-12 col-md-6 frame_cari">
+                        <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Ukuran (cc)</span>
                             <q-input v-model="form.ukuran" outlined square dense type="number" class="bg-white" />
-                        </div>
-                        <div class="col-12 col-md-6 frame_cari">
-                            <span class="h_lable">Luas (M2)</span>
-                            <q-input v-model="form.luas" outlined square dense type="number" class="bg-white" />
-                        </div>
-                        <div class="col-12 col-md-6 frame_cari">
-                            <span class="h_lable">Panjang (km)</span>
-                            <q-input v-model="form.panjang" outlined square dense type="number" class="bg-white" />
-                        </div>
-                        <div class="col-12 col-md-6 frame_cari">
-                            <span class="h_lable">Lebar (Meter)</span>
-                            <q-input v-model="form.lebar" outlined square dense type="number" class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Jumlah</span>
@@ -265,9 +403,20 @@
                             <q-input v-model="form.total" outlined square dense type="number" class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
+                            <span class="h_lable ">Rekening</span>
+                            <q-input v-model="form.total" outlined square dense class="bg-white" />
+                        </div>
+                        <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable ">Keterangan</span>
-                            <q-input v-model="form.keterangan" outlined square :dense="true" class="bg-white margin_btn"
-                                type="textarea" />
+                            <q-input v-model="form.keterangan" outlined square :dense="true" class="bg-white margin_btn" type="textarea" />
+                        </div>
+                        <div class="col-12 col-md-12 frame_cari">
+                            <span class="h_lable ">Lampiran</span>
+                            <q-file v-model="form.file" outlined square :dense="true" class="bg-white margin_btn">
+                                <template v-slot:prepend>
+                                    <q-icon name="attach_file" />
+                                </template>
+                            </q-file>
                         </div>
                     </div>
                 </q-card-section>
@@ -293,7 +442,6 @@
                         <q-btn label="Batal" size="sm" color="negative" v-close-popup />
                         &nbsp;
                         <q-btn type="submit" label="Hapus" size="sm" color="primary" v-close-popup />
-
                     </form>
                 </q-card-section>
             </q-card>
@@ -332,18 +480,6 @@
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Ukuran</b></q-item-section>
                                 <q-item-section>{{ form.ukuran }}</q-item-section>
-                            </q-item>
-                            <q-item>
-                                <q-item-section class="col-3 text-weight-medium"><b>Luas</b></q-item-section>
-                                <q-item-section>{{ form.luas }}</q-item-section>
-                            </q-item>
-                            <q-item>
-                                <q-item-section class="col-3 text-weight-medium"><b>Panjang</b></q-item-section>
-                                <q-item-section>{{ form.panjang }}</q-item-section>
-                            </q-item>
-                            <q-item>
-                                <q-item-section class="col-3 text-weight-medium"><b>Lebar</b></q-item-section>
-                                <q-item-section>{{ form.lebar }}</q-item-section>
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Harga</b></q-item-section>
@@ -391,37 +527,50 @@
                 </q-card-actions>
             </q-card>
         </q-dialog>
+        <!-- =================================================== MODAL =========================================================== -->
+
+
     </div>
 </template>
 
+
 <script>
 
+
 import FETCHING from '../../library/fetching'
-import DATA_MASTER from '../../library/dataMaster'
+import UMUM from '../../library/umum'
 
 export default {
-    props: ["biodata_id"],
+    computed: {
+        cardClass() {
+            if (this.modal_komponen_jenis === 'RINCIAN') {
+                return 'mdl-lg';
+            } else if (this.modal_komponen_jenis === 'BAST') {
+                return 'mdl-lg';
+            } else if (this.modal_komponen_jenis === 'SP2D') {
+                return 'mdl-lg';
+            }
+            return 'mdl-default'; // Default class
+        }
+    },
     data() {
         return {
+
             form: {
                 id: '',
-                biodata_id: this.biodata_id,
-
-
                 no: '',
                 merk: '',
                 type: '',
                 ukuran: '',
-                luas: '',
-                panjang: '',
-                lebar: '',
                 jumlah: '',
                 harga: '',
                 total: '',
+                rekening: '',
                 keterangan: '',
+                file: null,
             },
 
-            list_data: [],
+
 
             dataDummy: [
                 {
@@ -825,92 +974,98 @@ export default {
                 },
             ],
 
+
+            // ====================================== CONTOH AUTOCOMPLETE ====================================
+            autocomplete_db: '',
+            // ====================================== CONTOH AUTOCOMPLETE ====================================
+
+
+
+
+            list_data: [],
+
             page_first: 1,
             page_last: 0,
-            page_limit: 10,
             cari_value: "",
-            page_first1: 1,
-            page_last1: 0,
-            page_limit1: 8,
-            file_old: "",
             cek_load_data: true,
-            file_path: this.$store.state.url.URL_APP + "uploads/",
+
 
             mdl_add: false,
             mdl_edit: false,
-            mdl_remove: false,
+            mdl_hapus: false,
             mdl_lihat: false,
             btn_add: false,
 
+            modal_komponen: false,
+            modal_komponen_jenis: '',
+
             FETCHING: FETCHING,
-            DATA_MASTER: DATA_MASTER,
+            UMUM: UMUM,
         }
     },
     methods: {
-        getView: function () {
-            // console.log("=================");
-            // console.log(this.data);
-            console.log("=================");
-            console.log(this.data.biodata_id);
-            console.log("=================");
 
+
+        getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "view_komponen", {
+            fetch(this.$store.state.url.URL_MasterKategori + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
                 body: JSON.stringify({
-                    biodata_id: this.data.biodata_id
+                    data_ke: this.page_first,
+                    cari_value: this.cari_value
                 })
             })
                 .then(res => res.json())
                 .then(res_data => {
-                    this.list_bahasa = res_data;
+                    this.list_data = res_data.data;
+                    this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    // console.log(res_data);
+                    console.log(res_data);
                 });
         },
 
-        addData: function () {
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "addData", {
+
+        addData: function (number) {
+            fetch(this.$store.state.url.URL_MasterKategori + "Add", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.data)
+                body: JSON.stringify(this.form)
             }).then(res_data => {
                 this.Notify('Sukses Menambah Data', 'primary', 'check_circle_outline');
                 this.getView();
             });
         },
 
+
         editData: function () {
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "editData", {
+            fetch(this.$store.state.url.URL_MasterKategori + "editData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.data)
+                body: JSON.stringify(this.form)
             }).then(res_data => {
                 this.Notify('Sukses Merubah Data', 'warning', 'check_circle_outline');
                 this.getView();
-            })
+            });
         },
 
-        removeData: function (idnya) {
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "removeData", {
+        removeData: function (E) {
+            fetch(this.$store.state.url.URL_MasterKategori + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify({
-                    id: idnya
-                })
+                body: JSON.stringify({ id: this.form.id })
             }).then(res_data => {
                 this.Notify('Sukses Menghapus Data', 'negative', 'check_circle_outline');
                 this.getView();
@@ -920,58 +1075,31 @@ export default {
 
         selectData: function (data) {
             this.form.id = data.id;
-            this.form.biodata_id = data.biodata_id;
-            this.form.kd_aset = data.kd_aset;
-            this.form.nm_aset = data.nm_aset;
             this.form.no = data.no;
             this.form.merk = data.merk;
             this.form.type = data.type;
             this.form.ukuran = data.ukuran;
-            this.form.luas = data.luas;
-            this.form.panjang = data.panjang;
-            this.form.lebar = data.lebar;
             this.form.jumlah = data.jumlah;
             this.form.harga = data.harga;
             this.form.total = data.total;
+            this.form.rekening = data.rekening;
             this.form.keterangan = data.keterangan;
         },
 
-        autocomplete_db_filter: function (val, update) {
-            update(() => {
-                if (val === '') { }
-                else { FETCHING.getContohAtocomplete(val) }
-            })
-        },
-        autocomplete_jurusan: function (val, update) {
-            update(() => {
-                if (val == '') { }
-                else {
-                    FETCHING.getJurusan(val)
-                }
-            })
+        openModal(data) {
+            this.modal_komponen = true;
+            this.modal_komponen_jenis = data
         },
 
-        autocomplete_keterampilan: function (val, update) {
-            update(() => {
-                if (val == '') { }
-                else {
-                    FETCHING.getKeterampilan(val)
-                }
-            })
 
-            // specific logic to eventually call done(...) -- or not
-            //   done(val) <- INI YANG DIBUKA NAH UNTUK MULTIPLE NYA AUTOCOMPLETE
-            // jangan lupa tambahkan "done" di functionnya
-
-            // done callback has two optional parameters:
-            //  - the value to be added
-            //  - the behavior (same values of new-value-mode prop,
-            //    and when it is specified it overrides that prop –
-            //    if it is used); default behavior (if not using
-            //    new-value-mode) is to add the value even if it would
-            //    be a duplicate
-        },
         // ====================================== CONTOH AUTOCOMPLETE ====================================
+
+
+
+
+
+
+
 
         // ====================================== PAGINATE ====================================
         Notify: function (message, positive, icon) {
@@ -983,6 +1111,7 @@ export default {
                 timeout: 500,
             })
         },
+
         btn_prev: function () {
             this.cek_load_data = true;
             if (this.page_first > 1) {
@@ -1001,27 +1130,19 @@ export default {
             }
             this.getView();
         },
-        indexing: function (index) {
-            var idx = ((this.page_first - 1) * this.page_limit) + index
-            return idx;
-        },
+
         cari_data: function () {
             this.page_first = 1;
             this.getView();
         },
 
-        async awaitFetch() {
-            this.$store.state.list_jurusan = await this.DATA_MASTER.getJurusan(this.data.pendidikan_id);
-        }
 
         // ====================================== PAGINATE ====================================
 
     },
 
     mounted() {
-        //   this.getView();
-
-        // DATA_MASTER.getBahasa();
+        FETCHING.getContohAtocomplete('')
     },
 }
 </script>
