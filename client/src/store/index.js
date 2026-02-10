@@ -34,6 +34,7 @@ export default new Vuex.Store({
       URL_DM_MENU : URL+'api/v1/dm_menuList/',
       URL_DM_KLP_USERS : URL+'api/v1/dm_kelompokUsers/',
 
+      URL_DM_KODE_AKUN : URL+'api/v1/master_kode/',
       URL_DM_KONDISI : URL+'api/v1/master_kondisi/',
       URL_DM_HAK : URL+'api/v1/master_hak/',
       URL_DM_ASAL_USUL : URL+'api/v1/master_asal/',

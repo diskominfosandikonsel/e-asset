@@ -38,7 +38,7 @@
                             <th width="40%">Uraian</th>
                             <th width="20%"></th>
                         </tr>
-                        <tr class="h_table_body" v-for="(data, index) in listData" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ indexing(index + 1) }}.</td>
                             <td>{{ data.kode }}</td>
                             <td>{{ data.uraian }}</td>
@@ -231,7 +231,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "view", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "akun", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -247,13 +247,13 @@ export default {
                     this.list_data = res_data.data;
                     this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    // console.log(res_data);
+                    console.log(res_data);
                 });
         },
 
 
         addData: function (number) {
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "addData", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "addAkun", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -268,7 +268,7 @@ export default {
 
 
         editData: function () {
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "editData", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "editAkun", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -282,7 +282,7 @@ export default {
         },
 
         removeData: function (E) {
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "removeData", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "removeAkun", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -361,7 +361,7 @@ export default {
     },
 
     mounted() {
-        // this.getView();
+        this.getView();
     },
 }
 </script>
