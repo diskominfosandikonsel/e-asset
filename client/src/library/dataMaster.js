@@ -115,6 +115,22 @@ const getJenis = (kelompokId) => {
     })
 }
 
+const getObjek = (jenisId) => {
+    fetch(store.state.url.URL_ASET + "objek", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+            jenisId : jenisId,
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_objek = res_data.data
+        // console.log(res_data)
+    })
+}
+
 
 
 
@@ -128,5 +144,6 @@ module.exports = {
     getAset: getAset,
     getKelompok: getKelompok,
     getJenis: getJenis,
+    getObjek: getObjek,
 
 }

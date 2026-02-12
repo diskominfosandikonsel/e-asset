@@ -50,6 +50,7 @@ export default new Vuex.Store({
     list_aset: [],
     list_kelompok: [],
     list_jenis: [],
+    list_objek: [],
     
     list_menu : null,
     aksesMenu : {},

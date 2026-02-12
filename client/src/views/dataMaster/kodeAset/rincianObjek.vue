@@ -39,12 +39,12 @@
                             <th width="50%" class="text-center">Uraian</th>
                             <th width="30%"></th>
                         </tr>
-                        <tr class="h_table_body" v-for="(data, index) in listRincian" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ indexing(index + 1) }}.</td>
-                            <td class="text-center">{{ data.aset_id }}</td>
-                            <td class="text-center">{{ data.kelompok_id }}</td>
-                            <td class="text-center">{{ data.jenis_id }}</td>
-                            <td class="text-center">{{ data.objek_id }}</td>
+                            <td class="text-center">{{ data.akunId }}</td>
+                            <td class="text-center">{{ data.kelompokId }}</td>
+                            <td class="text-center">{{ data.jenisId }}</td>
+                            <td class="text-center">{{ data.objekId }}</td>
                             <td class="text-center">{{ data.kode }}</td>
                             <td>{{ data.uraian }}</td>
                             <td class="text-center">
@@ -100,54 +100,57 @@
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Kode Aset</span>
                                 <q-select
-                                    v-model="form.aset_id"
-                                    :options="listAset"
+                                    v-model="form.akunId"
+                                    :options="$store.state.list_aset"
                                     option-value="kode"
                                     :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined
-                                    square
+                                    outlined square
                                     :dense="true"
                                     class="bg-white margin_btn"
-                                    />
+                                    emit-value map-options
+                                    @input="awaitFetch"
+                                />
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Kode Kelompok</span>
                                 <q-select
-                                    v-model="form.kelompok_id"
-                                    :options="listKelompok"
+                                    v-model="form.kelompokId"
+                                    :options="$store.state.list_kelompok"
                                     option-value="kode"
                                     :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined
-                                    square
+                                    outlined square
                                     :dense="true"
                                     class="bg-white margin_btn"
-                                    />
+                                    emit-value map-options
+                                    @input="awaitFetch"
+                                />
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Kode Jenis</span>
                                 <q-select
-                                    v-model="form.jenis_id"
-                                    :options="listJenis"
+                                    v-model="form.jenisId"
+                                    :options="$store.state.list_jenis"
                                     option-value="kode"
                                     :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined
-                                    square
+                                    outlined square
                                     :dense="true"
                                     class="bg-white margin_btn"
-                                    />
+                                    emit-value map-options
+                                    @input="awaitFetch"
+                                />
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Kode Objek</span>
                                 <q-select
-                                    v-model="form.objek_id"
-                                    :options="listObjek"
+                                    v-model="form.objekId"
+                                    :options="$store.state.list_objek"
                                     option-value="kode"
                                     :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined
-                                    square
+                                    outlined square
                                     :dense="true"
                                     class="bg-white margin_btn"
-                                    />
+                                    emit-value map-options
+                                />
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Kode</span>
@@ -179,58 +182,6 @@
                 <q-card-section class="q-pt-none">
                     <br>
                     <div class="row">
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable ">Kode Aset</span>
-                            <q-select
-                                v-model="form.aset_id"
-                                :options="listAset"
-                                option-value="kode"
-                                :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                outlined
-                                square
-                                :dense="true"
-                                class="bg-white margin_btn"
-                            />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable ">Kode Kelompok</span>
-                            <q-select
-                                v-model="form.kelompok_id"
-                                :options="listKelompok"
-                                option-value="kode"
-                                :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                outlined
-                                square
-                                :dense="true"
-                                class="bg-white margin_btn"
-                            />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable ">Kode Jenis</span>
-                            <q-select
-                                v-model="form.jenis_id"
-                                :options="listJenis"
-                                option-value="kode"
-                                :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                outlined
-                                square
-                                :dense="true"
-                                class="bg-white margin_btn"
-                            />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable ">Kode Objek</span>
-                            <q-select
-                                v-model="form.objek_id"
-                                :options="listObjek"
-                                option-value="kode"
-                                :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                outlined
-                                square
-                                :dense="true"
-                                class="bg-white margin_btn"
-                                />
-                        </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable ">Kode</span>
                             <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn"
@@ -292,6 +243,7 @@
 
 
 import FETCHING from '../../../library/fetching'
+import DATA_MASTER from '../../../library/dataMaster'
 
 export default {
     data() {
@@ -299,159 +251,15 @@ export default {
 
             form: {
                 id: '',
-                aset_id: null,
+                akunId: null,
+                kelompokId: null,
+                jenisId: null,
+                objekId: null,
                 kode: '',
                 uraian: '',
             },
 
-            // ====================================== CONTOH AUTOCOMPLETE ====================================
-            autocomplete_db: '',
-            // ====================================== CONTOH AUTOCOMPLETE ====================================
-
-
-
-
             list_data: [],
-
-            listAset: [
-                {
-                    "id": 1,
-                    "kode": "01",
-                    "uraian": "Aset",
-                },
-            ],
-
-            listKelompok: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kode": "03",
-                    "uraian": "Aset Tetap",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kode": "05",
-                    "uraian": "Aset Lainnya",
-                },
-            ],
-
-            listJenis: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "01",
-                    "uraian": "TANAH",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "02",
-                    "uraian": "PERALATAN DAN MESIN",
-                },
-                {
-                    "id": 3,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "03",
-                    "uraian": "GEDUNG DAN BANGUNAN",
-                },
-                {
-                    "id": 4,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "04",
-                    "uraian": "JALAN, JARINGAN DAN IRIGASI",
-                },
-                {
-                    "id": 5,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "05",
-                    "uraian": "ASET TETAP LAINNYA",
-                },
-                {
-                    "id": 6,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "06",
-                    "uraian": "KONSTRUKSI DALAM PENGERJAAN",
-                },
-                {
-                    "id": 7,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "07",
-                    "uraian": "AKUMULASI PENYUSUTAN",
-                },
-            ],
-
-            listObjek: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "kode": "01",
-                    "uraian": "ALAT BESAR",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "kode": "02",
-                    "uraian": "ALAT ANGKUTAN",
-                },
-                {
-                    "id": 3,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "kode": "03",
-                    "uraian": "ALAT BENGKEL DAN ALAT UKUR",
-                },
-                {
-                    "id": 4,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "kode": "04",
-                    "uraian": "ALAT PERTANIAN",
-                },
-            ],
-
-            listRincian: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "01",
-                    "kode": "01",
-                    "uraian": "ALAT BESAR DARAT",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "01",
-                    "kode": "02",
-                    "uraian": "ALAT BESAR APUNG",
-                },
-                {
-                    "id": 3,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "01",
-                    "kode": "03",
-                    "uraian": "ALAT BANTU",
-                },
-            ],
 
 
             page_first: 1,
@@ -468,6 +276,7 @@ export default {
 
 
             FETCHING: FETCHING,
+            DATA_MASTER: DATA_MASTER,
         }
     },
     methods: {
@@ -475,7 +284,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "view", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "rincian", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -497,7 +306,7 @@ export default {
 
 
         addData: function (number) {
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "addData", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "addRincian", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -512,7 +321,7 @@ export default {
 
 
         editData: function () {
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "editData", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "editRincian", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -526,7 +335,7 @@ export default {
         },
 
         removeData: function (E) {
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "removeData", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "removeRincian", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -542,10 +351,10 @@ export default {
 
         selectData: function (data) {
             this.form.id = data.id;
-            this.form.aset_id = this.listAset.find( a => a.kode === data.aset_id );
-            this.form.kelompok_id = this.listKelompok.find( a => a.kode === data.kelompok_id );
-            this.form.jenis_id = this.listJenis.find( a => a.kode === data.jenis_id );
-            this.form.objek_id = this.listObjek.find( a => a.kode === data.objek_id );
+            this.form.akunId = data.akunId;
+            this.form.kelompokId = data.kelompokId;
+            this.form.jenisId = data.jenisId;
+            this.form.objekId = data.objekId;
             this.form.kode = data.kode;
             this.form.uraian = data.uraian;
         },
@@ -599,10 +408,18 @@ export default {
             this.getView();
         },
         // ====================================== PAGINATE ====================================
+
+        async awaitFetch() {
+            this.$store.state.list_kelompok = await this.DATA_MASTER.getKelompok(this.form.akunId);
+            this.$store.state.list_jenis = await this.DATA_MASTER.getJenis(this.form.kelompokId);
+            this.$store.state.list_objek = await this.DATA_MASTER.getObjek(this.form.jenisId);
+        }
     },
 
     mounted() {
-        // this.getView();
+        this.getView();
+
+        DATA_MASTER.getAset();
     },
 }
 </script>
