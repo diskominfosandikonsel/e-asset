@@ -95,7 +95,23 @@ const getKelompok = (akunId) => {
         })
     }).then((res) => res.json()).then((res_data) => {
         store.state.list_kelompok = res_data.data
-        console.log(res_data)
+        // console.log(res_data)
+    })
+}
+
+const getJenis = (kelompokId) => {
+    fetch(store.state.url.URL_ASET + "jenis", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+            kelompokId : kelompokId,
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_jenis = res_data.data
+        // console.log(res_data)
     })
 }
 
@@ -111,5 +127,6 @@ module.exports = {
 
     getAset: getAset,
     getKelompok: getKelompok,
+    getJenis: getJenis,
 
 }

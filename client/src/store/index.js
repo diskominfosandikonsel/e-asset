@@ -49,6 +49,7 @@ export default new Vuex.Store({
     // ====================================== CONTOH AUTOCOMPLETE ====================================
     list_aset: [],
     list_kelompok: [],
+    list_jenis: [],
     
     list_menu : null,
     aksesMenu : {},
