@@ -48,6 +48,7 @@ export default new Vuex.Store({
     list_instansi: [],
     // ====================================== CONTOH AUTOCOMPLETE ====================================
     list_aset: [],
+    list_kelompok: [],
     
     list_menu : null,
     aksesMenu : {},

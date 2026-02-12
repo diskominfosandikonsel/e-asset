@@ -295,7 +295,7 @@ export default {
                     this.list_data = res_data.data;
                     this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    console.log(res_data);
+                    // console.log(res_data);
                 });
         },
 
