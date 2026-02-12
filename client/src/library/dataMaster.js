@@ -131,6 +131,22 @@ const getObjek = (jenisId) => {
     })
 }
 
+const getRincian = (objekId) => {
+    fetch(store.state.url.URL_ASET + "rincian", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+            objekId : objekId,
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_rincian = res_data.data
+        // console.log(res_data)
+    })
+}
+
 
 
 
@@ -145,5 +161,6 @@ module.exports = {
     getKelompok: getKelompok,
     getJenis: getJenis,
     getObjek: getObjek,
+    getRincian: getRincian,
 
 }
