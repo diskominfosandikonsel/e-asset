@@ -40,9 +40,9 @@
                             <th width="50%" class="text-center">Uraian</th>
                             <th width="30%"></th>
                         </tr>
-                        <tr class="h_table_body" v-for="(data, index) in listKelompok" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ indexing(index + 1) }}.</td>
-                            <td class="text-center">{{ data.aset_id }}</td>
+                            <td class="text-center">{{ data.akunId }}</td>
                             <td class="text-center">{{ data.kode }}</td>
                             <td>{{ data.uraian }}</td>
                             <td class="text-center">
@@ -97,14 +97,19 @@
                         <div class="row">
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Aset</span>
-                                <q-select v-model="form.aset_id" :options="listAset" option-value="kode"
-                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-select
+                                    v-model="form.akunId"
+                                    :options="$store.state.list_aset"
+                                    option-value="kode"
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                    outlined square :dense="true"
+                                    class="bg-white margin_btn"
+                                    emit-value map-options
+                                />
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Kode</span>
-                                <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn"
-                                    type="number" />
+                                <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                             </div>
                             <div class="col-12 col-md-12 frame_cari frame_cari">
                                 <span class="h_lable ">Uraian</span>
@@ -135,14 +140,19 @@
                     <div class="row">
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable ">Aset</span>
-                            <q-select v-model="form.aset_id" :options="listAset" option-value="kode"
-                                :option-label="opt => `${opt.kode} - ${opt.uraian}`" outlined square :dense="true"
-                                class="bg-white margin_btn" />
+                            <q-select
+                                v-model="form.akunId"
+                                :options="$store.state.list_aset"
+                                option-value="kode"
+                                :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                outlined square :dense="true"
+                                class="bg-white margin_btn"
+                                emit-value map-options
+                            />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable ">Kode</span>
-                            <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn"
-                                type="number" />
+                            <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari frame_cari">
                             <span class="h_lable ">Uraian</span>
@@ -201,6 +211,7 @@
 
 
 import FETCHING from '../../../library/fetching'
+import DATA_MASTER from '../../../library/dataMaster'
 
 export default {
     data() {
@@ -208,7 +219,7 @@ export default {
 
             form: {
                 id: '',
-                aset_id: null,
+                akunId: null,
                 kode: '',
                 uraian: '',
             },
@@ -260,6 +271,7 @@ export default {
 
 
             FETCHING: FETCHING,
+            DATA_MASTER: DATA_MASTER,
         }
     },
     methods: {
@@ -267,7 +279,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "view", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "kelompok", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -283,13 +295,13 @@ export default {
                     this.list_data = res_data.data;
                     this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    // console.log(res_data);
+                    console.log(res_data);
                 });
         },
 
 
         addData: function (number) {
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "addData", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "addKelompok", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -304,7 +316,7 @@ export default {
 
 
         editData: function () {
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "editData", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "editKelompok", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -318,7 +330,7 @@ export default {
         },
 
         removeData: function (E) {
-            fetch(this.$store.state.url.URL_DM_ASAL_USUL + "removeData", {
+            fetch(this.$store.state.url.URL_DM_KODE_AKUN + "removeKelompok", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -334,9 +346,7 @@ export default {
 
         selectData: function (data) {
             this.form.id = data.id;
-            this.form.aset_id = this.listAset.find(
-                a => a.kode === data.aset_id
-            );
+            this.form.akunId = data.akunId;
             this.form.kode = data.kode;
             this.form.uraian = data.uraian;
         },
@@ -400,7 +410,9 @@ export default {
     },
 
     mounted() {
-        // this.getView();
+        this.getView();
+
+        DATA_MASTER.getAset();
     },
 }
 </script>

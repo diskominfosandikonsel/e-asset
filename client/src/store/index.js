@@ -38,6 +38,8 @@ export default new Vuex.Store({
       URL_DM_KONDISI : URL+'api/v1/master_kondisi/',
       URL_DM_HAK : URL+'api/v1/master_hak/',
       URL_DM_ASAL_USUL : URL+'api/v1/master_asal/',
+
+      URL_ASET : URL+'api/v1/aset/',
     },
 
     // ====================================== CONTOH AUTOCOMPLETE ====================================
@@ -45,7 +47,8 @@ export default new Vuex.Store({
     list_unit_kerja: [],
     list_instansi: [],
     // ====================================== CONTOH AUTOCOMPLETE ====================================
-
+    list_aset: [],
+    
     list_menu : null,
     aksesMenu : {},
 
