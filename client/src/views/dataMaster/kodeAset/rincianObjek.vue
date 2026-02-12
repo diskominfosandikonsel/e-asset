@@ -184,8 +184,7 @@
                     <div class="row">
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable ">Kode</span>
-                            <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn"
-                                type="number" />
+                            <q-input v-model="form.kode" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari frame_cari">
                             <span class="h_lable ">Uraian</span>
