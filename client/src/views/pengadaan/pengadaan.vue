@@ -97,11 +97,13 @@
                 <div class="lister">
                     <div class="lister1" v-for="data in list_data" :key="data.id">
                         <div class="lister_left">
-                            <a class="clear_underline h_judulDoc" href="javascript:void(0);"
-                                @click="selectData(data), mdl_detil = true">{{ data.keterangan }}</a>
+                            <a class="clear_underline h_judulDoc" href="javascript:void(0);" @click="selectData(data), mdl_detil = true">{{ data.keterangan }}</a>
                             <div class="h_sidebar_menu">Rp. {{ data.nilai }}</div>
-                            <div class="h_nip">{{ data.jenis }}</div>
-                            <div class="h_titleDoc">{{ data.no_spk }} - {{ data.tgl_spk }}</div>
+                            <div class="h_nip">
+                                <span v-if="data.jenis == 0">Aset Baru</span>
+                                <span v-else-if="data.jenis == 1">Kapitalisasi</span>
+                            </div>
+                            <div class="h_titleDoc">{{ data.no_spk }} - {{ UMUM.tglConvert(data.tgl_spk) }}</div>
                             <div class="q-gutter-sm">
                                 <q-btn square class="bg-blue-3 text-white" size="xs" icon="school"
                                     @click="selectData(data), openModal('RINCIAN')">
@@ -209,7 +211,7 @@
 
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable">Jenis Posting</span>
-                                <select v-model="jenis" class="bg-white margin_btn">
+                                <select v-model="form.jenis" class="bg-white margin_btn">
                                     <option value="">-- Pilih Jenis Posting --</option>
                                     <option value="0">Aset Baru</option>
                                     <option value="1">Kapitalisasi</option>
@@ -258,7 +260,7 @@
 
                             <div class="col-12 col-md-6 frame_cari">
                                 <span class="h_lable">No. Rekening</span>
-                                <q-input v-model="form.no_rek" outlined square dense class="bg-white" />
+                                <q-input v-model="form.rekening" outlined square dense class="bg-white" />
                             </div>
                         </div>
                     </q-card-section>
@@ -316,7 +318,7 @@
 
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable">Jenis Posting</span>
-                                <select v-model="jenis" class="bg-white margin_btn">
+                                <select v-model="form.jenis" class="bg-white margin_btn">
                                     <option value="">-- Pilih Jenis Posting --</option>
                                     <option value="0">Aset Baru</option>
                                     <option value="1">Kapitalisasi</option>
@@ -365,7 +367,7 @@
 
                             <div class="col-12 col-md-6 frame_cari">
                                 <span class="h_lable">No. Rekening</span>
-                                <q-input v-model="form.no_rek" outlined square dense class="bg-white" />
+                                <q-input v-model="form.rekening" outlined square dense class="bg-white" />
                             </div>
                         </div>
                     </q-card-section>
@@ -415,13 +417,11 @@
                         <div class="text-subtitle1 text-bold q-mb-sm">Informasi Aset</div>
                         <q-list dense bordered separator class="rounded-borders">
                             <q-item>
-                                <q-item-section class="col-4 text-weight-medium"><b>No.
-                                        SPK/Perjanjian/Kontrak</b></q-item-section>
+                                <q-item-section class="col-4 text-weight-medium"><b>No. SPK/Perjanjian/Kontrak</b></q-item-section>
                                 <q-item-section>{{ form.no_spk }}</q-item-section>
                             </q-item>
                             <q-item>
-                                <q-item-section class="col-4 text-weight-medium"><b>Tgl
-                                        SPK/Perjanjian/Kontrak</b></q-item-section>
+                                <q-item-section class="col-4 text-weight-medium"><b>Tgl SPK/Perjanjian/Kontrak</b></q-item-section>
                                 <q-item-section>{{ form.tgl_spk }}</q-item-section>
                             </q-item>
                             <q-item>
@@ -438,7 +438,10 @@
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-4 text-weight-medium"><b>Jenis Posting</b></q-item-section>
-                                <q-item-section>{{ form.jenis }}</q-item-section>
+                                <q-item-section>
+                                    <span v-if="form.jenis == 0">Aset Baru</span>
+                                    <span v-else-if="form.jenis == 1">Kapitalisasi</span>
+                                </q-item-section>
                             </q-item>
                         </q-list>
                     </div>
@@ -476,7 +479,7 @@
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-4 text-weight-medium"><b>No. Rekening</b></q-item-section>
-                                <q-item-section>{{ form.no_rek }}</q-item-section>
+                                <q-item-section>{{ form.rekening }}</q-item-section>
                             </q-item>
                         </q-list>
                     </div>
@@ -494,14 +497,13 @@
         <q-dialog v-model="modal_komponen" persistent>
             <q-card :class="cardClass">
                 <div v-if="modal_komponen_jenis == 'RINCIAN'">
-                    <!-- <kompRincian :biodata_id="form.id" /> -->
-                    <kompRincian />
+                    <kompRincian :pengadaanId = "form.id" />
                 </div>
                 <div v-if="modal_komponen_jenis == 'BAST'">
-                    <kompBast />
+                    <kompBast :pengadaanId = "form.id" />
                 </div>
                 <div v-if="modal_komponen_jenis == 'SP2D'">
-                    <kompSp2d />
+                    <kompSp2d :pengadaanId = "form.id" />
                 </div>
             </q-card>
         </q-dialog>
@@ -552,127 +554,9 @@ export default {
                 alamat: '',
                 alias: '',
                 pimpinan: '',
-                no_rek: '',
+                rekening: '',
             },
-
-            dataDummy: [
-                {
-                    no_spk: "01/SPK-NA/2024",
-                    tgl_spk: "2024-02-10",
-                    keterangan: "Kajian naskah akademik Raperda Pajak Daerah",
-                    jangka_waktu: 90,
-                    nilai: 150000000,
-                    jenis: "Aset Baru",
-
-                    nama: "CV Cakra Konsultan",
-                    npwp: "12.345.678.9-012.000",
-                    bentuk: "CV",
-                    bank: "Bank Sultra",
-                    alamat: "Kendari",
-                    alias: "CV Cakra Konsultan",
-                    pimpinan: "Andi Saputra",
-                    no_rek: "1234567890"
-                },
-                {
-                    no_spk: "02/SPK-NA/2024",
-                    tgl_spk: "2024-03-01",
-                    keterangan: "Kajian naskah akademik Raperda RTRW",
-                    uraian_aset: "Naskah Akademik Raperda RTRW",
-                    jangka_waktu: 120,
-                    nilai: 200000000,
-                    jenis: "Aset Baru",
-
-                    nama: "PT Bina Tata Ruang",
-                    npwp: "23.456.789.0-123.000",
-                    bentuk: "PT",
-                    bank: "Bank BRI",
-                    alamat: "Makassar",
-                    alias: "PT Bina Tata Ruang",
-                    pimpinan: "Ir. Muhammad Arif",
-                    no_rek: "2345678901"
-                },
-                {
-                    no_spk: "03/SPK-NA/2024",
-                    tgl_spk: "2024-03-20",
-                    keterangan: "Kajian akademik Raperda Perlindungan UMKM",
-                    uraian_aset: "Naskah Akademik Raperda UMKM",
-                    jangka_waktu: 75,
-                    nilai: 125000000,
-                    jenis: "Aset Baru",
-
-                    nama: "CV Mitra Legal",
-                    npwp: "34.567.890.1-234.000",
-                    bentuk: "CV",
-                    bank: "Bank Mandiri",
-                    alamat: "Jakarta",
-                    alias: "CV Mitra Legal",
-                    pimpinan: "Siti Rahmawati",
-                    no_rek: "3456789012"
-                },
-                {
-                    no_spk: "04/SPK-NA/2024",
-                    tgl_spk: "2024-04-05",
-                    keterangan: "Kajian akademik Raperda Lingkungan Hidup",
-                    uraian_aset: "Naskah Akademik Raperda LH",
-                    jangka_waktu: 100,
-                    nilai: 175000000,
-                    jenis: "Aset Baru",
-
-                    nama: "PT Green Consultant",
-                    npwp: "45.678.901.2-345.000",
-                    bentuk: "PT",
-                    bank: "Bank BNI",
-                    alamat: "Surabaya",
-                    alias: "PT Green Consultant",
-                    pimpinan: "Dr. Ahmad Yusuf",
-                    no_rek: "4567890123"
-                },
-                {
-                    no_spk: "05/SPK-NA/2024",
-                    tgl_spk: "2024-04-18",
-                    keterangan: "Kajian akademik Raperda Sistem Pemerintahan Daerah",
-                    uraian_aset: "Naskah Akademik Raperda Pemda",
-                    jangka_waktu: 110,
-                    nilai: 185000000,
-                    jenis: "Kapitalisasi",
-
-                    nama: "CV Nusantara Policy",
-                    npwp: "56.789.012.3-456.000",
-                    bentuk: "CV",
-                    bank: "Bank BTN",
-                    alamat: "Yogyakarta",
-                    alias: "CV Nusantara Policy",
-                    pimpinan: "Budi Santoso",
-                    no_rek: "5678901234"
-                },
-                {
-                    no_spk: "06/SPK-NA/2024",
-                    tgl_spk: "2024-05-02",
-                    keterangan: "Kajian akademik Raperda Ketertiban Umum",
-                    uraian_aset: "Naskah Akademik Raperda Tibum",
-                    jangka_waktu: 80,
-                    nilai: 140000000,
-                    jenis: "Kapitalisasi",
-
-                    nama: "PT Legal Insight",
-                    npwp: "67.890.123.4-567.000",
-                    bentuk: "PT",
-                    bank: "Bank Syariah Indonesia",
-                    alamat: "Bandung",
-                    alias: "PT Legal Insight",
-                    pimpinan: "Rina Kurniasih",
-                    no_rek: "6789012345"
-                }
-            ],
-
-
-            // ====================================== CONTOH AUTOCOMPLETE ====================================
-            autocomplete_db: '',
-            // ====================================== CONTOH AUTOCOMPLETE ====================================
-
-
-
-
+            
             list_data: [],
 
             page_first: 1,
@@ -782,7 +666,7 @@ export default {
             this.form.alamat = data.alamat;
             this.form.alias = data.alias;
             this.form.pimpinan = data.pimpinan;
-            this.form.no_rek = data.no_rek;
+            this.form.rekening = data.rekening;
         },
 
         openModal(data) {

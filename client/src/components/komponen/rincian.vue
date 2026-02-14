@@ -76,41 +76,41 @@
                             <div class="grid-7-kolom q-mt-xs">
                                 <!-- ASET -->
                                 <q-select
-                                    v-model="form.aset_id"
-                                    :options="listAset"
+                                    v-model="form.akunId"
+                                    :options="$store.state.list_aset"
                                     option-value="kode"
-                                    :option-label="o => `${o.kode} - ${o.uraian}`"
-                                    emit-value map-options outlined square dense
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.aset_id"
-                                    :label="form.aset_id ? '' : '00'"
-                                    stack-label="false"
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                    outlined square
+                                    :dense="true"
+                                    class="bg-white margin_btn"
+                                    emit-value map-options
+                                    @input="awaitFetch"
                                 />
 
                                 <!-- KELOMPOK -->
                                 <q-select
-                                    v-model="form.kelompok_id"
-                                    :options="listKelompok"
+                                    v-model="form.kelompokId"
+                                    :options="$store.state.list_kelompok"
                                     option-value="kode"
-                                    :option-label="o => `${o.kode} - ${o.uraian}`"
-                                    emit-value map-options outlined square dense
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.kelompok_id"
-                                    :label="form.kelompok_id ? '' : '00'"
-                                    stack-label="false"
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                    outlined square
+                                    :dense="true"
+                                    class="bg-white margin_btn"
+                                    emit-value map-options
+                                    @input="awaitFetch"
                                 />
 
                                 <!-- JENIS -->
                                 <q-select
-                                    v-model="form.jenis_id"
-                                    :options="listJenis"
+                                    v-model="form.jenisId"
+                                    :options="$store.state.list_jenis"
                                     option-value="kode"
-                                    :option-label="o => `${o.kode} - ${o.uraian}`"
-                                    emit-value map-options outlined square dense
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.jenis_id"
-                                    :label="form.jenis_id ? '' : '00'"
-                                    stack-label="false"
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                    outlined square
+                                    :dense="true"
+                                    class="bg-white margin_btn"
+                                    emit-value map-options
+                                    @input="awaitFetch"
                                 />
 
                                 <!-- OBJEK -->
@@ -400,14 +400,12 @@ import FETCHING from '../../library/fetching'
 import DATA_MASTER from '../../library/dataMaster'
 
 export default {
-    props: ["biodata_id"],
+    props: ["pengadaanId"],
     data() {
         return {
             form: {
                 id: '',
-                biodata_id: this.biodata_id,
-
-
+                pengadaanId: this.pengadaanId,
                 no: '',
                 merk: '',
                 type: '',
@@ -851,30 +849,30 @@ export default {
             // console.log("=================");
             // console.log(this.data);
             console.log("=================");
-            console.log(this.data.biodata_id);
+            console.log(this.form.pengadaanId);
             console.log("=================");
 
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "view_komponen", {
+            fetch(this.$store.state.url.URL_ASET + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
                 body: JSON.stringify({
-                    biodata_id: this.data.biodata_id
+                    pengadaanId: this.form.pengadaanId
                 })
             })
                 .then(res => res.json())
                 .then(res_data => {
-                    this.list_bahasa = res_data;
+                    this.list_data = res_data;
                     this.$store.commit("hideLoading");
-                    // console.log(res_data);
+                    console.log(res_data);
                 });
         },
 
         addData: function () {
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "addData", {
+            fetch(this.$store.state.url.URL_ASET + "addData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -888,7 +886,7 @@ export default {
         },
 
         editData: function () {
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "editData", {
+            fetch(this.$store.state.url.URL_ASET + "editData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -902,7 +900,7 @@ export default {
         },
 
         removeData: function (idnya) {
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "removeData", {
+            fetch(this.$store.state.url.URL_ASET + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -1011,7 +1009,11 @@ export default {
         },
 
         async awaitFetch() {
-            this.$store.state.list_jurusan = await this.DATA_MASTER.getJurusan(this.data.pendidikan_id);
+            this.$store.state.list_kelompok = await this.DATA_MASTER.getKelompok(this.form.akunId);
+            this.$store.state.list_jenis = await this.DATA_MASTER.getJenis(this.form.kelompokId);
+            this.$store.state.list_objek = await this.DATA_MASTER.getObjek(this.form.jenisId);
+            this.$store.state.list_rincian = await this.DATA_MASTER.getRincian(this.form.objekId);
+            this.$store.state.list_sub = await this.DATA_MASTER.getSub(this.form.rincianId);
         }
 
         // ====================================== PAGINATE ====================================
@@ -1019,9 +1021,9 @@ export default {
     },
 
     mounted() {
-        //   this.getView();
+        this.getView();
 
-        // DATA_MASTER.getBahasa();
+        DATA_MASTER.getAset();
     },
 }
 </script>
