@@ -40,6 +40,7 @@ export default new Vuex.Store({
       URL_DM_ASAL_USUL : URL+'api/v1/master_asal/',
 
       URL_ASET : URL+'api/v1/aset/',
+      URL_PENGADAAN : URL+'api/v1/pengadaan/',
     },
 
     // ====================================== CONTOH AUTOCOMPLETE ====================================
