@@ -19,21 +19,20 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="h_table_body" v-for="(data, index) in dataDummy" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ index + 1 }}.</td>
-                            <td>{{ data.kd_aset }}</td>
-                            <td>{{ data.nm_aset }}</td>
+                            <td class="text-center">{{ data.akunId }}.{{ data.kelompokId }}.{{ data.jenisId }}.{{ data.objekId }}.{{ data.rincianId }}.{{ data.subId }}.{{ data.subSubId }}</td>
+                            <td>{{ data.uraian }}</td>
                             <td>{{ data.keterangan }}</td>
                             <td class="text-center">
                                 <q-btn-group flat>
-                                    <q-btn glossy color="blue" icon="search" size="sm"
-                                        @click="mdl_lihat = true, selectData(data)">
+                                    <q-btn glossy color="blue" icon="search" size="sm" @click="mdl_lihat = true, selectData(data)">
                                         <q-tooltip>Lihat Data</q-tooltip>
                                     </q-btn>
-                                    <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true">
+                                    <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true, selectData(data)">
                                         <q-tooltip>Edit Data</q-tooltip>
                                     </q-btn>
-                                    <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true">
+                                    <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true, selectData(data)">
                                         <q-tooltip>Hapus Data</q-tooltip>
                                     </q-btn>
                                 </q-btn-group>
@@ -82,7 +81,9 @@
                                     :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                     outlined square
                                     :dense="true"
-                                    class="bg-white margin_btn"
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.akunId"
+                                    :label="form.akunId ? '' : '00'"
                                     emit-value map-options
                                     @input="awaitFetch"
                                 />
@@ -95,7 +96,9 @@
                                     :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                     outlined square
                                     :dense="true"
-                                    class="bg-white margin_btn"
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.kelompokId"
+                                    :label="form.kelompokId ? '' : '00'"
                                     emit-value map-options
                                     @input="awaitFetch"
                                 />
@@ -108,58 +111,80 @@
                                     :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                     outlined square
                                     :dense="true"
-                                    class="bg-white margin_btn"
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.jenisId"
+                                    :label="form.jenisId ? '' : '00'"
                                     emit-value map-options
                                     @input="awaitFetch"
                                 />
 
                                 <!-- OBJEK -->
                                 <q-select
-                                    v-model="form.objek_id"
-                                    :options="listObjek"
+                                    v-model="form.objekId"
+                                    :options="$store.state.list_objek"
                                     option-value="kode"
-                                    :option-label="o => `${o.kode} - ${o.uraian}`"
-                                    emit-value map-options outlined square dense
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                    outlined square
+                                    :dense="true"
                                     class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.objek_id"
-                                    :label="form.objek_id ? '' : '00'"
-                                    stack-label="false"
+                                    :display-value="form.objekId"
+                                    :label="form.objekId ? '' : '00'"
+                                    emit-value map-options
+                                    @input="awaitFetch"
                                 />
 
                                 <!-- RINCIAN -->
                                 <q-select
-                                    v-model="form.rincian_id"
-                                    :options="listRincian"
+                                    v-model="form.rincianId"
+                                    :options="$store.state.list_rincian"
                                     option-value="kode"
-                                    :option-label="o => `${o.kode} - ${o.uraian}`"
-                                    emit-value map-options outlined square dense
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                    outlined square
+                                    :dense="true"
                                     class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.rincian_id"
-                                    :label="form.rincian_id ? '' : '00'"
-                                    stack-label="false"
+                                    :display-value="form.rincianId"
+                                    :label="form.rincianId ? '' : '00'"
+                                    emit-value map-options
+                                    @input="awaitFetch"
                                 />
 
                                 <!-- SUB RINCIAN -->
                                 <q-select
-                                    v-model="form.sub_rincian_id"
-                                    :options="listRincian"
+                                    v-model="form.subId"
+                                    :options="$store.state.list_sub"
                                     option-value="kode"
-                                    :option-label="o => `${o.kode} - ${o.uraian}`"
-                                    emit-value map-options outlined square dense
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                    outlined square
+                                    :dense="true"
                                     class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.sub_rincian_id"
-                                    :label="form.sub_rincian_id ? '' : '00'"
-                                    stack-label="false"
+                                    :display-value="form.subId"
+                                    :label="form.subId ? '' : '00'"
+                                    emit-value map-options
+                                    @input="awaitFetch"
+                                />
+
+                                <!-- SUB-SUB RINCIAN -->
+                                <q-select
+                                    v-model="form.subSubId"
+                                    :options="$store.state.list_sub_sub"
+                                    option-value="kode"
+                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                    outlined square
+                                    :dense="true"
+                                    class="bg-white input-aset-kecil aset-kode-select"
+                                    :display-value="form.subSubId"
+                                    :label="form.subSubId ? '' : '00'"
+                                    emit-value map-options
                                 />
                             </div>
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
                             <span class="h_lable">Merk</span>
-                            <q-input v-model="form.merk" outlined square dense type="number" class="bg-white" />
+                            <q-input v-model="form.merk" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
                             <span class="h_lable">Type</span>
-                            <q-input v-model="form.type" outlined square dense type="number" class="bg-white" />
+                            <q-input v-model="form.type" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
                             <span class="h_lable">Ukuran (cc)</span>
@@ -191,14 +216,13 @@
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable ">Keterangan</span>
-                            <q-input v-model="form.keterangan" outlined square :dense="true" class="bg-white margin_btn"
-                                type="textarea" />
+                            <q-input v-model="form.keterangan" outlined square :dense="true" class="bg-white margin_btn" type="textarea" />
                         </div>
                     </div>
                 </q-card-section>
 
                 <q-card-actions class="bg-grey-4 mdl-footer" align="right">
-                    <q-btn :loading="btn_add" color="primary" label="Simpan" />
+                    <q-btn :loading="btn_add" color="primary" @click="addData()" label="Simpan" />
                     <q-btn label="Batal" color="negative" v-close-popup />
                 </q-card-actions>
             </q-card>
@@ -230,11 +254,11 @@
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
                             <span class="h_lable">Merk</span>
-                            <q-input v-model="form.merk" outlined square dense type="number" class="bg-white" />
+                            <q-input v-model="form.merk" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
                             <span class="h_lable">Type</span>
-                            <q-input v-model="form.type" outlined square dense type="number" class="bg-white" />
+                            <q-input v-model="form.type" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
                             <span class="h_lable">Ukuran (cc)</span>
@@ -293,7 +317,6 @@
                         <q-btn label="Batal" size="sm" color="negative" v-close-popup />
                         &nbsp;
                         <q-btn type="submit" label="Hapus" size="sm" color="primary" v-close-popup />
-
                     </form>
                 </q-card-section>
             </q-card>
@@ -315,11 +338,13 @@
                         <q-list dense bordered separator class="rounded-borders">
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Kode Aset</b></q-item-section>
-                                <q-item-section>{{ form.kd_aset }}</q-item-section>
+                                <q-item-section>
+                                    {{ form.akunId }}.{{ form.kelompokId }}.{{ form.jenisId }}.{{ form.objekId }}.{{ form.rincianId }}.{{ form.subId }}.{{ form.subSubId }}
+                                </q-item-section>
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Nama Aset</b></q-item-section>
-                                <q-item-section>{{ form.nm_aset }}</q-item-section>
+                                <q-item-section>{{ form.uraian }}</q-item-section>
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Merk</b></q-item-section>
@@ -327,7 +352,7 @@
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Type</b></q-item-section>
-                                <q-item-section>{{ form.type }} m2</q-item-section>
+                                <q-item-section>{{ form.type }}</q-item-section>
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Ukuran</b></q-item-section>
@@ -406,6 +431,13 @@ export default {
             form: {
                 id: '',
                 pengadaanId: this.pengadaanId,
+                akunId: '',
+                kelompokId: '',
+                jenisId: '',
+                objekId: '',
+                rincianId: '',
+                subId: '',
+                subSubId: '',
                 no: '',
                 merk: '',
                 type: '',
@@ -421,415 +453,10 @@ export default {
 
             list_data: [],
 
-            dataDummy: [
-                {
-                    kd_aset: "1.3.2.10.01.02.002.001",
-                    nm_aset: "Lap Top",
-                    merk: "Apple",
-                    type: "MacBook Pro M2",
-
-                    ukuran: 0,        // cc (tidak relevan utk laptop)
-                    luas: 0,          // m2
-                    panjang: 0,       // km
-                    lebar: 0,         // meter
-
-                    jumlah: 1,
-                    harga: 32000000,
-                    total: 32000000,
-
-                    keterangan: "Laptop MacBook Pro M2 untuk kebutuhan programmer an. Iksan"
-                },
-                {
-                    kd_aset: "1.3.2.10.01.02.002.002",
-                    nm_aset: "Lap Top",
-                    merk: "Apple",
-                    type: "MacBook Pro M2",
-
-                    ukuran: 0,        // cc (tidak relevan utk laptop)
-                    luas: 0,          // m2
-                    panjang: 0,       // km
-                    lebar: 0,         // meter
-
-                    jumlah: 1,
-                    harga: 32000000,
-                    total: 32000000,
-
-                    keterangan: "Laptop MacBook Pro M2 untuk kebutuhan programmer an. Hidayat"
-                },
-                {
-                    kd_aset: "1.3.2.10.01.02.002.003",
-                    nm_aset: "Lap Top",
-                    merk: "Apple",
-                    type: "MacBook Pro M2",
-
-                    ukuran: 0,        // cc (tidak relevan utk laptop)
-                    luas: 0,          // m2
-                    panjang: 0,       // km
-                    lebar: 0,         // meter
-
-                    jumlah: 1,
-                    harga: 32000000,
-                    total: 32000000,
-
-                    keterangan: "Laptop MacBook Pro M2 untuk kebutuhan programmer an. Riswan M. Rizal"
-                },
-                {
-                    kd_aset: "1.3.2.10.01.02.002.004",
-                    nm_aset: "Lap Top",
-                    merk: "Apple",
-                    type: "MacBook Pro M2",
-
-                    ukuran: 0,        // cc (tidak relevan utk laptop)
-                    luas: 0,          // m2
-                    panjang: 0,       // km
-                    lebar: 0,         // meter
-
-                    jumlah: 1,
-                    harga: 32000000,
-                    total: 32000000,
-
-                    keterangan: "Laptop MacBook Pro M2 untuk kebutuhan programmer an. Asrif Fajar"
-                },
-            ],
-
-            listAset: [
-                {
-                    "id": 1,
-                    "kode": "01",
-                    "uraian": "Aset",
-                },
-            ],
-
-            listKelompok: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kode": "03",
-                    "uraian": "Aset Tetap",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kode": "05",
-                    "uraian": "Aset Lainnya",
-                },
-            ],
-
-            listJenis: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "01",
-                    "uraian": "TANAH",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "02",
-                    "uraian": "PERALATAN DAN MESIN",
-                },
-                {
-                    "id": 3,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "03",
-                    "uraian": "GEDUNG DAN BANGUNAN",
-                },
-                {
-                    "id": 4,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "04",
-                    "uraian": "JALAN, JARINGAN DAN IRIGASI",
-                },
-                {
-                    "id": 5,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "05",
-                    "uraian": "ASET TETAP LAINNYA",
-                },
-                {
-                    "id": 6,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "06",
-                    "uraian": "KONSTRUKSI DALAM PENGERJAAN",
-                },
-                {
-                    "id": 7,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "kode": "07",
-                    "uraian": "AKUMULASI PENYUSUTAN",
-                },
-            ],
-
-            listObjek: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "kode": "01",
-                    "uraian": "ALAT BESAR",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "kode": "02",
-                    "uraian": "ALAT ANGKUTAN",
-                },
-                {
-                    "id": 3,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "kode": "03",
-                    "uraian": "ALAT BENGKEL DAN ALAT UKUR",
-                },
-                {
-                    "id": 4,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "kode": "04",
-                    "uraian": "ALAT PERTANIAN",
-                },
-            ],
-
-            listRincian: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "01",
-                    "kode": "01",
-                    "uraian": "ALAT BESAR DARAT",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "01",
-                    "kode": "02",
-                    "uraian": "ALAT BESAR APUNG",
-                },
-                {
-                    "id": 3,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "01",
-                    "kode": "03",
-                    "uraian": "ALAT BANTU",
-                },
-                {
-                    "id": 4,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "kode": "01",
-                    "uraian": "ALAT ANGKUTAN DARAT BERMOTOR",
-                },
-                {
-                    "id": 5,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "kode": "02",
-                    "uraian": "ALAT ANGKUTAN DARAT TAK BERMOTOR",
-                },
-                {
-                    "id": 6,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "kode": "03",
-                    "uraian": "ALAT ANGKUTAN APUNG BERMOTOR",
-                },
-                {
-                    "id": 7,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "kode": "04",
-                    "uraian": "ALAT ANGKUTAN APUNG TAK BERMOTOR",
-                },
-            ],
-
-            listSubRincian: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "kode": "01",
-                    "uraian": "KENDARAAN DINAS BERMOTOR PERORANGAN",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "kode": "02",
-                    "uraian": "KENDARAAN BERMOTOR PENUMPANG",
-                },
-                {
-                    "id": 3,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "kode": "03",
-                    "uraian": "KENDARAAN BERMOTOR ANGKUTAN BARANG",
-                },
-                {
-                    "id": 4,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "kode": "04",
-                    "uraian": "KENDARAAN BERMOTOR BERODA DUA",
-                },
-                {
-                    "id": 5,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "kode": "05",
-                    "uraian": "KENDARAAN BERMOTOR BERODA TIGA",
-                },
-            ],
-
-            listSubRincianObjek: [
-                {
-                    "id": 1,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "sub_rincian_id": "01",
-                    "kode": "001",
-                    "uraian": "Sedan",
-                },
-                {
-                    "id": 2,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "sub_rincian_id": "01",
-                    "kode": "002",
-                    "uraian": "Jeep",
-                },
-                {
-                    "id": 3,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "sub_rincian_id": "01",
-                    "kode": "003",
-                    "uraian": "Station Wagon",
-                },
-                {
-                    "id": 4,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "sub_rincian_id": "01",
-                    "kode": "004",
-                    "uraian": "Multi Purpose Vehicle (MPV)",
-                },
-                {
-                    "id": 5,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "sub_rincian_id": "01",
-                    "kode": "005",
-                    "uraian": "Sport Utility Vehicle (SUV)",
-                },
-                {
-                    "id": 6,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "sub_rincian_id": "02",
-                    "kode": "001",
-                    "uraian": "Bus ( Penumpang 30 Orang Keatas )",
-                },
-                {
-                    "id": 7,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "sub_rincian_id": "02",
-                    "kode": "002",
-                    "uraian": "Micro Bus ( Penumpang 15 S/D 29 Orang )",
-                },
-                {
-                    "id": 8,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "sub_rincian_id": "02",
-                    "kode": "003",
-                    "uraian": "Mini Bus ( Penumpang 14 Orang Kebawah )",
-                },
-                {
-                    "id": 9,
-                    "aset_id": "01",
-                    "kelompok_id": "03",
-                    "jenis_id": "02",
-                    "objek_id": "02",
-                    "rincian_id": "01",
-                    "sub_rincian_id": "02",
-                    "kode": "004",
-                    "uraian": "Kendaraan Lapis Baja",
-                },
-            ],
-
             page_first: 1,
             page_last: 0,
             page_limit: 10,
             cari_value: "",
-            page_first1: 1,
-            page_last1: 0,
-            page_limit1: 8,
             file_old: "",
             cek_load_data: true,
             file_path: this.$store.state.url.URL_APP + "uploads/",
@@ -846,8 +473,6 @@ export default {
     },
     methods: {
         getView: function () {
-            // console.log("=================");
-            // console.log(this.data);
             console.log("=================");
             console.log(this.form.pengadaanId);
             console.log("=================");
@@ -860,14 +485,17 @@ export default {
                     authorization: "kikensbatara " + localStorage.token
                 },
                 body: JSON.stringify({
+                    data_ke: this.page_first,
+                    cari_value: this.cari_value,
                     pengadaanId: this.form.pengadaanId
                 })
             })
                 .then(res => res.json())
                 .then(res_data => {
-                    this.list_data = res_data;
+                    this.list_data = res_data.data;
+                    this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    console.log(res_data);
+                    // console.log(res_data);
                 });
         },
 
@@ -878,7 +506,7 @@ export default {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.data)
+                body: JSON.stringify(this.form)
             }).then(res_data => {
                 this.Notify('Sukses Menambah Data', 'primary', 'check_circle_outline');
                 this.getView();
@@ -892,14 +520,14 @@ export default {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.data)
+                body: JSON.stringify(this.form)
             }).then(res_data => {
                 this.Notify('Sukses Merubah Data', 'warning', 'check_circle_outline');
                 this.getView();
             })
         },
 
-        removeData: function (idnya) {
+        removeData: function (E) {
             fetch(this.$store.state.url.URL_ASET + "removeData", {
                 method: "POST",
                 headers: {
@@ -907,7 +535,7 @@ export default {
                     authorization: "kikensbatara " + localStorage.token
                 },
                 body: JSON.stringify({
-                    id: idnya
+                    id: this.form.id
                 })
             }).then(res_data => {
                 this.Notify('Sukses Menghapus Data', 'negative', 'check_circle_outline');
@@ -918,9 +546,15 @@ export default {
 
         selectData: function (data) {
             this.form.id = data.id;
-            this.form.biodata_id = data.biodata_id;
-            this.form.kd_aset = data.kd_aset;
-            this.form.nm_aset = data.nm_aset;
+            this.form.pengadaanId = data.pengadaanId;
+            this.form.akunId = data.akunId;
+            this.form.kelompokId = data.kelompokId;
+            this.form.jenisId = data.jenisId;
+            this.form.objekId = data.objekId;
+            this.form.rincianId = data.rincianId;
+            this.form.subId = data.subId;
+            this.form.subSubId = data.subSubId;
+            this.form.uraian = data.uraian;
             this.form.no = data.no;
             this.form.merk = data.merk;
             this.form.type = data.type;
@@ -1014,6 +648,7 @@ export default {
             this.$store.state.list_objek = await this.DATA_MASTER.getObjek(this.form.jenisId);
             this.$store.state.list_rincian = await this.DATA_MASTER.getRincian(this.form.objekId);
             this.$store.state.list_sub = await this.DATA_MASTER.getSub(this.form.rincianId);
+            this.$store.state.list_sub_sub = await this.DATA_MASTER.getSubSub(this.form.subId);
         }
 
         // ====================================== PAGINATE ====================================

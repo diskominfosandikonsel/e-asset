@@ -54,6 +54,7 @@ export default new Vuex.Store({
     list_objek: [],
     list_rincian: [],
     list_sub: [],
+    list_sub_sub: [],
     
     list_menu : null,
     aksesMenu : {},
