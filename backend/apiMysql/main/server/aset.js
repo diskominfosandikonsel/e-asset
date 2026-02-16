@@ -11,9 +11,37 @@ router.post('/view', (req, res) => {
 
 
     let jml_data = `
-        SELECT aset.*
+        SELECT aset.*,
+        akun.kode AS kode_akun, akun.uraian AS uraian_akun,
+        kelompok.kode AS kode_kelompok, kelompok.uraian AS uraian_kelompok,
+        jenis.kode AS kode_jenis, jenis.uraian AS uraian_jenis,
+        objek.kode AS kode_objek, objek.uraian AS uraian_objek,
+        rincian.kode AS kode_rincian, rincian.uraian AS uraian_rincian,
+        sub.kode AS kode_sub, sub.uraian AS uraian_sub,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.aset aset
+
+        LEFT JOIN e_aset.kode_akun akun
+        ON akun.id = aset.akunId
+
+        LEFT JOIN e_aset.kode_kelompok kelompok
+        ON kelompok.id = aset.kelompokId
+
+        LEFT JOIN e_aset.kode_jenis jenis
+        ON jenis.id = aset.jenisId
+
+        LEFT JOIN e_aset.kode_objek objek
+        ON objek.id = aset.objekId
+
+        LEFT JOIN e_aset.kode_rincian rincian
+        ON rincian.id = aset.rincianId
+
+        LEFT JOIN e_aset.kode_sub sub
+        ON sub.id = aset.subId
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = aset.subSubId
 
         WHERE aset.pengadaanId = '`+req.body.pengadaanId+`'
         
@@ -21,10 +49,38 @@ router.post('/view', (req, res) => {
     `
 
     let view = `
-        SELECT aset.*
+        SELECT aset.*,
+        akun.kode AS kode_akun, akun.uraian AS uraian_akun,
+        kelompok.kode AS kode_kelompok, kelompok.uraian AS uraian_kelompok,
+        jenis.kode AS kode_jenis, jenis.uraian AS uraian_jenis,
+        objek.kode AS kode_objek, objek.uraian AS uraian_objek,
+        rincian.kode AS kode_rincian, rincian.uraian AS uraian_rincian,
+        sub.kode AS kode_sub, sub.uraian AS uraian_sub,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.aset aset
 
+        LEFT JOIN e_aset.kode_akun akun
+        ON akun.id = aset.akunId
+
+        LEFT JOIN e_aset.kode_kelompok kelompok
+        ON kelompok.id = aset.kelompokId
+
+        LEFT JOIN e_aset.kode_jenis jenis
+        ON jenis.id = aset.jenisId
+
+        LEFT JOIN e_aset.kode_objek objek
+        ON objek.id = aset.objekId
+
+        LEFT JOIN e_aset.kode_rincian rincian
+        ON rincian.id = aset.rincianId
+
+        LEFT JOIN e_aset.kode_sub sub
+        ON sub.id = aset.subId
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = aset.subSubId
+        
         WHERE aset.pengadaanId = '`+req.body.pengadaanId+`'
         
         ORDER BY aset.createAt DESC
