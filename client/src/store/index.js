@@ -42,6 +42,7 @@ export default new Vuex.Store({
       URL_PENGADAAN : URL+'api/v1/pengadaan/',
       URL_ASET : URL+'api/v1/aset/',
       URL_BAST : URL+'api/v1/bast/',
+      URL_SPPD : URL+'api/v1/sppd/',
     },
 
     // ====================================== CONTOH AUTOCOMPLETE ====================================

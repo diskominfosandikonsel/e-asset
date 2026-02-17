@@ -20,21 +20,21 @@
                         </tr>
                     </thead>
                     <tbody>
-                        <tr class="h_table_body" v-for="(data, index) in dataDummy" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ index + 1 }}.</td>
-                            <td>{{ data.no_sp2d }}</td>
-                            <td>{{ data.tgl_sp2d }}</td>
-                            <td>Rp. {{ data.nilai }}</td>
+                            <td>{{ data.nomor }}</td>
+                            <td class="text-center">{{ UMUM.tglConvert(data.tgl) }}</td>
+                            <td class="text-center">Rp. {{ data.nilai }}</td>
                             <td>{{ data.keterangan }}</td>
                             <td class="text-center">
                                 <q-btn-group flat>
-                                    <q-btn glossy color="blue" icon="search" size="sm" @click="mdl_lihat = true">
+                                    <q-btn glossy color="blue" icon="search" size="sm" @click="mdl_lihat = true, selectData(data)">
                                         <q-tooltip>Lihat Data</q-tooltip>
                                     </q-btn>
-                                    <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true">
+                                    <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true, selectData(data)">
                                         <q-tooltip>Edit Data</q-tooltip>
                                     </q-btn>
-                                    <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true">
+                                    <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true, selectData(data)">
                                         <q-tooltip>Hapus Data</q-tooltip>
                                     </q-btn>
                                 </q-btn-group>
@@ -59,11 +59,11 @@
                     <div class="row q-col-gutter-sm">
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">No. SP2D</span>
-                            <q-input v-model="form.no_sp2d" value="1" outlined square dense class="bg-white" />
+                            <q-input v-model="form.nomor" value="1" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Tgl. SP2D</span>
-                            <q-input v-model="form.tgl_sp2d" type="date" outlined square dense class="bg-white" />
+                            <q-input v-model="form.tgl" type="date" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Nilai</span>
@@ -86,7 +86,7 @@
                 </q-card-section>
 
                 <q-card-actions class="bg-grey-4 mdl-footer" align="right">
-                    <q-btn :loading="btn_add" color="primary" label="Simpan" />
+                    <q-btn :loading="btn_add" color="primary" @click="addData()" label="Simpan" />
                     <q-btn label="Batal" color="negative" v-close-popup />
                 </q-card-actions>
             </q-card>
@@ -102,11 +102,11 @@
                     <div class="row q-col-gutter-sm">
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">No. SP2D</span>
-                            <q-input v-model="form.no_sp2d" value="1" outlined square dense class="bg-white" />
+                            <q-input v-model="form.nomor" value="1" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Tgl. SP2D</span>
-                            <q-input v-model="form.tgl_sp2d" type="date" outlined square dense class="bg-white" />
+                            <q-input v-model="form.tgl" type="date" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Nilai</span>
@@ -140,7 +140,7 @@
         <q-dialog v-model="mdl_remove" persistent>
             <q-card class="mdl-sm ">
                 <q-card-section class="q-pt-none text-center orageGrad">
-                    <form @submit.prevent="removeData">
+                    <form @submit.prevent="removeData(form.id, form.file)">
                         <br>
                         <img src="img/alert.png" alt="" width="75"> <br>
                         <span class="h_notifikasi">APAKAH ANDA YAKIN INGIN MENGHAPUS DATA INI??</span>
@@ -156,13 +156,44 @@
         </q-dialog>
 
         <q-dialog v-model="mdl_lihat" persistent>
-            <q-card class="mdl-lg">
+            <q-card class="mdl-md">
                 <q-card-section class="bg-primary">
-                    <div class="text-h6 h_modalhead">Lampiran</div>
+                    <div class="text-h6 h_modalhead">Detil</div>
                 </q-card-section>
-                <q-card-section class="q-pt-none">
-                    <br>
-                    <embed src="https://ukpbj.kemlu.go.id/uploads/laporan/20240105145356-model-dokumen-pengadaan.pdf" width="100%" height="600">
+                <q-card-section class="q-gutter-md">
+                    <div>
+                        <div class="text-subtitle1 text-bold q-mb-sm">Informasi</div>
+                        <q-list dense bordered separator class="rounded-borders">
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Nomor SP2D</b></q-item-section>
+                                <q-item-section>
+                                    <q-item-section>{{ form.nomor }}</q-item-section>
+                                </q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Tanggal SP2D</b></q-item-section>
+                                <q-item-section>{{ form.tgl }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Nilai</b></q-item-section>
+                                <q-item-section>{{ form.nilai }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Keterangan</b></q-item-section>
+                                <q-item-section>{{ form.keterangan }}</q-item-section>
+                            </q-item>
+                        </q-list>
+                    </div>
+                    <div>
+                        <div class="text-subtitle1 text-bold q-mb-sm">Lampiran</div>
+                        <embed :src="file_path + form.file" width="100%" height="600">
+                        <!-- <div v-if="data.file_type == 'application/pdf'">
+                        </div>
+                        <div
+                            v-else-if="data.file_type == 'image/png' || data.file_type == 'image/jpeg' || data.file_type == 'image/jpg'">
+                            <img :src="file_path + form.file" style="height: auto; width: 100%" />
+                        </div> -->
+                    </div>
                 </q-card-section>
 
                 <q-card-actions class="bg-grey-4 mdl-footer" align="right">
@@ -177,33 +208,23 @@
 
 // import FETCHING from '../../library/fetching'
 // import DATA_MASTER from '../../library/dataMaster'
+import UMUM from '../../library/umum'
 
 export default {
-    props: ["biodata_id"],
+    props: ["pengadaanId"],
     data() {
         return {
             form: {
                 id: '',
-                biodata_id: this.biodata_id,
-
-
-                no_bast: '',
-                tgl_bast: '',
+                pengadaanId: this.pengadaanId,
+                nomor: '',
+                tgl: '',
+                nilai: '',
                 keterangan: '',
                 file: null,
             },
 
             list_data: [],
-
-            dataDummy: [
-                {
-                    no_sp2d: "BAST/UPBJ/II/2024/002",
-                    tgl_sp2d: "2024-02-15",
-                    nilai: "30.000.000",
-                    keterangan: "SP2D MacBook Pro M2",
-                    file: 'https://ukpbj.kemlu.go.id/uploads/laporan/20240105145356-model-dokumen-pengadaan.pdf'
-                },
-            ],
 
             page_first: 1,
             page_last: 0,
@@ -224,6 +245,7 @@ export default {
 
             // FETCHING: FETCHING,
             // DATA_MASTER: DATA_MASTER,
+            UMUM: UMUM
         }
     },
     methods: {
@@ -231,36 +253,42 @@ export default {
             // console.log("=================");
             // console.log(this.data);
             console.log("=================");
-            console.log(this.data.biodata_id);
+            console.log(this.form.pengadaanId);
             console.log("=================");
 
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "view_komponen", {
+            fetch(this.$store.state.url.URL_SPPD + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
                 body: JSON.stringify({
-                    biodata_id: this.data.biodata_id
+                    data_ke: this.page_first,
+                    cari_value: this.cari_value,
+                    pengadaanId: this.form.pengadaanId
                 })
             })
                 .then(res => res.json())
                 .then(res_data => {
-                    this.list_bahasa = res_data;
+                    this.list_data = res_data.data;
+                    this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
                     // console.log(res_data);
                 });
         },
 
         addData: function () {
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "addData", {
+            var formData = new FormData();
+            formData.append('data', JSON.stringify(this.form))
+            formData.append("file", this.form.file);
+
+            fetch(this.$store.state.url.URL_SPPD + "addData", {
                 method: "POST",
                 headers: {
-                    "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.data)
+                body: formData
             }).then(res_data => {
                 this.Notify('Sukses Menambah Data', 'primary', 'check_circle_outline');
                 this.getView();
@@ -268,28 +296,32 @@ export default {
         },
 
         editData: function () {
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "editData", {
+            var formData = new FormData();
+            formData.append('data', JSON.stringify(this.form))
+            formData.append("file", this.form.file);
+
+            fetch(this.$store.state.url.URL_SPPD + "editData", {
                 method: "POST",
                 headers: {
-                    "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.data)
+                body: formData
             }).then(res_data => {
                 this.Notify('Sukses Merubah Data', 'warning', 'check_circle_outline');
                 this.getView();
             })
         },
 
-        removeData: function (idnya) {
-            fetch(this.$store.state.url.URL_BIO_BAHASA_ASING + "removeData", {
+        removeData: function (idnya, file) {
+            fetch(this.$store.state.url.URL_SPPD + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
                 body: JSON.stringify({
-                    id: idnya
+                    id: idnya,
+                    file: file
                 })
             }).then(res_data => {
                 this.Notify('Sukses Menghapus Data', 'negative', 'check_circle_outline');
@@ -300,50 +332,13 @@ export default {
 
         selectData: function (data) {
             this.form.id = data.id;
-            this.form.biodata_id = data.biodata_id;
-
-            this.form.no_bast = data.no_bast;
-            this.form.tgl_bast = data.tgl_bast;
+            this.form.pengadaanId = data.pengadaanId;
+            this.form.nomor = data.nomor;
+            this.form.tgl = data.tgl;
+            this.form.nilai = data.nilai;
             this.form.keterangan = data.keterangan;
             this.form.file = data.file;
         },
-
-        autocomplete_db_filter: function (val, update) {
-            update(() => {
-                if (val === '') { }
-                else { FETCHING.getContohAtocomplete(val) }
-            })
-        },
-        autocomplete_jurusan: function (val, update) {
-            update(() => {
-                if (val == '') { }
-                else {
-                    FETCHING.getJurusan(val)
-                }
-            })
-        },
-
-        autocomplete_keterampilan: function (val, update) {
-            update(() => {
-                if (val == '') { }
-                else {
-                    FETCHING.getKeterampilan(val)
-                }
-            })
-
-            // specific logic to eventually call done(...) -- or not
-            //   done(val) <- INI YANG DIBUKA NAH UNTUK MULTIPLE NYA AUTOCOMPLETE
-            // jangan lupa tambahkan "done" di functionnya
-
-            // done callback has two optional parameters:
-            //  - the value to be added
-            //  - the behavior (same values of new-value-mode prop,
-            //    and when it is specified it overrides that prop –
-            //    if it is used); default behavior (if not using
-            //    new-value-mode) is to add the value even if it would
-            //    be a duplicate
-        },
-        // ====================================== CONTOH AUTOCOMPLETE ====================================
 
         // ====================================== PAGINATE ====================================
         Notify: function (message, positive, icon) {
@@ -391,9 +386,7 @@ export default {
     },
 
     mounted() {
-        //   this.getView();
-
-        // DATA_MASTER.getBahasa();
+          this.getView();
     },
 }
 </script>
