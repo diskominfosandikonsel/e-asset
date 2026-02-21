@@ -43,6 +43,7 @@ export default new Vuex.Store({
       URL_ASET : URL+'api/v1/aset/',
       URL_BAST : URL+'api/v1/bast/',
       URL_SPPD : URL+'api/v1/sppd/',
+      URL_TANAH: URL+'api/v1/kib_a/'
     },
 
     // ====================================== CONTOH AUTOCOMPLETE ====================================
@@ -57,6 +58,9 @@ export default new Vuex.Store({
     list_rincian: [],
     list_sub: [],
     list_sub_sub: [],
+
+    list_hak: [],
+    list_asal: [],
     
     list_menu : null,
     aksesMenu : {},
