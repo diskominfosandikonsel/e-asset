@@ -1,7 +1,7 @@
 <template>
     <div>
         <q-card-section class="bg-orange-3 text-white">
-            <div class="text-h6 h_modalhead">BAST</div>
+            <div class="text-h6 h_modalhead">SP2D</div>
         </q-card-section>
 
         <q-card-section class="q-pt-none">
@@ -12,8 +12,8 @@
                     <thead>
                         <tr class="h_table_head bg-orange-2">
                             <th class="text-center" width="5%">No</th>
-                            <th class="text-center" width="20%">Nomor SP2D</th>
-                            <th class="text-center" width="15%">Tanggal SP2D</th>
+                            <th class="text-center" width="20%">Nomor</th>
+                            <th class="text-center" width="15%">Tanggal</th>
                             <th class="text-center" width="10%">Nilai</th>
                             <th class="text-center" width="25%">Keterangan</th>
                             <th class="text-center" width="15%"></th>
@@ -58,11 +58,11 @@
                 <q-card-section class="q-pa-md">
                     <div class="row q-col-gutter-sm">
                         <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">No. SP2D</span>
+                            <span class="h_lable">Nomor</span>
                             <q-input v-model="form.nomor" value="1" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Tgl. SP2D</span>
+                            <span class="h_lable">Tanggal</span>
                             <q-input v-model="form.tgl" type="date" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
@@ -101,11 +101,11 @@
                 <q-card-section class="q-pa-md">
                     <div class="row q-col-gutter-sm">
                         <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">No. SP2D</span>
+                            <span class="h_lable">Nomor</span>
                             <q-input v-model="form.nomor" value="1" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Tgl. SP2D</span>
+                            <span class="h_lable">Tanggal</span>
                             <q-input v-model="form.tgl" type="date" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
@@ -165,13 +165,13 @@
                         <div class="text-subtitle1 text-bold q-mb-sm">Informasi</div>
                         <q-list dense bordered separator class="rounded-borders">
                             <q-item>
-                                <q-item-section class="col-3 text-weight-medium"><b>Nomor SP2D</b></q-item-section>
+                                <q-item-section class="col-3 text-weight-medium"><b>Nomor</b></q-item-section>
                                 <q-item-section>
                                     <q-item-section>{{ form.nomor }}</q-item-section>
                                 </q-item-section>
                             </q-item>
                             <q-item>
-                                <q-item-section class="col-3 text-weight-medium"><b>Tanggal SP2D</b></q-item-section>
+                                <q-item-section class="col-3 text-weight-medium"><b>Tanggal</b></q-item-section>
                                 <q-item-section>{{ form.tgl }}</q-item-section>
                             </q-item>
                             <q-item>
