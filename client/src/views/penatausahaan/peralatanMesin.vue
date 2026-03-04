@@ -113,7 +113,7 @@
                     <q-card-section class="q-pt-none">
                         <br>
                         <div class="row">
-                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                            <div class="col-12 col-md-12 frame_cari frame_cari">
                                 <span class="h_lable ">Kode Pemilik</span>
                                 <q-input v-model="form.kodep" outlined square :dense="true" class="bg-white margin_btn" />
                             </div>
