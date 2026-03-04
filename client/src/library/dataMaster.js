@@ -67,6 +67,54 @@ const getBiodata = (sub_unit_kerja) => {
         });
 }
 
+const getHak = () => {
+    fetch(store.state.url.URL_DM_HAK + "list", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_hak = res_data
+        // console.log(res_data)
+    })
+}
+
+const getAsal = () => {
+    fetch(store.state.url.URL_DM_ASAL_USUL + "list", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_asal = res_data
+        // console.log(res_data)
+    })
+}
+
+const getKondisi = () => {
+    fetch(store.state.url.URL_DM_KONDISI + "list", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_kondisi = res_data
+        // console.log(res_data)
+    })
+}
+
 const getAset = () => {
     fetch(store.state.url.URL_ASET + "akun", {
         method: 'POST',
@@ -175,7 +223,7 @@ const getSubSub = (subId) => {
         })
     }).then((res) => res.json()).then((res_data) => {
         store.state.list_sub_sub = res_data.data
-        console.log(res_data)
+        // console.log(res_data)
     })
 }
 
@@ -188,6 +236,10 @@ module.exports = {
     getInstansi: getInstansi,
     getUnitKerja: getUnitKerja,
     getBiodata: getBiodata,
+
+    getHak: getHak,
+    getAsal: getAsal,
+    getKondisi: getKondisi,
 
     getAset: getAset,
     getKelompok: getKelompok,

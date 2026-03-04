@@ -28,7 +28,7 @@
             <q-card-section>
                 <hr class="hrpagin2">
                 <div class="row q-col-gutter-md">
-                    <div class="col-12 col-sm-6 col-md-4" v-for="data in listData" :key="data.id">
+                    <div class="col-12 col-sm-6 col-md-4" v-for="data in list_data" :key="data.id">
                         <q-card class="my-card" flat bordered>
 
                             <q-img :src="data.file" style="width: 100%; height: 200px" fit="cover" ratio="16/9" />
@@ -128,7 +128,7 @@
                                         :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                         outlined square
                                         :dense="true"
-                                        class="bg-white input-aset-kecil aset-kode-select"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
                                         :display-value="form.akunId"
                                         :label="form.akunId ? '' : '00'"
                                         emit-value map-options
@@ -143,7 +143,7 @@
                                         :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                         outlined square
                                         :dense="true"
-                                        class="bg-white input-aset-kecil aset-kode-select"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
                                         :display-value="form.kelompokId"
                                         :label="form.kelompokId ? '' : '00'"
                                         emit-value map-options
@@ -158,7 +158,7 @@
                                         :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                         outlined square
                                         :dense="true"
-                                        class="bg-white input-aset-kecil aset-kode-select"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
                                         :display-value="form.jenisId"
                                         :label="form.jenisId ? '' : '00'"
                                         emit-value map-options
@@ -173,7 +173,7 @@
                                         :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                         outlined square
                                         :dense="true"
-                                        class="bg-white input-aset-kecil aset-kode-select"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
                                         :display-value="form.objekId"
                                         :label="form.objekId ? '' : '00'"
                                         emit-value map-options
@@ -188,7 +188,7 @@
                                         :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                         outlined square
                                         :dense="true"
-                                        class="bg-white input-aset-kecil aset-kode-select"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
                                         :display-value="form.rincianId"
                                         :label="form.rincianId ? '' : '00'"
                                         emit-value map-options
@@ -203,7 +203,7 @@
                                         :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                         outlined square
                                         :dense="true"
-                                        class="bg-white input-aset-kecil aset-kode-select"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
                                         :display-value="form.subId"
                                         :label="form.subId ? '' : '00'"
                                         emit-value map-options
@@ -218,7 +218,7 @@
                                         :option-label="opt => `${opt.kode} - ${opt.uraian}`"
                                         outlined square
                                         :dense="true"
-                                        class="bg-white input-aset-kecil aset-kode-select"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
                                         :display-value="form.subSubId"
                                         :label="form.subSubId ? '' : '00'"
                                         emit-value map-options
@@ -226,18 +226,20 @@
                                 </div>
                             </div>
                             <div class="col-12 col-md-12 frame_cari frame_cari">
+                                <span class="h_lable ">No. Register</span>
+                                <q-input v-model="form.no_register" type="number" outlined square :dense="true" class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari frame_cari">
                                 <span class="h_lable ">Ruang</span>
-                                <q-input v-model="form.ruang" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.ruang" outlined square :dense="true" class="bg-white margin_btn" />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Tanggal Pembelian</span>
-                                <q-input v-model="form.tgl_pembelian" outlined square :dense="true" type="date"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.tgl_beli" outlined square :dense="true" type="date" class="bg-white margin_btn" />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Tanggal Pembukuan</span>
-                                <q-input v-model="form.tgl_pembukuan" outlined square :dense="true" type="date"
+                                <q-input v-model="form.tgl_buku" outlined square :dense="true" type="date"
                                     class="bg-white margin_btn" />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
@@ -281,30 +283,28 @@
                                     class="bg-white margin_btn" />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
-                                <span class="h_lable ">Asal Usul</span>
-                                <select v-model="form.asal_usul" class="bg-white margin_btn">
-                                    <option value="">-- Pilih Asal Usul --</option>
-                                    <option value="PEMBELIAN">Pembelian</option>
-                                    <option value="HIBAH">Hibah</option>
-                                    <option value="BANTUAN_PUSAT">Bantuan Pemerintah Pusat</option>
-                                    <option value="BANTUAN_PROV">Bantuan Pemerintah Provinsi</option>
-                                    <option value="BANTUAN_KAB">Bantuan Pemerintah Kabupaten/Kota</option>
-                                    <option value="TUKAR_MENUKAR">Tukar Menukar</option>
-                                    <option value="PUTUSAN_PENGADILAN">Putusan Pengadilan</option>
-                                    <option value="PENYERTAAN_MODAL">Penyertaan Modal Pemerintah Daerah</option>
-                                    <option value="RAMPASAN">Rampasan</option>
-                                    <option value="SITAAN">Hasil Sitaan</option>
-                                    <option value="LAINNYA">Lainnya</option>
-                                </select>
+                                <span class="h_lable">Asal Usul</span>
+                                <q-select
+                                    v-model="form.id_asal"
+                                    :options="$store.state.list_asal"
+                                    option-value="id"
+                                    option-label="uraian"
+                                    outlined square :dense="true"
+                                    class="bg-white margin_btn"
+                                    emit-value map-options
+                                />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Kondisi</span>
-                                <select v-model="form.kondisi" class="bg-white margin_btn">
-                                    <option value="">-- Pilih Kondisi --</option>
-                                    <option value="BAIK">Baik</option>
-                                    <option value="RUSAK_RINGAN">Rusak Ringan</option>
-                                    <option value="RUSAK_BERAT">Rusak Berat</option>
-                                </select>
+                                <q-select
+                                    v-model="form.id_kondisi"
+                                    :options="$store.state.list_kondisi"
+                                    option-value="id"
+                                    option-label="uraian"
+                                    outlined square :dense="true"
+                                    class="bg-white margin_btn"
+                                    emit-value map-options
+                                />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Harga</span>
@@ -356,15 +356,229 @@
                 </q-card-section>
 
                 <q-card-section class="q-pt-none">
-                    <br>
-                    <span class="h_lable ">Jenis Kategori Izin</span>
-                    <q-input v-model="form.uraian" outlined square :dense="true" class="bg-white margin_btn" />
+                        <br>
+                        <div class="row">
+                            <div class="col-12 col-md-12 frame_cari frame_cari">
+                                <span class="h_lable ">Kode Pemilik</span>
+                                <q-input v-model="form.kodep" outlined square :dense="true" class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 frame_cari frame_cari">
+                                <span class="h_lable">Kode Aset</span>
+                                <div class="grid-7-kolom">
+                                    <!-- ASET -->
+                                    <q-select
+                                        v-model="form.akunId"
+                                        :options="$store.state.list_aset"
+                                        option-value="kode"
+                                        :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                        outlined square
+                                        :dense="true"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
+                                        :display-value="form.akunId"
+                                        :label="form.akunId ? '' : '00'"
+                                        emit-value map-options
+                                        @input="awaitFetch"
+                                    />
 
-                    <span class="h_lable ">Keterangan</span>
-                    <q-input v-model="form.keterangan" outlined square :dense="true" class="bg-white margin_btn"
-                        type="textarea" />
+                                    <!-- KELOMPOK -->
+                                    <q-select
+                                        v-model="form.kelompokId"
+                                        :options="$store.state.list_kelompok"
+                                        option-value="kode"
+                                        :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                        outlined square
+                                        :dense="true"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
+                                        :display-value="form.kelompokId"
+                                        :label="form.kelompokId ? '' : '00'"
+                                        emit-value map-options
+                                        @input="awaitFetch"
+                                    />
 
-                </q-card-section>
+                                    <!-- JENIS -->
+                                    <q-select
+                                        v-model="form.jenisId"
+                                        :options="$store.state.list_jenis"
+                                        option-value="kode"
+                                        :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                        outlined square
+                                        :dense="true"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
+                                        :display-value="form.jenisId"
+                                        :label="form.jenisId ? '' : '00'"
+                                        emit-value map-options
+                                        @input="awaitFetch"
+                                    />
+
+                                    <!-- OBJEK -->
+                                    <q-select
+                                        v-model="form.objekId"
+                                        :options="$store.state.list_objek"
+                                        option-value="kode"
+                                        :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                        outlined square
+                                        :dense="true"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
+                                        :display-value="form.objekId"
+                                        :label="form.objekId ? '' : '00'"
+                                        emit-value map-options
+                                        @input="awaitFetch"
+                                    />
+
+                                    <!-- RINCIAN -->
+                                    <q-select
+                                        v-model="form.rincianId"
+                                        :options="$store.state.list_rincian"
+                                        option-value="kode"
+                                        :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                        outlined square
+                                        :dense="true"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
+                                        :display-value="form.rincianId"
+                                        :label="form.rincianId ? '' : '00'"
+                                        emit-value map-options
+                                        @input="awaitFetch"
+                                    />
+
+                                    <!-- SUB RINCIAN -->
+                                    <q-select
+                                        v-model="form.subId"
+                                        :options="$store.state.list_sub"
+                                        option-value="kode"
+                                        :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                        outlined square
+                                        :dense="true"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
+                                        :display-value="form.subId"
+                                        :label="form.subId ? '' : '00'"
+                                        emit-value map-options
+                                        @input="awaitFetch"
+                                    />
+
+                                    <!-- SUB-SUB RINCIAN -->
+                                    <q-select
+                                        v-model="form.subSubId"
+                                        :options="$store.state.list_sub_sub"
+                                        option-value="kode"
+                                        :option-label="opt => `${opt.kode} - ${opt.uraian}`"
+                                        outlined square
+                                        :dense="true"
+                                        class="bg-white margin_btn input-aset-kecil aset-kode-select"
+                                        :display-value="form.subSubId"
+                                        :label="form.subSubId ? '' : '00'"
+                                        emit-value map-options
+                                    />
+                                </div>
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari frame_cari">
+                                <span class="h_lable ">No. Register</span>
+                                <q-input v-model="form.no_register" type="number" outlined square :dense="true" class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari frame_cari">
+                                <span class="h_lable ">Ruang</span>
+                                <q-input v-model="form.ruang" outlined square :dense="true" class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">Tanggal Pembelian</span>
+                                <q-input v-model="form.tgl_beli" outlined square :dense="true" type="date" class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">Tanggal Pembukuan</span>
+                                <q-input v-model="form.tgl_buku" outlined square :dense="true" type="date"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">Merk</span>
+                                <q-input v-model="form.merk" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">Type</span>
+                                <q-input v-model="form.type" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">No. Pabrik</span>
+                                <q-input v-model="form.no_pabrik" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">Bahan</span>
+                                <q-input v-model="form.bahan" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">No. Rangka</span>
+                                <q-input v-model="form.no_rangka" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">No. Mesin</span>
+                                <q-input v-model="form.no_mesin" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">No. BPKB</span>
+                                <q-input v-model="form.no_bpkb" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">No. Polisi</span>
+                                <q-input v-model="form.no_polisi" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable">Asal Usul</span>
+                                <q-select
+                                    v-model="form.id_asal"
+                                    :options="$store.state.list_asal"
+                                    option-value="id"
+                                    option-label="uraian"
+                                    outlined square :dense="true"
+                                    class="bg-white margin_btn"
+                                    emit-value map-options
+                                />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">Kondisi</span>
+                                <select v-model="form.kondisi" class="bg-white margin_btn">
+                                    <option value="">-- Pilih Kondisi --</option>
+                                    <option value="BAIK">Baik</option>
+                                    <option value="RUSAK_RINGAN">Rusak Ringan</option>
+                                    <option value="RUSAK_BERAT">Rusak Berat</option>
+                                </select>
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">Harga</span>
+                                <q-input v-model="form.harga" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-6 frame_cari frame_cari">
+                                <span class="h_lable ">Masa Manfaat</span>
+                                <q-input v-model="form.masa_manfaat" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable ">Nilai Sisa</span>
+                                <q-input v-model="form.nilai_sisa" outlined square :dense="true"
+                                    class="bg-white margin_btn" />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable ">Keterangan</span>
+                                <q-input v-model="form.keterangan" outlined square :dense="true"
+                                    class="bg-white margin_btn" type="textarea" />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable ">Lampiran</span>
+                                <q-file v-model="form.file" outlined square :dense="true" class="bg-white margin_btn">
+                                    <template v-slot:prepend>
+                                        <q-icon name="attach_file" />
+                                    </template>
+                                </q-file>
+                            </div>
+
+                        </div>
+                    </q-card-section>
 
                 <q-card-actions class="bg-grey-4 mdl-footer" align="right">
 
@@ -376,7 +590,7 @@
         </q-dialog>
         <!-- ================================================= MODAL EDIT ================================================ -->
 
-        <!-- ================================================ MODAL HAPUS ================================================ -->
+        <!-- ================================================ MODAL DETIL ================================================ -->
         <q-dialog v-model="mdl_detil" persistent>
             <q-card class="mdl-md">
                 <!-- Header -->
@@ -503,7 +717,7 @@
                 </q-card-actions>
             </q-card>
         </q-dialog>
-        <!-- ================================================ MODAL HAPUS ================================================ -->
+        <!-- ================================================ MODAL DETIL ================================================ -->
 
 
 
@@ -522,6 +736,7 @@
 
 import FETCHING from '../../library/fetching'
 import UMUM from '../../library/umum'
+import DATA_MASTER from '../../library/dataMaster'
 
 export default {
     data() {
@@ -529,8 +744,32 @@ export default {
 
             form: {
                 id: '',
-                uraian: '',
+                kodep: 12,
+                akunId: '',
+                kelompokId: '',
+                jenisId: '',
+                objekId: '',
+                rincianId: '',
+                subId: '',
+                subSubId: '',
+                no_register: '',
+                ruang: '',
+                tgl_beli: '',
+                tgl_buku: '',
+                merk: '',
+                type: '',
+                no_pabrik: '',
+                no_rangka: '',
+                no_mesin: '',
+                no_bpkb: '',
+                no_polisi: '',
+                id_asal: '',
+                kondisi: '',
+                harga: '',
+                masa_manfaat: '',
+                nilai_sisa: '',
                 keterangan: '',
+                file: null,
             },
 
             listData: [
@@ -787,6 +1026,7 @@ export default {
 
             FETCHING: FETCHING,
             UMUM: UMUM,
+            DATA_MASTER: DATA_MASTER,
         }
     },
     methods: {
@@ -794,7 +1034,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_MasterKategori + "view", {
+            fetch(this.$store.state.url.URL_PERALATAN + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -810,19 +1050,22 @@ export default {
                     this.list_data = res_data.data;
                     this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    console.log(res_data);
+                    // console.log(res_data);
                 });
         },
 
+        addData: function () {
+            var formData = new FormData();
+            formData.append('data', JSON.stringify(this.form))
+            formData.append("file", this.form.file);
 
-        addData: function (number) {
-            fetch(this.$store.state.url.URL_MasterKategori + "Add", {
+            fetch(this.$store.state.url.URL_PERALATAN + "Add", {
                 method: "POST",
                 headers: {
-                    "content-type": "application/json",
+                    // "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.form)
+                body: formData
             }).then(res_data => {
                 this.Notify('Sukses Menambah Data', 'primary', 'check_circle_outline');
                 this.getView();
@@ -831,27 +1074,34 @@ export default {
 
 
         editData: function () {
-            fetch(this.$store.state.url.URL_MasterKategori + "editData", {
+            var formData = new FormData();
+            formData.append('data', JSON.stringify(this.form))
+            formData.append("file", this.form.file);
+
+            fetch(this.$store.state.url.URL_PERALATAN + "editData", {
                 method: "POST",
                 headers: {
-                    "content-type": "application/json",
+                    // "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.form)
+                body: formData
             }).then(res_data => {
                 this.Notify('Sukses Merubah Data', 'warning', 'check_circle_outline');
                 this.getView();
             });
         },
 
-        removeData: function (E) {
-            fetch(this.$store.state.url.URL_MasterKategori + "removeData", {
+        removeData: function (idnya, file) {
+            fetch(this.$store.state.url.URL_PERALATAN + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify({ id: this.form.id })
+                body: JSON.stringify({
+                    id: idnya,
+                    file, file
+                })
             }).then(res_data => {
                 this.Notify('Sukses Menghapus Data', 'negative', 'check_circle_outline');
                 this.getView();
@@ -860,8 +1110,15 @@ export default {
         },
 
         selectData: function (data) {
-            this.form.kode_pemilik = data.kode_pemilik;
-            this.form.kode_aset = data.kode_aset;
+            this.form.kodep = data.kodep;
+            this.form.akunId = data.akunId;
+            this.form.kelompokId = data.kelompokId;
+            this.form.jenisId = data.jenisId;
+            this.form.objekId = data.objekId;
+            this.form.rincianId = data.rincianId;
+            this.form.subId = data.subId;
+            this.form.subSubId = data.subSubId;
+            this.form.no_register = data.no_register;
             this.form.ruang = data.ruang;
             this.form.tgl_perolehan = data.tgl_perolehan;
             this.form.tgl_pembukuan = data.tgl_pembukuan;
@@ -882,30 +1139,6 @@ export default {
             this.form.keterangan = data.keterangan;
             this.form.file = data.file;
         },
-
-
-        // ====================================== CONTOH eDOC ====================================
-        onClickx(data) {
-            alert(data)
-        },
-        // ====================================== CONTOH eDOC ====================================
-
-        // ====================================== CONTOH AUTOCOMPLETE ====================================
-        autocomplete_db_filter: function (val, update) {
-            update(() => {
-                if (val === '') { }
-                else { FETCHING.getContohAtocomplete(val) }
-            })
-        },
-
-        // ====================================== CONTOH AUTOCOMPLETE ====================================
-
-
-
-
-
-
-
 
         // ====================================== PAGINATE ====================================
         Notify: function (message, positive, icon) {
@@ -941,6 +1174,15 @@ export default {
             this.getView();
         },
 
+        async awaitFetch() {
+            this.$store.state.list_kelompok = await this.DATA_MASTER.getKelompok(this.form.akunId);
+            this.$store.state.list_jenis = await this.DATA_MASTER.getJenis(this.form.kelompokId);
+            this.$store.state.list_objek = await this.DATA_MASTER.getObjek(this.form.jenisId);
+            this.$store.state.list_rincian = await this.DATA_MASTER.getRincian(this.form.objekId);
+            this.$store.state.list_sub = await this.DATA_MASTER.getSub(this.form.rincianId);
+            this.$store.state.list_sub_sub = await this.DATA_MASTER.getSubSub(this.form.subId);
+        }
+
 
         // ====================================== PAGINATE ====================================
 
@@ -953,7 +1195,10 @@ export default {
     },
 
     mounted() {
-        FETCHING.getContohAtocomplete('')
+        this.getView();
+        DATA_MASTER.getAset();
+        DATA_MASTER.getAsal();
+        DATA_MASTER.getKondisi();
     },
 }
 </script>

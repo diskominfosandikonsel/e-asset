@@ -111,7 +111,7 @@
                         <div class="row q-col-gutter-sm">
                             <div class="col-12 col-md-12 frame_cari frame_cari">
                                 <span class="h_lable ">Kode Pemilik</span>
-                                <q-input v-model="form.kodea" outlined square :dense="true" class="bg-white margin_btn" />
+                                <q-input v-model="form.kodep" outlined square :dense="true" class="bg-white margin_btn" />
                             </div>
                             <div class="col-12 frame_cari frame_cari">
                                 <span class="h_lable">Kode Aset</span>
@@ -221,6 +221,10 @@
                                     />
                                 </div>
                             </div>
+                            <div class="col-12 col-md-12 frame_cari frame_cari">
+                                <span class="h_lable ">No. Register</span>
+                                <q-input v-model="form.no_register" type="number" outlined square :dense="true" class="bg-white margin_btn" />
+                            </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Tanggal Pembelian</span>
                                 <q-input v-model="form.tgl_beli" outlined square :dense="true" type="date" class="bg-white margin_btn" />
@@ -314,7 +318,7 @@
                     <div class="row q-col-gutter-sm">
                         <div class="col-12 col-md-12 frame_cari frame_cari">
                             <span class="h_lable ">Kode Pemilik</span>
-                            <q-input v-model="form.kodea" outlined square :dense="true" class="bg-white margin_btn" />
+                            <q-input v-model="form.kodep" outlined square :dense="true" class="bg-white margin_btn" />
                         </div>
                         <div class="col-12 frame_cari frame_cari">
                             <span class="h_lable">Kode Aset</span>
@@ -424,6 +428,10 @@
                                 />
                             </div>
                         </div>
+                        <div class="col-12 col-md-12 frame_cari frame_cari">
+                            <span class="h_lable ">No. Register</span>
+                            <q-input v-model="form.no_register" type="number" outlined square :dense="true" class="bg-white margin_btn" />
+                        </div>
                         <div class="col-12 col-md-6 frame_cari frame_cari">
                             <span class="h_lable ">Tanggal Pembelian</span>
                             <q-input v-model="form.tgl_beli" outlined square :dense="true" type="date" class="bg-white margin_btn" />
@@ -505,7 +513,27 @@
         </q-dialog>
         <!-- ================================================= MODAL EDIT ================================================ -->
 
-        <!-- ================================================ MODAL HAPUS ================================================ -->
+        <!-- ================================================= MODAL HAPUS ================================================ -->
+         <q-dialog v-model="mdl_remove" persistent>
+            <q-card class="mdl-sm ">
+                <q-card-section class="q-pt-none text-center orageGrad">
+                    <form @submit.prevent="removeData(form.id, form.file)">
+                        <br>
+                        <img src="img/alert.png" alt="" width="75"> <br>
+                        <span class="h_notifikasi">APAKAH ANDA YAKIN INGIN MENGHAPUS DATA INI??</span>
+                        <input type="submit" style="position: absolute; left: -9999px" />
+                        <br> <br>
+                        <q-btn label="Batal" size="sm" color="negative" v-close-popup />
+                        &nbsp;
+                        <q-btn type="submit" label="Hapus" size="sm" color="primary" v-close-popup />
+
+                    </form>
+                </q-card-section>
+            </q-card>
+        </q-dialog>
+        <!-- ================================================= MODAL HAPUS ================================================ -->
+
+        <!-- ================================================ MODAL DETIL ================================================ -->
         <q-dialog v-model="mdl_detil" persistent>
             <q-card class="mdl-md">
                 <!-- Header -->
@@ -614,7 +642,7 @@
                 </q-card-actions>
             </q-card>
         </q-dialog>
-        <!-- ================================================ MODAL HAPUS ================================================ -->
+        <!-- ================================================ MODAL DETIL ================================================ -->
 
         <!-- =================================================== MODAL =========================================================== -->
     </div>
@@ -634,7 +662,7 @@ export default {
 
             form: {
                 id: '',
-                kodea: 12,
+                kodep: 12,
                 akunId: '',
                 kelompokId: '',
                 jenisId: '',
@@ -642,6 +670,7 @@ export default {
                 rincianId: '',
                 subId: '',
                 subSubId: '',
+                no_register: '',
                 tgl_beli: '',
                 tgl_buku: '',
                 luas: '',
@@ -655,123 +684,6 @@ export default {
                 keterangan: '',
                 file: null,
             },
-
-            options: [
-                {
-                    group: 'Group 1',
-                    disable: true
-                },
-                {
-                    label: 'Google',
-                    value: 'Google',
-                    description: 'Search engine',
-                    icon: 'mail'
-                },
-                {
-                    label: 'Facebook',
-                    value: 'Facebook',
-                    description: 'Social media',
-                    icon: 'bluetooth'
-                },
-                {
-                    label: 'Twitter',
-                    value: 'Twitter',
-                    description: 'Quick updates',
-                    icon: 'map'
-                },
-                {
-                    group: 'Group 2',
-                    disable: true
-                },
-                {
-                    label: 'Apple',
-                    value: 'Apple',
-                    description: 'iStuff',
-                    icon: 'golf_course'
-                },
-                {
-                    label: 'Oracle',
-                    value: 'Oracle',
-                    description: 'Databases',
-                    icon: 'casino'
-                }
-            ],
-
-            listTanah: [
-                {
-                    id: 1,
-                    kode_pemilik: "12.01.01",
-                    kode_aset: "1.3.1.01.001",
-                    tgl_perolehan: "2010-06-15",
-                    tgl_pembukuan: "2010-06-20",
-                    luas: 2500,
-                    alamat: "Jl. Poros Andoolo, Desa Andoolo, Kec. Andoolo",
-                    hak_tanah: "HM",
-                    no_sertifikat: "HM No.123/Andoolo",
-                    tgl_sertifikat: "2011-03-10",
-                    asal_usul: "PEMBELIAN",
-                    penggunaan: "Kantor Dinas C",
-                    harga: 750000000,
-                    keterangan: "Tanah digunakan sebagai kantor operasional",
-                    file: 'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQW6APCCP6Mb4gpy9CDdPKX5fW7sXCwG5M2Dw&s',
-                    opd: "Dinas Komunikasi Informatika dan Persandian"
-                },
-                {
-                    id: 2,
-                    kode_pemilik: "12.01.01",
-                    kode_aset: "1.3.1.01.002",
-                    tgl_perolehan: "2012-09-18",
-                    tgl_pembukuan: "2012-09-25",
-                    luas: 1800,
-                    alamat: "Desa Wawonggole, Kec. Palangga",
-                    hak_tanah: "HP",
-                    no_sertifikat: "HP No.045/Wawonggole",
-                    tgl_sertifikat: "2013-01-05",
-                    asal_usul: "HIBAH",
-                    penggunaan: "Gudang Arsip",
-                    harga: 420000000,
-                    keterangan: "Tanah hibah dari masyarakat",
-                    file: 'https://img.okezone.com/content/2017/01/25/470/1600919/tanah-nganggur-milik-pemerintah-bisa-dimanfaatkan-NSMGO0EA4h.jpg',
-                    opd: "Dinas Pekerjaan Umum dan Tata Ruang"
-                },
-                {
-                    id: 3,
-                    kode_pemilik: "12.01.01",
-                    kode_aset: "1.3.1.01.003",
-                    tgl_perolehan: "2015-04-11",
-                    tgl_pembukuan: "2015-04-15",
-                    luas: 3000,
-                    alamat: "Kel. Ranomeeto Barat",
-                    hak_tanah: "HM",
-                    no_sertifikat: "HM No.331/Ranomeeto",
-                    tgl_sertifikat: "2016-02-20",
-                    asal_usul: "PEMBELIAN",
-                    penggunaan: "Tidak digunakan",
-                    harga: 980000000,
-                    keterangan: "Tanah belum dimanfaatkan",
-                    file: 'https://awsimages.detik.net.id/visual/2023/07/25/ilustrasi-tanah-di-jual-dok-freepik-1_169.jpeg?w=650',
-                    opd: "Dinas Pekerjaan Umum dan Tata Ruang"
-                },
-                {
-                    id: 4,
-                    kode_pemilik: "12.01.01",
-                    kode_aset: "1.3.1.01.004",
-                    tgl_perolehan: "2018-08-02",
-                    tgl_pembukuan: "2018-08-10",
-                    luas: 1500,
-                    alamat: "Desa Lalowaru, Kec. Moramo Utara",
-                    hak_tanah: "BS",
-                    no_sertifikat: "",
-                    tgl_sertifikat: "",
-                    asal_usul: "BANTUAN_PROV",
-                    penggunaan: "Lapangan Parkir",
-                    harga: 350000000,
-                    keterangan: "Belum bersertifikat",
-                    file: 'https://cdn1-production-images-kly.akamaized.net/66pLtr3KKL5DfHgYiaa0FQW70bI=/1200x675/smart/filters:quality(75):strip_icc():format(jpeg)/kly-media-production/medias/5448056/original/043135100_1765977918-Taman_Nasional_Rawa_Aopa_Watumaohai_Konawe_Selatan.jpg',
-                    opd: "Dinas Tanaman Pangan Holtikultura dan Perkebunan"
-                }
-            ],
-
 
             // ====================================== CONTOH AUTOCOMPLETE ====================================
             autocomplete_db: '',
@@ -787,7 +699,7 @@ export default {
 
             mdl_add: false,
             mdl_edit: false,
-            mdl_hapus: false,
+            mdl_remove: false,
             mdl_detil: false,
             btn_add: false,
 
@@ -816,18 +728,22 @@ export default {
                     this.list_data = res_data.data;
                     this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    console.log(res_data);
+                    // console.log(res_data);
                 });
         },
 
-        addData: function (number) {
-            fetch(this.$store.state.url.URL_TANAH + "Add", {
+        addData: function () {
+            var formData = new FormData();
+            formData.append('data', JSON.stringify(this.form))
+            formData.append("file", this.form.file);
+
+            fetch(this.$store.state.url.URL_TANAH + "addData", {
                 method: "POST",
                 headers: {
-                    "content-type": "application/json",
+                    // "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.form)
+                body: formData
             }).then(res_data => {
                 this.Notify('Sukses Menambah Data', 'primary', 'check_circle_outline');
                 this.getView();
@@ -835,27 +751,34 @@ export default {
         },
 
         editData: function () {
+            var formData = new FormData();
+            formData.append('data', JSON.stringify(this.form))
+            formData.append("file", this.form.file);
+            
             fetch(this.$store.state.url.URL_TANAH + "editData", {
                 method: "POST",
                 headers: {
-                    "content-type": "application/json",
+                    // "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.form)
+                body: formData
             }).then(res_data => {
                 this.Notify('Sukses Merubah Data', 'warning', 'check_circle_outline');
                 this.getView();
             });
         },
 
-        removeData: function (E) {
+        removeData: function (idnya, file) {
             fetch(this.$store.state.url.URL_TANAH + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify({ id: this.form.id })
+                body: JSON.stringify({
+                    id: idnya,
+                    file: file,
+                })
             }).then(res_data => {
                 this.Notify('Sukses Menghapus Data', 'negative', 'check_circle_outline');
                 this.getView();
@@ -865,7 +788,7 @@ export default {
 
         selectData: function (data) {
             this.form.id = data.id;
-            this.form.kodea = data.kodea;
+            this.form.kodep = data.kodep;
             this.form.akunId = data.akunId;
             this.form.kelompokId = data.kelompokId;
             this.form.jenisId = data.jenisId;
@@ -873,6 +796,7 @@ export default {
             this.form.rincianId = data.rincianId;
             this.form.subId = data.subId;
             this.form.subSubId = data.subSubId;
+            this.form.no_register = data.no_register;
             this.form.tgl_beli = data.tgl_beli;
             this.form.tgl_buku = data.tgl_buku;
             this.form.tgl_pembukuan = data.tgl_pembukuan;
@@ -934,6 +858,9 @@ export default {
 
     mounted() {
         this.getView();
+        DATA_MASTER.getAset();
+        DATA_MASTER.getHak();
+        DATA_MASTER.getAsal();
     },
 }
 </script>
