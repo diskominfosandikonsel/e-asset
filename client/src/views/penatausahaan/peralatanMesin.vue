@@ -10,10 +10,8 @@
                     <div class="col-12 col-md-2"></div>
                     <div class="col-12 col-md-4">
                         <div class="row">
-                            <q-input v-model="cari_value" @keyup="cari_data()" outlined square :dense="true"
-                                class="bg-white" style="width:90%" />
-                            <q-btn glossy class="bg-red-4" @click="mdl_add = true" dense flat icon="add"
-                                style="width:10%">
+                            <q-input v-model="cari_value" @keyup="cari_data()" outlined square :dense="true" class="bg-white" style="width:90%" />
+                            <q-btn glossy class="bg-red-4" @click="mdl_add = true" dense flat icon="add" style="width:10%">
                                 <q-tooltip content-class="bg-red-4" content-style="font-size: 13px">
                                     Click untuk menambah data
                                 </q-tooltip>
@@ -27,66 +25,175 @@
 
             <q-card-section>
                 <hr class="hrpagin2">
-                <div class="row q-col-gutter-md">
-                    <div class="col-12 col-sm-6 col-md-4" v-for="data in list_data" :key="data.id">
-                        <q-card class="my-card" flat bordered>
+                <q-tabs
+                    v-model="tab"
+                    dense
+                    class="text-primary"
+                    active-color="primary"
+                    indicator-color="primary"
+                    align="left"
+                >
+                    <q-tab name="v1" label="Versi 1" />
+                    <q-tab name="v2" label="Versi 2" />
+                </q-tabs>
 
-                            <q-img :src="data.file" style="width: 100%; height: 200px" fit="cover" ratio="16/9" />
+                <q-separator />
 
-                            <q-card-section class="q-pb-sm">
-                                <div class="row no-wrap items-start">
-                                    <a class="clear_underline" href="javascript:void(0);"
-                                        @click="mdl_detil = true, selectData(data)">
-                                        <div class="col text-h6 text-primary q-pr-sm">
-                                            {{ data.nama_barang }}
-                                        </div>
-                                    </a>
+                <!-- Isi Tab -->
+                <q-tab-panels v-model="tab" animated>
+                    <q-tab-panel name="v1" class="q-pa-md">
+                        <div class="row q-col-gutter-lg">
+                            <div class="col-12 col-sm-6 col-md-4" v-for="data in listData" :key="data.id">
+                            <q-card class="card-aset shadow-1 hover-shadow">
+                                
+                                <div class="relative-position cursor-pointer" @click="mdl_detil = true, selectData(data)">
+                                <q-img
+                                    :src="data.file || 'https://cdn.quasar.dev/img/image-placeholder.png'"
+                                    style="height: 200px"
+                                    class="rounded-borders"
+                                >
+                                    <template v-slot:error>
+                                    <div class="absolute-full flex flex-center bg-grey-3 text-grey-7">
+                                        <q-icon name="image_not_supported" size="lg" />
+                                    </div>
+                                    </template>
+                                    
+                                    <div class="absolute-bottom-right q-ma-sm">
+                                    <q-badge color="positive" class="text-subtitle2 q-pa-sm shadow-2">
+                                        Rp {{ Number(data.harga).toLocaleString('id-ID') }}
+                                    </q-badge>
+                                    </div>
+                                </q-img>
                                 </div>
-                            </q-card-section>
 
-                            <q-card-section class="q-pt-none q-pb-md">
-                                <div class="column q-gutter-y-xs">
-                                    <div class="text-subtitle2 text-grey-8 row no-wrap items-center">
-                                        <b>Tanggal Perolehan</b>
-                                        <span class="text-weight-medium q-ml-sm">: {{
-                                            UMUM.tglConvert(data.tgl_perolehan) }}</span>
+                                <q-card-section>
+                                <div class="text-h6 text-primary text-weight-bold ellipsis cursor-pointer" @click="mdl_detil = true, selectData(data)">
+                                    {{ data.uraian_aset }}
+                                    <q-tooltip>{{ data.uraian_aset }}</q-tooltip>
+                                </div>
+                                
+                                <div class="text-subtitle2 text-grey-7 q-mb-sm">
+                                    {{ data.merk }} <span v-if="data.type">/ {{ data.type }}</span>
+                                </div>
+
+                                <q-separator inset class="q-my-sm" />
+
+                                <div class="column q-gutter-y-xs text-body2 text-grey-9">
+                                    <div class="row items-center">
+                                    <q-icon name="event" size="xs" class="q-mr-sm text-grey-6" />
+                                    <span class="text-grey-7 q-mr-xs">Perolehan:</span> 
+                                    <span class="text-weight-medium">{{ UMUM.tglConvert(data.tgl_perolehan) }}</span>
                                     </div>
-
-                                    <div class="text-subtitle2 text-grey-8 row no-wrap items-center">
-                                        <b>Merk/Tipe</b>
-                                        <span class="text-weight-medium q-ml-sm">: {{ data.merk }} - {{ data.type
-                                            }}</span>
+                                    
+                                    <div class="row items-start no-wrap">
+                                    <q-icon name="notes" size="xs" class="q-mr-sm q-mt-xs text-grey-6" />
+                                    <div class="ellipsis-2-lines text-italic text-grey-8">
+                                        "{{ data.keterangan || 'Tidak ada keterangan' }}"
                                     </div>
-
-                                    <div class="text-subtitle2 text-grey-8 row no-wrap items-center">
-                                        <b>Harga</b>
-                                        <span class="text-weight-medium q-ml-sm">: Rp. {{ data.harga }}</span>
-                                    </div>
-
-                                    <div class="text-subtitle2 text-grey-8 row no-wrap items-center">
-                                        <b>Keterangan</b>
-                                        <span class="text-weight-medium q-ml-sm">: {{ data.keterangan }}</span>
                                     </div>
                                 </div>
-                            </q-card-section>
+                                </q-card-section>
 
-                            <!-- <q-card-actions align="between">
-								<div class="text-caption text-grey"></div>
-								<div>
-									<q-btn flat round icon="visibility" color="primary" size="sm" @click="mdl_detil = true, selectData(data)">
-										<q-tooltip>Lihat Detail</q-tooltip>
-									</q-btn>
-									<q-btn flat round icon="edit" color="orange" size="sm" @click="mdl_edit = true, selectData(data)">
-										<q-tooltip>Ubah Lapak</q-tooltip>
-									</q-btn>
-									<q-btn flat round icon="delete" color="negative" size="sm" @click="mdl_hapus = true, selectData(data)">
-										<q-tooltip>Hapus Data</q-tooltip>
-									</q-btn>
-								</div>
-							</q-card-actions> -->
-                        </q-card>
-                    </div>
-                </div>
+                                <q-separator />
+
+                                <q-card-actions align="right" class="bg-grey-1">
+                                <q-btn flat round icon="visibility" color="primary" @click="mdl_detil = true, selectData(data)">
+                                    <q-tooltip>Detail</q-tooltip>
+                                </q-btn>
+                                <q-btn flat round icon="edit_square" color="orange-8" @click="mdl_edit = true, selectData(data)">
+                                    <q-tooltip>Ubah</q-tooltip>
+                                </q-btn>
+                                <q-btn flat round icon="delete_outline" color="negative" @click="mdl_remove = true, selectData(data)">
+                                    <q-tooltip>Hapus</q-tooltip>
+                                </q-btn>
+                                </q-card-actions>
+                            </q-card>
+                            </div>
+                        </div>
+                    </q-tab-panel>
+                    <q-tab-panel name="v2" class="q-pa-none">
+                        <q-list separator class="bg-white">
+                            <q-item 
+                            v-for="data in listData" 
+                            :key="data.id" 
+                            class="q-py-md q-px-md item-aset-hover"
+                            >
+                            
+                            <q-item-section>
+                                <div class="row items-center q-gutter-sm q-mb-xs">
+                                <div 
+                                    class="text-weight-bold text-subtitle1 cursor-pointer text-primary"
+                                    @click="selectData(data), mdl_detil = true"
+                                >
+                                    {{ data.merk }} {{ data.type }}
+                                </div>
+                                
+                                <q-badge 
+                                    :color="data.kondisi === 'Baik' ? 'positive' : data.kondisi === 'Kurang Baik' ? 'warning' : 'negative'"
+                                    rounded
+                                >
+                                    {{ data.kondisi }}
+                                </q-badge>
+                                </div>
+
+                                <div class="text-caption text-grey-8 q-mb-sm">
+                                <span class="text-weight-medium">{{ data.no_polisi }}</span> 
+                                <span class="q-mx-xs">•</span> 
+                                Reg: {{ data.no_register }}
+                                </div>
+
+                                <div class="row q-gutter-md text-body2 text-grey-7">
+                                <div class="row items-center">
+                                    <q-icon name="place" size="xs" class="q-mr-xs" />
+                                    {{ data.ruang }}
+                                </div>
+                                <div class="row items-center text-weight-medium text-dark">
+                                    <q-icon name="payments" size="xs" class="q-mr-xs text-grey-7" />
+                                    Rp {{ Number(data.harga).toLocaleString('id-ID') }}
+                                </div>
+                                </div>
+
+                                <div class="q-gutter-xs q-mt-md">
+                                    <q-btn square class="bg-blue-7 text-white" size="xs" icon="meeting_room" @click="selectData(data), openModal('PINDAH_RUANG')">
+                                        <q-tooltip>Pindah Ruang</q-tooltip>
+                                    </q-btn>
+                                    <q-btn square class="bg-teal-7 text-white" size="xs" icon="add_circle" @click="selectData(data), openModal('KAPITALISASI')">
+                                        <q-tooltip>Kapitalisasi</q-tooltip>
+                                    </q-btn>
+                                    <q-btn square class="bg-orange-7 text-white" size="xs" icon="edit_note" @click="selectData(data), openModal('KOREKSI')">
+                                        <q-tooltip>Koreksi Data</q-tooltip>
+                                    </q-btn>
+                                    <q-btn square class="bg-purple-7 text-white" size="xs" icon="health_and_safety" @click="selectData(data), openModal('UBAH_KONDISI')">
+                                        <q-tooltip>Ubah Kondisi</q-tooltip>
+                                    </q-btn>
+                                </div>
+                            </q-item-section>
+
+                            <q-item-section side top>
+                                <q-btn icon="more_vert" flat round color="grey-7">
+                                <q-menu auto-close transition-show="scale" transition-hide="scale">
+                                    <q-list style="min-width: 150px">
+                                    <q-item clickable @click="selectData(data), mdl_detil = true">
+                                        <q-item-section>Detail Aset</q-item-section>
+                                    </q-item>
+                                    
+                                    <q-item clickable @click="selectData(data), mdl_edit = true">
+                                        <q-item-section>Edit Data</q-item-section>
+                                    </q-item>
+
+                                    <q-separator />
+
+                                    <q-item clickable class="text-negative" @click="selectData(data), mdl_hapus = true">
+                                        <q-item-section>Hapus</q-item-section>
+                                    </q-item>
+                                    </q-list>
+                                </q-menu>
+                                </q-btn>
+                            </q-item-section>
+                            </q-item>
+                        </q-list>
+                    </q-tab-panel>
+                </q-tab-panels>
                 <hr class="hrpagin">
                 <br>
                 <div class="flex flex-center">
@@ -719,6 +826,25 @@
         </q-dialog>
         <!-- ================================================ MODAL DETIL ================================================ -->
 
+        <!-- ================================================ MODAL KOMPONEN ================================================ -->
+         <q-dialog v-model="modal_komponen" persistent>
+            <q-card :class="cardClass">
+                <div v-if="modal_komponen_jenis == 'PINDAH_RUANG'">
+                    <kompPindahRuang />
+                </div>
+                <div v-if="modal_komponen_jenis == 'KAPITALISASI'">
+                    <kompKapitalisasi />
+                </div>
+                <div v-if="modal_komponen_jenis == 'KOREKSI'">
+                    <kompKoreksi />
+                </div>
+                <div v-if="modal_komponen_jenis == 'UBAH_KONDISI'">
+                    <kompUbahKondisi />
+                </div>
+            </q-card>
+        </q-dialog>
+        <!-- ================================================ MODAL KOMPONEN ================================================ -->
+
 
 
 
@@ -739,9 +865,23 @@ import UMUM from '../../library/umum'
 import DATA_MASTER from '../../library/dataMaster'
 
 export default {
+    computed: {
+        cardClass() {
+            if (this.modal_komponen_jenis === 'PINDAH_RUANG') {
+                return 'mdl-lg';
+            } else if (this.modal_komponen_jenis === 'KAPITALISASI') {
+                return 'mdl-lg';
+            } else if (this.modal_komponen_jenis === 'KOREKSI') {
+                return 'mdl-lg';
+            } else if (this.modal_komponen_jenis === 'UBAH_KONDISI') {
+                return 'mdl-lg';
+            }
+            return 'mdl-default'; // Default class
+        }
+    },
     data() {
         return {
-
+            tab: 'v1',
             form: {
                 id: '',
                 kodep: 12,
@@ -774,231 +914,191 @@ export default {
 
             listData: [
                 {
-                    "id": 1,
-                    "kode_barang": "1.3.02.02.01",
-                    "no_register": "001",
-                    "nama_barang": "Kendaraan Dinas Roda Empat",
-                    "ruang": "Garasi Kendaraan",
-                    "tgl_perolehan": "2015-03-12",
-                    "tgl_pembukuan": "2015-03-20",
-                    "merk": "Toyota",
-                    "type": "Innova",
-                    "ukuran_cc": "2000 CC",
-                    "no_pabrik": "TP-INV-2015-88921",
-                    "bahan": "Besi",
-                    "no_rangka": "MHFXW42G5FJ123456",
-                    "no_mesin": "2TRFE-987654",
-                    "no_bpkb": "L-12345678",
-                    "no_polisi": "DT 1234 AB",
-                    "asal_usul": "Pembelian APBD",
-                    "kondisi": "Baik",
-                    "harga": 285000000,
-                    "masa_manfaat": 8,
-                    "nilai_sisa": null,
-                    "keterangan": "Kendaraan operasional dinas",
-                    "file": "https://cikalnusantara.com/storage/works/01JEDCBCNPB75DQ7AY17NT0HXK.jpg"
+                    id: "AST001",
+                    kodep: 12,
+                    akunId: "1.3.02.01",
+                    kelompokId: "02",
+                    jenisId: "02.01",
+                    objekId: "02.01.03",
+                    rincianId: "02.01.03.01",
+                    subId: "02.01.03.01.01",
+                    subSubId: "02.01.03.01.01.0001",
+                    no_register: "0001",
+                    ruang: "Garasi Kantor Bupati",
+                    tgl_beli: "2022-03-15",
+                    tgl_buku: "2022-03-20",
+                    merk: "Toyota",
+                    type: "Innova Reborn 2.4 G",
+                    no_pabrik: "TMMIN202203001",
+                    no_rangka: "MHFXW8EM3N1234567",
+                    no_mesin: "2GD1234567",
+                    no_bpkb: "L12345678",
+                    no_polisi: "DT 1 K",
+                    id_asal: "APBD",
+                    kondisi: "Baik",
+                    harga: 420000000,
+                    masa_manfaat: 8,
+                    nilai_sisa: 20000000,
+                    keterangan: "Kendaraan Dinas Operasional Bupati",
+                    file: null
                 },
+
                 {
-                    "id": 2,
-                    "kode_barang": "1.3.02.02.02",
-                    "no_register": "002",
-                    "nama_barang": "Kendaraan Dinas Roda Dua",
-                    "ruang": "Garasi Kendaraan",
-                    "tgl_perolehan": "2019-06-15",
-                    "tgl_pembukuan": "2019-06-20",
-                    "merk": "Honda",
-                    "type": "Vario 150",
-                    "ukuran_cc": "150 CC",
-                    "no_pabrik": "HD-VR-2019-2211",
-                    "bahan": "Besi",
-                    "no_rangka": "MH1KF1111KK332211",
-                    "no_mesin": "KF15E-221133",
-                    "no_bpkb": "M-87654321",
-                    "no_polisi": "DT 5678 CD",
-                    "asal_usul": "Pembelian APBD",
-                    "kondisi": "Baik",
-                    "harga": 23500000,
-                    "masa_manfaat": 5,
-                    "nilai_sisa": null,
-                    "keterangan": "Motor operasional lapangan",
-                    "file": "https://blogger.googleusercontent.com/img/b/R29vZ2xl/AVvXsEjPnPL7g8ZuI8zD2_uC82k23dD9DEyBqQV3GxqoYW1SfLXmNxdxuCc8prZQBChdvkWjS_swU7rMMrYvYbus9ZY1XYEmCGNVHjUN20nkyVKVa0HBJFdlO4vlXOcQzj3E5zXkIuu5Zr22HxXijA0vGbD48sWg578Z6_DajYmtjiHfMX6x-vmKA5s99stKCu0X/s3264/20230822_083656.jpg"
+                    id: "AST002",
+                    kodep: 12,
+                    akunId: "1.3.02.02",
+                    kelompokId: "02",
+                    jenisId: "02.02",
+                    objekId: "02.02.01",
+                    rincianId: "02.02.01.01",
+                    subId: "02.02.01.01.01",
+                    subSubId: "02.02.01.01.01.0002",
+                    no_register: "0002",
+                    ruang: "Ruang Server Diskominfo",
+                    tgl_beli: "2023-02-10",
+                    tgl_buku: "2023-02-12",
+                    merk: "Dell",
+                    type: "PowerEdge R740",
+                    no_pabrik: "DELLSRV20230201",
+                    no_rangka: "-",
+                    no_mesin: "-",
+                    no_bpkb: "-",
+                    no_polisi: "-",
+                    id_asal: "APBD",
+                    kondisi: "Baik",
+                    harga: 185000000,
+                    masa_manfaat: 5,
+                    nilai_sisa: 5000000,
+                    keterangan: "Server aplikasi pemerintah daerah",
+                    file: null
                 },
+
                 {
-                    "id": 3,
-                    "kode_barang": "1.3.02.05.01",
-                    "no_register": "015",
-                    "nama_barang": "Laptop",
-                    "ruang": "Ruang Sekretariat",
-                    "tgl_perolehan": "2020-08-10",
-                    "tgl_pembukuan": "2020-08-15",
-                    "merk": "Dell",
-                    "type": "Latitude 3410",
-                    "ukuran_cc": "-",
-                    "no_pabrik": "DL-3410-2020-3321",
-                    "bahan": "Plastik & Logam",
-                    "no_rangka": "-",
-                    "no_mesin": "-",
-                    "no_bpkb": "-",
-                    "no_polisi": "-",
-                    "asal_usul": "Pembelian APBD",
-                    "kondisi": "Baik",
-                    "harga": 14500000,
-                    "masa_manfaat": 4,
-                    "nilai_sisa": null,
-                    "keterangan": "Laptop administrasi",
-                    "file": "https://p16-oec-sg.ibyteimg.com/tos-alisg-i-aphluv4xwc-sg/img/VqbcmM/2024/5/18/75f1557d-ee2f-4975-a756-0b3251c235c5.jpg~tplv-aphluv4xwc-resize-jpeg:700:0.jpg"
+                    id: "AST003",
+                    kodep: 12,
+                    akunId: "1.3.02.02",
+                    kelompokId: "02",
+                    jenisId: "02.02",
+                    objekId: "02.02.01",
+                    rincianId: "02.02.01.02",
+                    subId: "02.02.01.02.01",
+                    subSubId: "02.02.01.02.01.0003",
+                    no_register: "0003",
+                    ruang: "Ruang Operator Diskominfo",
+                    tgl_beli: "2022-11-08",
+                    tgl_buku: "2022-11-10",
+                    merk: "HP",
+                    type: "ProDesk 400 G7",
+                    no_pabrik: "HPPC20221103",
+                    no_rangka: "-",
+                    no_mesin: "-",
+                    no_bpkb: "-",
+                    no_polisi: "-",
+                    id_asal: "APBD",
+                    kondisi: "Baik",
+                    harga: 12000000,
+                    masa_manfaat: 5,
+                    nilai_sisa: 1000000,
+                    keterangan: "Komputer operator pengelola aplikasi",
+                    file: null
                 },
+
                 {
-                    "id": 4,
-                    "kode_barang": "1.3.02.05.02",
-                    "no_register": "016",
-                    "nama_barang": "Printer",
-                    "ruang": "Ruang TU",
-                    "tgl_perolehan": "2021-02-05",
-                    "tgl_pembukuan": "2021-02-08",
-                    "merk": "Epson",
-                    "type": "L3110",
-                    "ukuran_cc": "-",
-                    "no_pabrik": "EP-L3110-9981",
-                    "bahan": "Plastik",
-                    "no_rangka": "-",
-                    "no_mesin": "-",
-                    "no_bpkb": "-",
-                    "no_polisi": "-",
-                    "asal_usul": "Pembelian APBD",
-                    "kondisi": "Baik",
-                    "harga": 2800000,
-                    "masa_manfaat": 4,
-                    "nilai_sisa": null,
-                    "keterangan": "Printer dokumen kantor",
-                    "file": "https://www.brother.co.id/-/media/ap2/products/printer/hl-t4000dw/hl-t4000dw-r.jpg?rev=56a09e176700426eb894262e2cc9408e"
+                    id: "AST004",
+                    kodep: 12,
+                    akunId: "1.3.02.02",
+                    kelompokId: "02",
+                    jenisId: "02.02",
+                    objekId: "02.02.01",
+                    rincianId: "02.02.01.02",
+                    subId: "02.02.01.02.02",
+                    subSubId: "02.02.01.02.02.0004",
+                    no_register: "0004",
+                    ruang: "Ruang Keuangan",
+                    tgl_beli: "2021-06-15",
+                    tgl_buku: "2021-06-18",
+                    merk: "Lenovo",
+                    type: "ThinkCentre M720",
+                    no_pabrik: "LNVPC20210604",
+                    no_rangka: "-",
+                    no_mesin: "-",
+                    no_bpkb: "-",
+                    no_polisi: "-",
+                    id_asal: "APBD",
+                    kondisi: "Baik",
+                    harga: 10500000,
+                    masa_manfaat: 5,
+                    nilai_sisa: 1000000,
+                    keterangan: "Komputer staf keuangan",
+                    file: null
                 },
+
                 {
-                    "id": 5,
-                    "kode_barang": "1.3.02.05.03",
-                    "no_register": "017",
-                    "nama_barang": "Scanner",
-                    "ruang": "Ruang Arsip",
-                    "tgl_perolehan": "2022-01-12",
-                    "tgl_pembukuan": "2022-01-15",
-                    "merk": "Canon",
-                    "type": "DR-C225",
-                    "ukuran_cc": "-",
-                    "no_pabrik": "CN-DR225-4421",
-                    "bahan": "Plastik",
-                    "no_rangka": "-",
-                    "no_mesin": "-",
-                    "no_bpkb": "-",
-                    "no_polisi": "-",
-                    "asal_usul": "Pembelian APBD",
-                    "kondisi": "Baik",
-                    "harga": 5200000,
-                    "masa_manfaat": 4,
-                    "nilai_sisa": null,
-                    "keterangan": "Digitalisasi arsip",
-                    "file": "https://asset.kompas.com/crops/-aF6g05eRZGUBU642xPPLwqVV7E=/0x0:1000x667/1200x800/data/photo/2023/01/09/63bb9bd89ab79.jpg"
+                    id: "AST005",
+                    kodep: 12,
+                    akunId: "1.3.02.02",
+                    kelompokId: "02",
+                    jenisId: "02.02",
+                    objekId: "02.02.02",
+                    rincianId: "02.02.02.01",
+                    subId: "02.02.02.01.01",
+                    subSubId: "02.02.02.01.01.0005",
+                    no_register: "0005",
+                    ruang: "Ruang Kepala Dinas",
+                    tgl_beli: "2023-01-20",
+                    tgl_buku: "2023-01-21",
+                    merk: "Apple",
+                    type: "MacBook Pro M2",
+                    no_pabrik: "APPLE20230105",
+                    no_rangka: "-",
+                    no_mesin: "-",
+                    no_bpkb: "-",
+                    no_polisi: "-",
+                    id_asal: "APBD",
+                    kondisi: "Baik",
+                    harga: 32000000,
+                    masa_manfaat: 5,
+                    nilai_sisa: 2000000,
+                    keterangan: "Laptop Kepala Dinas",
+                    file: null
                 },
+
                 {
-                    "id": 6,
-                    "kode_barang": "1.3.02.06.01",
-                    "no_register": "018",
-                    "nama_barang": "AC Split",
-                    "ruang": "Ruang Kepala Dinas",
-                    "tgl_perolehan": "2018-09-20",
-                    "tgl_pembukuan": "2018-09-25",
-                    "merk": "LG",
-                    "type": "Dual Cool",
-                    "ukuran_cc": "1 PK",
-                    "no_pabrik": "LG-AC-9912",
-                    "bahan": "Logam",
-                    "no_rangka": "-",
-                    "no_mesin": "-",
-                    "no_bpkb": "-",
-                    "no_polisi": "-",
-                    "asal_usul": "Pembelian APBD",
-                    "kondisi": "Baik",
-                    "harga": 7500000,
-                    "masa_manfaat": 8,
-                    "nilai_sisa": null,
-                    "keterangan": "Pendingin ruangan",
-                    "file": "https://aquaelektronik.com/upload_files/1/56445b50c2-ac-split.png"
-                },
-                {
-                    "id": 7,
-                    "kode_barang": "1.3.02.05.04",
-                    "no_register": "019",
-                    "nama_barang": "Proyektor",
-                    "ruang": "Ruang Rapat",
-                    "tgl_perolehan": "2017-11-10",
-                    "tgl_pembukuan": "2017-11-15",
-                    "merk": "BenQ",
-                    "type": "MX550",
-                    "ukuran_cc": "-",
-                    "no_pabrik": "BQ-MX550-3322",
-                    "bahan": "Plastik",
-                    "no_rangka": "-",
-                    "no_mesin": "-",
-                    "no_bpkb": "-",
-                    "no_polisi": "-",
-                    "asal_usul": "Pembelian APBD",
-                    "kondisi": "Rusak Ringan",
-                    "harga": 6800000,
-                    "masa_manfaat": 5,
-                    "nilai_sisa": null,
-                    "keterangan": "Digunakan presentasi",
-                    "file": "https://s3.ap-southeast-3.amazonaws.com/hartono-mh1/images/detailed/338/MS550_GT-Rev.jpg"
-                },
-                {
-                    "id": 8,
-                    "kode_barang": "1.3.02.05.05",
-                    "no_register": "020",
-                    "nama_barang": "Kamera Dokumentasi",
-                    "ruang": "Ruang Humas",
-                    "tgl_perolehan": "2021-07-05",
-                    "tgl_pembukuan": "2021-07-10",
-                    "merk": "Canon",
-                    "type": "EOS 80D",
-                    "ukuran_cc": "-",
-                    "no_pabrik": "CN-EOS80D-7781",
-                    "bahan": "Logam",
-                    "no_rangka": "-",
-                    "no_mesin": "-",
-                    "no_bpkb": "-",
-                    "no_polisi": "-",
-                    "asal_usul": "Hibah",
-                    "kondisi": "Baik",
-                    "harga": 17500000,
-                    "masa_manfaat": 5,
-                    "nilai_sisa": null,
-                    "keterangan": "Dokumentasi kegiatan",
-                    "file": "https://studiopelangi.id/wp-content/uploads/2023/02/Perbedaan-Kamera-Digital-dengan-Kamera-Smartphone-1-1024x683.jpg"
-                },
-                {
-                    "id": 9,
-                    "kode_barang": "1.3.02.05.06",
-                    "no_register": "021",
-                    "nama_barang": "UPS",
-                    "ruang": "Ruang Server",
-                    "tgl_perolehan": "2022-10-01",
-                    "tgl_pembukuan": "2022-10-05",
-                    "merk": "APC",
-                    "type": "Back-UPS 1200VA",
-                    "ukuran_cc": "-",
-                    "no_pabrik": "APC-UPS-1200-9911",
-                    "bahan": "Plastik & Logam",
-                    "no_rangka": "-",
-                    "no_mesin": "-",
-                    "no_bpkb": "-",
-                    "no_polisi": "-",
-                    "asal_usul": "Pembelian APBD",
-                    "kondisi": "Baik",
-                    "harga": 4200000,
-                    "masa_manfaat": 4,
-                    "nilai_sisa": null,
-                    "keterangan": "Cadangan listrik server",
-                    "file": "https://sentradaya.com/wp-content/uploads/2020/04/show_Riello_UPS_S3T_Active.jpg"
+                    id: "AST006",
+                    kodep: 12,
+                    akunId: "1.3.02.01",
+                    kelompokId: "02",
+                    jenisId: "02.01",
+                    objekId: "02.01.03",
+                    rincianId: "02.01.03.01",
+                    subId: "02.01.03.01.02",
+                    subSubId: "02.01.03.01.02.0006",
+                    no_register: "0006",
+                    ruang: "Garasi Dinas Kominfo",
+                    tgl_beli: "2020-09-12",
+                    tgl_buku: "2020-09-15",
+                    merk: "Mitsubishi",
+                    type: "Pajero Sport Dakar",
+                    no_pabrik: "MMKI20200906",
+                    no_rangka: "MMPJNKG40LH654321",
+                    no_mesin: "4N15678902",
+                    no_bpkb: "L98765432",
+                    no_polisi: "DT 8 K",
+                    id_asal: "APBD",
+                    kondisi: "Kurang Baik",
+                    harga: 590000000,
+                    masa_manfaat: 8,
+                    nilai_sisa: 30000000,
+                    keterangan: "Kendaraan operasional Diskominfo",
+                    file: null
                 }
+
             ],
+
+            openModal(data) {
+                this.modal_komponen = true;
+                this.modal_komponen_jenis = data
+            },
 
 
 
@@ -1023,6 +1123,8 @@ export default {
             mdl_detil: false,
             btn_add: false,
 
+            modal_komponen: false,
+            modal_komponen_jenis: '',
 
             FETCHING: FETCHING,
             UMUM: UMUM,
@@ -1202,3 +1304,28 @@ export default {
     },
 }
 </script>
+
+<style scoped>
+    .card-aset {
+        border-radius: 12px;
+        transition: all 0.3s cubic-bezier(0.25, 0.8, 0.25, 1);
+        overflow: hidden;
+    }
+
+    .hover-shadow:hover {
+        transform: translateY(-4px);
+        box-shadow: 0 10px 20px rgba(0,0,0,0.1) !important;
+    }
+
+        /* Memastikan teks panjang tidak merusak layout */
+    .ellipsis-2-lines {
+        display: -webkit-box;
+        -webkit-line-clamp: 2;
+        -webkit-box-orient: vertical;  
+        overflow: hidden;
+    }
+    .item-aset-hover:hover {
+        background-color: #f5f7fa;
+        transition: background-color 0.3s ease;
+    }
+</style>

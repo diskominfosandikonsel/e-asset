@@ -69,6 +69,18 @@ Vue.component('kompBast', kompBast);
 import kompSp2d from './components/komponen/sp2d.vue'
 Vue.component('kompSp2d', kompSp2d);
 
+import kompPindahRuang from './components/komponen/pindahRuang.vue'
+Vue.component('kompPindahRuang', kompPindahRuang);
+
+import kompKapitalisasi from './components/komponen/kapitalisasi.vue'
+Vue.component('kompKapitalisasi', kompKapitalisasi);
+
+import kompKoreksi from './components/komponen/koreksi.vue'
+Vue.component('kompKoreksi', kompKoreksi);
+
+import kompUbahKondisi from './components/komponen/ubahKondisi.vue'
+Vue.component('kompUbahKondisi', kompUbahKondisi);
+
 
 
 const options = {
