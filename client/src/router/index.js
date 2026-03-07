@@ -262,6 +262,13 @@ function isLoggedIn(to, from, next) {
     component: () => import('../views/pemanfaatan/penggunaanBarang.vue'),
     beforeEnter: isLoggedIn,
   },
+
+  {
+    path: '/pengembalianBarang',
+    name: 'pengembalianBarang',
+    component: () => import('../views/pemanfaatan/pengembalianBarang.vue'),
+    beforeEnter: isLoggedIn,
+  },
   
 
   {
