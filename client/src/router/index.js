@@ -255,6 +255,13 @@ function isLoggedIn(to, from, next) {
     component: () => import('../views/penatausahaan/peralatanMesin.vue'),
     beforeEnter: isLoggedIn,
   },
+
+  {
+    path: '/penggunaanBarang',
+    name: 'penggunaanBarang',
+    component: () => import('../views/pemanfaatan/penggunaanBarang.vue'),
+    beforeEnter: isLoggedIn,
+  },
   
 
   {
