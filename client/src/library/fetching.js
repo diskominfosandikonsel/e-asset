@@ -90,6 +90,26 @@ var storex =store.state
     })
   }
 
+  const getSubKegiatan = (val) => {
+    fetch(store.state.url.URL_ASET + "subSubList", {
+        method: "POST",
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+            val: val,
+        })
+    })
+        .then(res => res.json())
+        .then(res_data => {
+            store.state.list_sub_sub = res_data.map(item => ({
+                kode: item.kode,
+                uraian: item.kode + " - " + item.uraian
+            }))
+        });
+}
+
 
 
   // ====================================== CONTOH AUTOCOMPLETE ====================================
@@ -126,4 +146,5 @@ module.exports = {
     postMasterMenuGetSideBar : postMasterMenuGetSideBar,
     postMasterKlpMenu : postMasterKlpMenu,
     getContohAtocomplete : getContohAtocomplete,
+    getSubKegiatan : getSubKegiatan,
 }

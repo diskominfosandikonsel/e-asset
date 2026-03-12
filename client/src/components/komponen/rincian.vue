@@ -56,127 +56,31 @@
                 <q-card-section class="q-pa-md">
                     <div class="row q-col-gutter-sm">
                         <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Nomor (auto increment)</span>
-                            <q-input v-model="form.no" value="1" outlined square dense disable class="bg-white" />
+                            <span class="h_lable">Nomor</span>
+                            <q-input v-model="form.no" value="1" outlined square dense class="bg-white" />
                         </div>
-                        <div class="col-12 frame_cari">
+                        <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
-                            <!-- <div class="grid-7-kolom q-mt-xs">
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                            </div> -->
-
-
-                            <div class="grid-7-kolom q-mt-xs">
-                                <!-- ASET -->
-                                <q-select
-                                    v-model="form.akunId"
-                                    :options="$store.state.list_aset"
-                                    option-value="kode"
-                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined square
-                                    :dense="true"
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.akunId"
-                                    :label="form.akunId ? '' : '00'"
-                                    emit-value map-options
-                                    @input="awaitFetch"
-                                />
-
-                                <!-- KELOMPOK -->
-                                <q-select
-                                    v-model="form.kelompokId"
-                                    :options="$store.state.list_kelompok"
-                                    option-value="kode"
-                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined square
-                                    :dense="true"
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.kelompokId"
-                                    :label="form.kelompokId ? '' : '00'"
-                                    emit-value map-options
-                                    @input="awaitFetch"
-                                />
-
-                                <!-- JENIS -->
-                                <q-select
-                                    v-model="form.jenisId"
-                                    :options="$store.state.list_jenis"
-                                    option-value="kode"
-                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined square
-                                    :dense="true"
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.jenisId"
-                                    :label="form.jenisId ? '' : '00'"
-                                    emit-value map-options
-                                    @input="awaitFetch"
-                                />
-
-                                <!-- OBJEK -->
-                                <q-select
-                                    v-model="form.objekId"
-                                    :options="$store.state.list_objek"
-                                    option-value="kode"
-                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined square
-                                    :dense="true"
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.objekId"
-                                    :label="form.objekId ? '' : '00'"
-                                    emit-value map-options
-                                    @input="awaitFetch"
-                                />
-
-                                <!-- RINCIAN -->
-                                <q-select
-                                    v-model="form.rincianId"
-                                    :options="$store.state.list_rincian"
-                                    option-value="kode"
-                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined square
-                                    :dense="true"
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.rincianId"
-                                    :label="form.rincianId ? '' : '00'"
-                                    emit-value map-options
-                                    @input="awaitFetch"
-                                />
-
-                                <!-- SUB RINCIAN -->
-                                <q-select
-                                    v-model="form.subId"
-                                    :options="$store.state.list_sub"
-                                    option-value="kode"
-                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined square
-                                    :dense="true"
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.subId"
-                                    :label="form.subId ? '' : '00'"
-                                    emit-value map-options
-                                    @input="awaitFetch"
-                                />
-
-                                <!-- SUB-SUB RINCIAN -->
-                                <q-select
-                                    v-model="form.subSubId"
-                                    :options="$store.state.list_sub_sub"
-                                    option-value="kode"
-                                    :option-label="opt => `${opt.kode} - ${opt.uraian}`"
-                                    outlined square
-                                    :dense="true"
-                                    class="bg-white input-aset-kecil aset-kode-select"
-                                    :display-value="form.subSubId"
-                                    :label="form.subSubId ? '' : '00'"
-                                    emit-value map-options
-                                />
-                            </div>
+                            <q-select
+                                v-model="form.kodeAset"
+                                use-input hide-selected fill-input
+                                input-debounce="300"
+                                :options="$store.state.list_sub_sub"
+                                option-value="kode"
+                                option-label="uraian"
+                                emit-value map-options
+                                @filter="autocomplete_getSubKegiatan"
+                                @focus="loadSubSubAwal"
+                                clearable outlined square dense
+                            >
+                                <template v-slot:no-option>
+                                    <q-item>
+                                        <q-item-section class="text-grey">
+                                            Tidak ditemukan
+                                        </q-item-section>
+                                    </q-item>
+                                </template>
+                            </q-select>
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
                             <span class="h_lable">Merk</span>
@@ -240,17 +144,28 @@
                             <span class="h_lable">Nomor</span>
                             <q-input v-model="form.no" value="1" outlined square dense disable class="bg-white" />
                         </div>
-                        <div class="col-12 frame_cari">
+                        <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
-                            <div class="grid-7-kolom q-mt-xs">
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                                <q-input outlined square dense class="bg-white input-aset-kecil" placeholder="00" />
-                            </div>
+                            <q-select
+                                v-model="form.kodeAset"
+                                use-input hide-selected fill-input
+                                input-debounce="300"
+                                :options="$store.state.list_sub_sub"
+                                option-value="kode"
+                                option-label="uraian"
+                                emit-value map-options
+                                @filter="autocomplete_getSubKegiatan"
+                                @focus="loadSubSubAwal"
+                                clearable outlined square dense
+                            >
+                                <template v-slot:no-option>
+                                    <q-item>
+                                        <q-item-section class="text-grey">
+                                            Tidak ditemukan
+                                        </q-item-section>
+                                    </q-item>
+                                </template>
+                            </q-select>
                         </div>
                         <div class="col-12 col-md-6 frame_cari">
                             <span class="h_lable">Merk</span>
@@ -382,30 +297,30 @@
                     </div>
 
                     <!-- <div>
-						<div class="text-subtitle1 text-bold q-mb-sm">Biodata Pemilik Lapak</div>
-						<q-list dense bordered separator class="rounded-borders">
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Nama Lengkap</b></q-item-section>
-								<q-item-section>{{ form.nm_pemilik }}</q-item-section>
-							</q-item>
-							<q-item v-if="form.uraian_bidang_sub_csr">
-								<q-item-section class="col-3 text-weight-medium"><b>NIK</b></q-item-section>
-								<q-item-section>{{ form.nik }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Alamat</b></q-item-section>
-								<q-item-section>{{ form.alamat }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Nomor HP</b></q-item-section>
-								<q-item-section>{{ form.hp }}</q-item-section>
-							</q-item>
-							<q-item>
-								<q-item-section class="col-3 text-weight-medium"><b>Email</b></q-item-section>
-								<q-item-section>{{ form.email }}</q-item-section>
-							</q-item>
-						</q-list>
-					</div> -->
+                        <div class="text-subtitle1 text-bold q-mb-sm">Biodata Pemilik Lapak</div>
+                        <q-list dense bordered separator class="rounded-borders">
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Nama Lengkap</b></q-item-section>
+                                <q-item-section>{{ form.nm_pemilik }}</q-item-section>
+                            </q-item>
+                            <q-item v-if="form.uraian_bidang_sub_csr">
+                                <q-item-section class="col-3 text-weight-medium"><b>NIK</b></q-item-section>
+                                <q-item-section>{{ form.nik }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Alamat</b></q-item-section>
+                                <q-item-section>{{ form.alamat }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Nomor HP</b></q-item-section>
+                                <q-item-section>{{ form.hp }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-3 text-weight-medium"><b>Email</b></q-item-section>
+                                <q-item-section>{{ form.email }}</q-item-section>
+                            </q-item>
+                        </q-list>
+                    </div> -->
 
                 </q-card-section>
 
@@ -428,16 +343,11 @@ export default {
     props: ["pengadaanId"],
     data() {
         return {
+            optionsSubSub: [],
             form: {
                 id: '',
                 pengadaanId: this.pengadaanId,
-                akunId: '',
-                kelompokId: '',
-                jenisId: '',
-                objekId: '',
-                rincianId: '',
-                subId: '',
-                subSubId: '',
+                kodeAset: '',
                 no: '',
                 merk: '',
                 type: '',
@@ -568,40 +478,18 @@ export default {
             this.form.keterangan = data.keterangan;
         },
 
-        autocomplete_db_filter: function (val, update) {
+        autocomplete_getSubKegiatan : function (val, update) {
             update(() => {
-                if (val === '') { }
-                else { FETCHING.getContohAtocomplete(val) }
-            })
-        },
-        autocomplete_jurusan: function (val, update) {
-            update(() => {
-                if (val == '') { }
-                else {
-                    FETCHING.getJurusan(val)
+                if (val === '') {
+
+                } else {
+                    FETCHING.getSubKegiatan(val)
                 }
             })
         },
 
-        autocomplete_keterampilan: function (val, update) {
-            update(() => {
-                if (val == '') { }
-                else {
-                    FETCHING.getKeterampilan(val)
-                }
-            })
-
-            // specific logic to eventually call done(...) -- or not
-            //   done(val) <- INI YANG DIBUKA NAH UNTUK MULTIPLE NYA AUTOCOMPLETE
-            // jangan lupa tambahkan "done" di functionnya
-
-            // done callback has two optional parameters:
-            //  - the value to be added
-            //  - the behavior (same values of new-value-mode prop,
-            //    and when it is specified it overrides that prop –
-            //    if it is used); default behavior (if not using
-            //    new-value-mode) is to add the value even if it would
-            //    be a duplicate
+        loadSubSubAwal() {
+            FETCHING.getSubKegiatan('')
         },
         // ====================================== CONTOH AUTOCOMPLETE ====================================
 
@@ -641,15 +529,6 @@ export default {
             this.page_first = 1;
             this.getView();
         },
-
-        async awaitFetch() {
-            this.$store.state.list_kelompok = await this.DATA_MASTER.getKelompok(this.form.akunId);
-            this.$store.state.list_jenis = await this.DATA_MASTER.getJenis(this.form.kelompokId);
-            this.$store.state.list_objek = await this.DATA_MASTER.getObjek(this.form.jenisId);
-            this.$store.state.list_rincian = await this.DATA_MASTER.getRincian(this.form.objekId);
-            this.$store.state.list_sub = await this.DATA_MASTER.getSub(this.form.rincianId);
-            this.$store.state.list_sub_sub = await this.DATA_MASTER.getSubSub(this.form.subId);
-        }
 
         // ====================================== PAGINATE ====================================
 
