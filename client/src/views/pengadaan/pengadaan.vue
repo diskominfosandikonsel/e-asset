@@ -417,11 +417,11 @@
                         <div class="text-subtitle1 text-bold q-mb-sm">Informasi Aset</div>
                         <q-list dense bordered separator class="rounded-borders">
                             <q-item>
-                                <q-item-section class="col-4 text-weight-medium"><b>No. SPK/Perjanjian/Kontrak</b></q-item-section>
+                                <q-item-section class="col-4 text-weight-medium word-wrap"><b>No. SPK/Perjanjian/Kontrak</b></q-item-section>
                                 <q-item-section>{{ form.no_spk }}</q-item-section>
                             </q-item>
                             <q-item>
-                                <q-item-section class="col-4 text-weight-medium"><b>Tgl SPK/Perjanjian/Kontrak</b></q-item-section>
+                                <q-item-section class="col-4 text-weight-medium word-wrap"><b>Tgl SPK/Perjanjian/Kontrak</b></q-item-section>
                                 <q-item-section>{{ form.tgl_spk }}</q-item-section>
                             </q-item>
                             <q-item>

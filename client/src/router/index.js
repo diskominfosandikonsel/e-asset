@@ -269,6 +269,20 @@ function isLoggedIn(to, from, next) {
     component: () => import('../views/pemanfaatan/pengembalianBarang.vue'),
     beforeEnter: isLoggedIn,
   },
+
+  {
+    path: '/reklasifikasi',
+    name: 'reklasifikasi',
+    component: () => import('../views/reklasifikasi/reklasifikasi.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/penghapusan',
+    name: 'penghapusan',
+    component: () => import('../views/penghapusan/penghapusan.vue'),
+    beforeEnter: isLoggedIn,
+  },
   
 
   {

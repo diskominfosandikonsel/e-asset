@@ -239,9 +239,12 @@ input.mdCheckbox1 {
   flex: 1;
 }
 
-.aset-kode-select.q-field--auto-height.q-field--dense.q-field--labeled
-.q-field__control-container {
+.aset-kode-select.q-field--auto-height.q-field--dense.q-field--labeled .q-field__control-container {
   padding-top: 2px;
+}
+
+.word-wrap {
+  word-break: break-word;
 }
 
 @media screen and (max-device-width: 768px) {
