@@ -25,9 +25,15 @@ router.post('/view', (req, res) => {
 
     let jml_data = `
         SELECT 
-        kib_a.*, hak.uraian as hak_tanah, asal.uraian as asal_usul
+        kib_a.*,
+        hak.uraian as hak_tanah,
+        asal.uraian as asal_usul,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_a kib_a 
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = kib_a.subSubId
 
         LEFT JOIN e_aset.master_hak hak
         ON hak.id = kib_a.id_hak
@@ -44,9 +50,15 @@ router.post('/view', (req, res) => {
 
     let view = `
         SELECT 
-        kib_a.*, hak.uraian as hak_tanah, asal.uraian as asal_usul
+        kib_a.*,
+        hak.uraian as hak_tanah,
+        asal.uraian as asal_usul,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_a kib_a 
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = kib_a.subSubId
 
         LEFT JOIN e_aset.master_hak hak
         ON hak.id = kib_a.id_hak
@@ -114,9 +126,15 @@ router.post('/admin', (req, res) => {
 
     let jml_data = `
         SELECT 
-        kib_a.*, hak.uraian as hak_tanah, asal.uraian as asal_usul
+        kib_a.*,
+        hak.uraian as hak_tanah,
+        asal.uraian as asal_usul,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_a kib_a 
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = kib_a.subSubId
 
         LEFT JOIN e_aset.master_hak hak
         ON hak.id = kib_a.id_hak
@@ -132,9 +150,15 @@ router.post('/admin', (req, res) => {
 
     let view = `
         SELECT 
-        kib_a.*, hak.uraian as hak_tanah, asal.uraian as asal_usul
+        kib_a.*,
+        hak.uraian as hak_tanah,
+        asal.uraian as asal_usul,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_a kib_a 
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = kib_a.subSubId
 
         LEFT JOIN e_aset.master_hak hak
         ON hak.id = kib_a.id_hak
@@ -177,8 +201,8 @@ router.post('/addData', upload.single("file"), (req,res)=>{
     var data = JSON.parse(req.body.data)
     var insert = '';
 
-    insert = `INSERT INTO kib_a (id, kodep, kodea, tgl_beli, tgl_buku, luas, alamat, id_hak, no_sert, tgl_sert, id_asal, guna, harga, keterangan, file, unitId, userId, createAt) 
-        VALUES ('`+uniqid()+`' ,'`+data.kodep+`' ,'`+data.kodea+`' ,'`+data.tgl_beli+`' ,'`+data.tgl_buku+`' ,'`+data.luas+`' ,'`+data.alamat+`' ,'`+data.id_hak+`' ,'`+data.no_sert+`' ,'`+data.tgl_sert+`' ,'`+data.id_asal+`' ,'`+data.guna+`' ,'`+data.harga+`' ,'`+data.keterangan+`' ,'`+req.file.filename+`','`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
+    insert = `INSERT INTO kib_a (id, kodep, subSubId, no_reg, tgl_beli, tgl_buku, luas, alamat, id_hak, no_sert, tgl_sert, id_asal, guna, harga, keterangan, file, unitId, userId, createAt) 
+        VALUES ('`+uniqid()+`' ,'`+data.kodep+`' ,'`+data.subSubId+`', '`+data.no_reg+`' ,'`+data.tgl_beli+`' ,'`+data.tgl_buku+`' ,'`+data.luas+`' ,'`+data.alamat+`' ,'`+data.id_hak+`' ,'`+data.no_sert+`' ,'`+data.tgl_sert+`' ,'`+data.id_asal+`' ,'`+data.guna+`' ,'`+data.harga+`' ,'`+data.keterangan+`' ,'`+req.file.filename+`','`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
         `;
 
     db.query(insert, (err, row)=>{
@@ -199,7 +223,8 @@ router.post('/editData', upload.single("file"), (req,res)=>{
     query = `
         UPDATE kib_a SET
         kodep = '`+data.kodep+`',
-        kodea = '`+data.kodea+`',
+        subSubId = '`+data.subSubId+`',
+        no_reg = '`+data.no_reg+`',
         tgl_beli = '`+data.tgl_beli+`',
         tgl_buku = '`+data.tgl_buku+`',
         luas = '`+data.luas+`',
@@ -220,7 +245,8 @@ router.post('/editData', upload.single("file"), (req,res)=>{
         query = `
         UPDATE kib_a SET
         kodep = '`+data.kodep+`',
-        kodea = '`+data.kodea+`',
+        subSubId = '`+data.subSubId+`',
+        no_reg = '`+data.no_reg+`',
         tgl_beli = '`+data.tgl_beli+`',
         tgl_buku = '`+data.tgl_buku+`',
         luas = '`+data.luas+`',

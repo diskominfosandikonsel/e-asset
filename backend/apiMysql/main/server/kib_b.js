@@ -25,9 +25,13 @@ router.post('/view', (req, res) => {
 
     let jml_data = `
         SELECT 
-        kib_b.*, hak.uraian as hak_tanah, asal.uraian as asal_usul
+        kib_b.*, hak.uraian as hak_tanah, asal.uraian as asal_usul,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_b kib_b 
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = kib_b.subSubId
 
         LEFT JOIN e_aset.master_hak hak
         ON hak.id = kib_b.id_hak
@@ -44,9 +48,13 @@ router.post('/view', (req, res) => {
 
     let view = `
         SELECT 
-        kib_b.*, hak.uraian as hak_tanah, asal.uraian as asal_usul
+        kib_b.*, hak.uraian as hak_tanah, asal.uraian as asal_usul,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_b kib_b 
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = kib_b.subSubId
 
         LEFT JOIN e_aset.master_hak hak
         ON hak.id = kib_b.id_hak
@@ -114,9 +122,13 @@ router.post('/admin', (req, res) => {
 
     let jml_data = `
         SELECT 
-        kib_b.*, hak.uraian as hak_tanah, asal.uraian as asal_usul
+        kib_b.*, hak.uraian as hak_tanah, asal.uraian as asal_usul,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_b kib_b 
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = kib_b.subSubId
 
         LEFT JOIN e_aset.master_hak hak
         ON hak.id = kib_b.id_hak
@@ -132,9 +144,13 @@ router.post('/admin', (req, res) => {
 
     let view = `
         SELECT 
-        kib_b.*, hak.uraian as hak_tanah, asal.uraian as asal_usul
+        kib_b.*, hak.uraian as hak_tanah, asal.uraian as asal_usul,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_b kib_b 
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = kib_b.subSubId
 
         LEFT JOIN e_aset.master_hak hak
         ON hak.id = kib_b.id_hak
@@ -177,8 +193,8 @@ router.post('/addData', upload.single("file"), (req,res)=>{
     var data = JSON.parse(req.body.data)
     var insert = '';
 
-    insert = `INSERT INTO kib_b (id, kodep, kodea, tgl_beli, tgl_buku, luas, alamat, id_hak, no_sert, tgl_sert, id_asal, guna, harga, keterangan, file, unitId, userId, createAt) 
-        VALUES ('`+uniqid()+`' ,'`+data.kodep+`' ,'`+data.kodea+`' ,'`+data.tgl_beli+`' ,'`+data.tgl_buku+`' ,'`+data.luas+`' ,'`+data.alamat+`' ,'`+data.id_hak+`' ,'`+data.no_sert+`' ,'`+data.tgl_sert+`' ,'`+data.id_asal+`' ,'`+data.guna+`' ,'`+data.harga+`' ,'`+data.keterangan+`' ,'`+req.file.filename+`','`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
+    insert = `INSERT INTO kib_b (id, kodep, subSubId, no_reg, ruang, tgl_beli, tgl_buku, merk, type, no_pabrik, bahan, no_rangka, no_mesin, no_bpkb, no_polisi, id_asal, id_kondisi, harga, manfaat, nilai, keterangan, file, unitId, userId, createAt) 
+        VALUES ('`+uniqid()+`' ,'`+data.kodep+`' ,'`+data.subSubId+`' ,'`+data.no_reg+`' ,'`+data.ruang+`' ,'`+data.tgl_beli+`' ,'`+data.tgl_buku+`' ,'`+data.merk+`' ,'`+data.type+`' ,'`+data.no_pabrik+`' ,'`+data.bahan+`' ,'`+data.no_rangka+`' ,'`+data.no_mesin+`' ,'`+data.no_bpkb+`' ,'`+data.no_polisi+`' ,'`+data.id_asal+`' ,'`+data.kondisi+`' ,'`+data.harga+`' ,'`+data.manfaat+`' ,'`+data.nilai+`' , '`+data.keterangan+`' ,'`+req.file.filename+`','`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
         `;
 
     db.query(insert, (err, row)=>{
@@ -199,17 +215,24 @@ router.post('/editData', upload.single("file"), (req,res)=>{
     query = `
         UPDATE kib_b SET
         kodep = '`+data.kodep+`',
-        kodea = '`+data.kodea+`',
+        subSubId = '`+data.subSubId+`',
+        no_reg = '`+data.no_reg+`',
+        ruang = '`+data.ruang+`',
         tgl_beli = '`+data.tgl_beli+`',
         tgl_buku = '`+data.tgl_buku+`',
-        luas = '`+data.luas+`',
-        alamat = '`+data.alamat+`',
-        id_hak = '`+data.id_hak+`',
-        no_sert = '`+data.no_sert+`',
-        tgl_sert = '`+data.tgl_sert+`',
+        merk = '`+data.merk+`',
+        type = '`+data.type+`',
+        no_pabrik = '`+data.no_pabrik+`',
+        bahan = '`+data.bahan+`',
+        no_rangka = '`+data.no_rangka+`',
+        no_mesin = '`+data.no_mesin+`',
+        no_bpkb = '`+data.no_bpkb+`',
+        no_polisi = '`+data.no_polisi+`',
         id_asal = '`+data.id_asal+`',
-        guna = '`+data.guna+`',
+        id_kondisi = '`+data.id_kondisi+`',
         harga = '`+data.harga+`',
+        manfaat = '`+data.manfaat+`',
+        nilai = '`+data.nilai+`',
         keterangan = '`+data.keterangan+`',
         unitId = '`+req.user.profile.unit_kerja+`',
         userId = '`+req.user._id+`',
@@ -220,17 +243,24 @@ router.post('/editData', upload.single("file"), (req,res)=>{
         query = `
         UPDATE kib_b SET
         kodep = '`+data.kodep+`',
-        kodea = '`+data.kodea+`',
+        subSubId = '`+data.subSubId+`',
+        no_reg = '`+data.no_reg+`',
+        ruang = '`+data.ruang+`',
         tgl_beli = '`+data.tgl_beli+`',
         tgl_buku = '`+data.tgl_buku+`',
-        luas = '`+data.luas+`',
-        alamat = '`+data.alamat+`',
-        id_hak = '`+data.id_hak+`',
-        no_sert = '`+data.no_sert+`',
-        tgl_sert = '`+data.tgl_sert+`',
+        merk = '`+data.merk+`',
+        type = '`+data.type+`',
+        no_pabrik = '`+data.no_pabrik+`',
+        bahan = '`+data.bahan+`',
+        no_rangka = '`+data.no_rangka+`',
+        no_mesin = '`+data.no_mesin+`',
+        no_bpkb = '`+data.no_bpkb+`',
+        no_polisi = '`+data.no_polisi+`',
         id_asal = '`+data.id_asal+`',
-        guna = '`+data.guna+`',
+        id_kondisi = '`+data.id_kondisi+`',
         harga = '`+data.harga+`',
+        manfaat = '`+data.manfaat+`',
+        nilai = '`+data.nilai+`',
         keterangan = '`+data.keterangan+`',
         file = '`+req.file.filename+`',
         unitId = '`+req.user.profile.unit_kerja+`',

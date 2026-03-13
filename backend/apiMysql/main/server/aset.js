@@ -12,33 +12,9 @@ router.post('/view', (req, res) => {
 
     let jml_data = `
         SELECT aset.*,
-        akun.kode AS kode_akun, akun.uraian AS uraian_akun,
-        kelompok.kode AS kode_kelompok, kelompok.uraian AS uraian_kelompok,
-        jenis.kode AS kode_jenis, jenis.uraian AS uraian_jenis,
-        objek.kode AS kode_objek, objek.uraian AS uraian_objek,
-        rincian.kode AS kode_rincian, rincian.uraian AS uraian_rincian,
-        sub.kode AS kode_sub, sub.uraian AS uraian_sub,
         sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.aset aset
-
-        LEFT JOIN e_aset.kode_akun akun
-        ON akun.id = aset.akunId
-
-        LEFT JOIN e_aset.kode_kelompok kelompok
-        ON kelompok.id = aset.kelompokId
-
-        LEFT JOIN e_aset.kode_jenis jenis
-        ON jenis.id = aset.jenisId
-
-        LEFT JOIN e_aset.kode_objek objek
-        ON objek.id = aset.objekId
-
-        LEFT JOIN e_aset.kode_rincian rincian
-        ON rincian.id = aset.rincianId
-
-        LEFT JOIN e_aset.kode_sub sub
-        ON sub.id = aset.subId
 
         LEFT JOIN e_aset.kode_sub_sub sub_sub
         ON sub_sub.id = aset.subSubId
@@ -50,33 +26,9 @@ router.post('/view', (req, res) => {
 
     let view = `
         SELECT aset.*,
-        akun.kode AS kode_akun, akun.uraian AS uraian_akun,
-        kelompok.kode AS kode_kelompok, kelompok.uraian AS uraian_kelompok,
-        jenis.kode AS kode_jenis, jenis.uraian AS uraian_jenis,
-        objek.kode AS kode_objek, objek.uraian AS uraian_objek,
-        rincian.kode AS kode_rincian, rincian.uraian AS uraian_rincian,
-        sub.kode AS kode_sub, sub.uraian AS uraian_sub,
         sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.aset aset
-
-        LEFT JOIN e_aset.kode_akun akun
-        ON akun.id = aset.akunId
-
-        LEFT JOIN e_aset.kode_kelompok kelompok
-        ON kelompok.id = aset.kelompokId
-
-        LEFT JOIN e_aset.kode_jenis jenis
-        ON jenis.id = aset.jenisId
-
-        LEFT JOIN e_aset.kode_objek objek
-        ON objek.id = aset.objekId
-
-        LEFT JOIN e_aset.kode_rincian rincian
-        ON rincian.id = aset.rincianId
-
-        LEFT JOIN e_aset.kode_sub sub
-        ON sub.id = aset.subId
 
         LEFT JOIN e_aset.kode_sub_sub sub_sub
         ON sub_sub.id = aset.subSubId
@@ -116,8 +68,8 @@ router.post('/addData', (req,res)=>{
     var data = req.body;
     var insert = '';
 
-    insert = `INSERT INTO aset (id, pengadaanId, nomor, akunId, kelompokId, jenisId, objekId, rincianId, subId, subSubId, merk, type, ukuran, luas, panjang, lebar, jumlah, harga, keterangan, unitId, userId, createAt) 
-        VALUES ('`+uniqid()+`' ,'`+data.pengadaanId+`' ,'`+data.nomor+`' ,'`+data.akunId+`' ,'`+data.kelompokId+`' ,'`+data.jenisId+`' ,'`+data.objekId+`' ,'`+data.rincianId+`' ,'`+data.subId+`' ,'`+data.subSubId+`' ,'`+data.merk+`' ,'`+data.type+`' ,'`+data.ukuran+`' ,'`+data.luas+`' ,'`+data.panjang+`' ,'`+data.lebar+`' ,'`+data.jumlah+`' ,'`+data.harga+`' ,'`+data.keterangan+`' ,'`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
+    insert = `INSERT INTO aset (id, pengadaanId, nomor, subSubId, merk, type, ukuran, luas, panjang, lebar, jumlah, harga, keterangan, unitId, userId, createAt) 
+        VALUES ('`+uniqid()+`' ,'`+data.pengadaanId+`' ,'`+data.nomor+`' ,'`+data.subSubId+`' ,'`+data.merk+`' ,'`+data.type+`' ,'`+data.ukuran+`' ,'`+data.luas+`' ,'`+data.panjang+`' ,'`+data.lebar+`' ,'`+data.jumlah+`' ,'`+data.harga+`' ,'`+data.keterangan+`' ,'`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
         `;
 
     db.query(insert, (err, row)=>{
@@ -138,12 +90,6 @@ router.post('/editData', (req,res)=>{
         UPDATE aset SET
         pengadaanId = '`+data.pengadaanId+`',
         nomor = '`+data.nomor+`',
-        akunId = '`+data.akunId+`',
-        kelompokId = '`+data.kelompokId+`',
-        jenisId = '`+data.jenisId+`',
-        objekId = '`+data.objekId+`',
-        rincianId = '`+data.rincianId+`',
-        subId = '`+data.subId+`',
         subSubId = '`+data.subSubId+`',
         merk = '`+data.merk+`',
         type = '`+data.type+`',
