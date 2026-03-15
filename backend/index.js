@@ -62,6 +62,15 @@ app.use('/api/v1/bast', middleware.isLoggedIn, middleware.sideMenuMidleware, bas
 const sppd = require('./apiMysql/main/server/sppd');
 app.use('/api/v1/sppd', middleware.isLoggedIn, middleware.sideMenuMidleware, sppd);
 
+const perencanaan = require('./apiMysql/main/server/perencanaan');
+app.use('/api/v1/perencanaan', middleware.isLoggedIn, middleware.sideMenuMidleware, perencanaan);
+
+const penggunaan = require('./apiMysql/main/server/penggunaan');
+app.use('/api/v1/penggunaan', middleware.isLoggedIn, middleware.sideMenuMidleware, penggunaan);
+
+const pengembalian = require('./apiMysql/main/server/pengembalian');
+app.use('/api/v1/pengembalian', middleware.isLoggedIn, middleware.sideMenuMidleware, pengembalian);
+
 const kib_a = require('./apiMysql/main/server/kib_a');
 app.use('/api/v1/kib_a', middleware.isLoggedIn, middleware.sideMenuMidleware, kib_a);
 

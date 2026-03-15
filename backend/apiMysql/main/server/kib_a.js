@@ -26,8 +26,8 @@ router.post('/view', (req, res) => {
     let jml_data = `
         SELECT 
         kib_a.*,
-        hak.uraian as hak_tanah,
-        asal.uraian as asal_usul,
+        hak.uraian AS hak_tanah,
+        asal.uraian AS asal_usul,
         sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_a kib_a 
@@ -51,8 +51,8 @@ router.post('/view', (req, res) => {
     let view = `
         SELECT 
         kib_a.*,
-        hak.uraian as hak_tanah,
-        asal.uraian as asal_usul,
+        hak.uraian AS hak_tanah,
+        asal.uraian AS asal_usul,
         sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_a kib_a 
@@ -97,6 +97,42 @@ router.post('/view', (req, res) => {
     })
 });
 
+router.post('/kib_a', (req, res) => {
+
+    let view = `
+        SELECT 
+        kib_a.*,
+        hak.uraian AS hak_tanah,
+        asal.uraian AS asal_usul,
+        sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
+
+        FROM e_aset.kib_a kib_a 
+
+        LEFT JOIN e_aset.kode_sub_sub sub_sub
+        ON sub_sub.id = kib_a.subSubId
+
+        LEFT JOIN e_aset.master_hak hak
+        ON hak.id = kib_a.id_hak
+
+        LEFT JOIN e_aset.master_asal asal
+        ON asal.id = kib_a.id_asal
+
+        WHERE  kib_a.unitId = '`+req.user.profile.unit_kerja+`'
+
+        ORDER BY kib_a.createAt DESC
+    `
+    
+        db.query(view, (err, result)=>{
+            if (err) {res.json(err)}
+            else{
+                res.json({
+                    data : result
+                })
+            }  
+        })
+        // ========================
+});
+
 router.post('/admin', (req, res) => {
     var data_batas = 10;
     var data_star = (req.body.data_ke - 1)* data_batas;
@@ -127,8 +163,8 @@ router.post('/admin', (req, res) => {
     let jml_data = `
         SELECT 
         kib_a.*,
-        hak.uraian as hak_tanah,
-        asal.uraian as asal_usul,
+        hak.uraian AS hak_tanah,
+        asal.uraian AS asal_usul,
         sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_a kib_a 
@@ -151,8 +187,8 @@ router.post('/admin', (req, res) => {
     let view = `
         SELECT 
         kib_a.*,
-        hak.uraian as hak_tanah,
-        asal.uraian as asal_usul,
+        hak.uraian AS hak_tanah,
+        asal.uraian AS asal_usul,
         sub_sub.kode AS kode_sub_sub, sub_sub.uraian AS uraian_sub_sub
 
         FROM e_aset.kib_a kib_a 
