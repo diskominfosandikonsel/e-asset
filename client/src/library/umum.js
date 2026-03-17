@@ -1,6 +1,15 @@
 // import Swal from 'sweetalert2'
 const Swal = require('sweetalert2')
 
+const formatRupiah = (angka) => {
+    if (angka === undefined || angka === null || angka === '') return '0';
+    
+    return new Intl.NumberFormat('id-ID', {
+        minimumFractionDigits: 0,
+        maximumFractionDigits: 0
+    }).format(angka);
+}
+
 const tglConvert = (tgl) => {
     var date = new Date(tgl);
     var getBulan = date.getMonth() + 1; var bulan = '';
@@ -137,6 +146,7 @@ const ArrToObj = (data) =>{
 
 
 module.exports = {
+    formatRupiah : formatRupiah,
     tglConvert : tglConvert,
     check_gelar_depan : check_gelar_depan,
     check_gelar_belakang : check_gelar_belakang,
