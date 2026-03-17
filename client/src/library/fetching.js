@@ -129,10 +129,24 @@ const getSubKegiatan = (keyword = '') => {
     .then(res_data => {
         // console.log("SUBSUB:", res_data.data);
 
-        store.state.list_sub_sub = res_data.data.map(item => ({
-            kode: item.kode,
-            uraian: item.kode + " - " + item.uraian
-        }));
+        store.state.list_sub_sub = res_data.data.map(item => {
+            const kodeGabung = [
+                item.akunId,
+                item.jenisId,
+                item.kelompokId,
+                item.objekId,
+                item.rincianId,
+                item.subId,
+                item.kode
+            ]
+            .filter(Boolean) // buang null / undefined
+            .join(".");
+
+            return {
+                kode: kodeGabung,
+                uraian: kodeGabung + " - " + item.uraian
+            };
+        });
     });
 };
 
