@@ -39,6 +39,7 @@ export default new Vuex.Store({
       URL_DM_HAK : URL+'api/v1/master_hak/',
       URL_DM_ASAL_USUL : URL+'api/v1/master_asal/',
 
+      URL_PERENCANAAN : URL+'api/v1/perencanaan/',
       URL_PENGADAAN : URL+'api/v1/pengadaan/',
       URL_ASET : URL+'api/v1/aset/',
       URL_BAST : URL+'api/v1/bast/',
@@ -66,6 +67,8 @@ export default new Vuex.Store({
     list_hak: [],
     list_asal: [],
     list_kondisi: [],
+
+    list_pengguna: [],
     
     list_menu : null,
     aksesMenu : {},
