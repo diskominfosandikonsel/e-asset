@@ -265,6 +265,6 @@ module.exports = {
     getSub: getSub,
     getSubSub: getSubSub,
 
-    getPengguna: getPengguna,
+    // getPengguna: getPengguna,
 
 }
