@@ -55,7 +55,7 @@
                                             </div>
                                         </template>
                                         
-                                        <div class="absolute-top-right q-ma-sm">
+                                        <div class="absolute-top-right">
                                             <q-badge color="positive" class="text-subtitle2 q-pa-sm shadow-2">
                                                 {{ UMUM.formatRupiah(data.harga) }}
                                             </q-badge>
@@ -495,7 +495,7 @@
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium word-wrap"><b>Harga</b></q-item-section>
-                                <q-item-section>Rp. {{ form.harga }}</q-item-section>
+                                <q-item-section>Rp. {{ UMUM.formatRupiah(form.harga) }}</q-item-section>
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium word-wrap"><b>Keterangan</b></q-item-section>
@@ -573,9 +573,9 @@ export default {
                 guna: '',
                 harga: '',
                 keterangan: '',
+                file_old: '',
                 file: null,
             },
-
             list_data: [],
 
             page_first: 1,
@@ -692,6 +692,7 @@ export default {
             this.form.harga = data.harga;
             this.form.keterangan = data.keterangan;
             this.form.file = data.file;
+            this.form.file_old = data.file;
         },
 
         Notify: function (message, positive, icon) {
