@@ -1480,7 +1480,10 @@ router.get("/sub", (req, res) => {
   });
 });
 
-router.get("/subSub", (req, res) => {
+router.post("/getsubSub", (req, res) => {
+
+  var cari = req.body.cari_value;
+  
   let view = `
     SELECT 
     sub_sub.*,
@@ -1511,6 +1514,7 @@ router.get("/subSub", (req, res) => {
     LEFT JOIN e_aset.kode_sub sub
     ON sub.id = sub_sub.subId
 
+    WHERE sub_sub.uraian LIKE '%` + cari + `%'
 
     ORDER BY sub_sub.akunId ASC
 `;

@@ -1,5 +1,6 @@
 const express = require('express');
 var db = require('../../../db/MySql/umum');
+var dbs = require('../../../db/MySql/simpeg');
 const fs = require('fs');
 var upload = require('../../../db/multer/pdf');
 
@@ -26,7 +27,7 @@ router.post('/view', (req, res) => {
     let jml_data = `
         SELECT penggunaan.*,
         a.kodep as kode_a, b.kodep as kode_b, b.merk as merk_b, b.type as type_b,
-        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip
+        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
         jabatan.uraian as jabatan, status.uraian as status
 
         FROM e_aset.penggunaan penggunaan
@@ -68,7 +69,7 @@ router.post('/view', (req, res) => {
     let view = `
         SELECT penggunaan.*,
         a.kodep as kode_a, b.kodep as kode_b, b.merk as merk_b, b.type as type_b,
-        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip
+        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
         jabatan.uraian as jabatan, status.uraian as status
 
         FROM e_aset.penggunaan penggunaan
@@ -136,6 +137,7 @@ router.post('/pengguna', (req, res) => {
 
     let view = `
         SELECT
+        biodata.id,
         biodata.nama,
         biodata.gelar_depan,
         biodata.gelar_belakang,
@@ -148,7 +150,7 @@ router.post('/pengguna', (req, res) => {
         FROM simpeg.biodata biodata
 
         LEFT JOIN simpeg.jns_pegawai status
-        ON status.id = biodata.jns_pegawai_id
+        ON status.id = biodata.jenis_pegawai_id
 
         LEFT JOIN simpeg.jabatan jabatan
         ON jabatan.id = biodata.jabatan
@@ -158,7 +160,7 @@ router.post('/pengguna', (req, res) => {
         ORDER BY biodata.nama ASC
     `
             // ========================
-            db.query(view, (err, result) => {
+            dbs.query(view, (err, result) => {
                 if (err) { res.json(err) }
                 else {
                     res.json({
@@ -199,7 +201,7 @@ router.post('/admin', (req, res) => {
     let jml_data = `
         SELECT penggunaan.*,
         a.kodep as kode_a, b.kodep as kode_b, b.merk as merk_b, b.type as type_b,
-        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip
+        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
         jabatan.uraian as jabatan, status.uraian as status
 
         FROM e_aset.penggunaan penggunaan
@@ -240,7 +242,7 @@ router.post('/admin', (req, res) => {
     let view = `
         SELECT penggunaan.*,
         a.kodep as kode_a, b.kodep as kode_b, b.merk as merk_b, b.type as type_b,
-        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip
+        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
         jabatan.uraian as jabatan, status.uraian as status
 
         FROM e_aset.penggunaan penggunaan

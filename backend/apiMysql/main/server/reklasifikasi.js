@@ -13,17 +13,17 @@ router.post('/view', (req, res) => {
 
 
     let jml_data = `
-        SELECT pengembalian.*,
+        SELECT reklasifikasi.*,
         biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
         jabatan.uraian as jabatan, status.uraian as status
 
-        FROM e_aset.pengembalian pengembalian
+        FROM e_aset.reklasifikasi reklasifikasi
 
         LEFT JOIN e_aset.penggunaan penggunaan
-        ON penggunaan.id = pengembalian.penggunaanId
+        ON penggunaan.id = reklasifikasi.penggunaanId
 
         LEFT JOIN simpeg.biodata biodata
-        ON biodata.id = pengembalian.penggunaId
+        ON biodata.id = reklasifikasi.penggunaId
 
         LEFT JOIN simpeg.jns_pegawai status
         ON status.id = biodata.jns_pegawai_id
@@ -31,23 +31,23 @@ router.post('/view', (req, res) => {
         LEFT JOIN simpeg.jabatan jabatan
         ON jabatan.id = biodata.jabatan
 
-        WHERE pengembalian.penggunaanId = '`+req.body.penggunaanId+`'
+        WHERE reklasifikasi.penggunaanId = '`+req.body.penggunaanId+`'
 
-        ORDER BY pengembalian.createAt DESC
+        ORDER BY reklasifikasi.createAt DESC
     `
 
     let view = `
-        SELECT pengembalian.*,
+        SELECT reklasifikasi.*,
         biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
         jabatan.uraian as jabatan, status.uraian as status
 
-        FROM e_aset.pengembalian pengembalian
+        FROM e_aset.reklasifikasi reklasifikasi
 
         LEFT JOIN e_aset.penggunaan penggunaan
-        ON penggunaan.id = pengembalian.penggunaanId
+        ON penggunaan.id = reklasifikasi.penggunaanId
 
         LEFT JOIN simpeg.biodata biodata
-        ON biodata.id = pengembalian.penggunaId
+        ON biodata.id = reklasifikasi.penggunaId
 
         LEFT JOIN simpeg.jns_pegawai status
         ON status.id = biodata.jns_pegawai_id
@@ -55,9 +55,9 @@ router.post('/view', (req, res) => {
         LEFT JOIN simpeg.jabatan jabatan
         ON jabatan.id = biodata.jabatan
 
-        WHERE pengembalian.penggunaanId = '`+req.body.penggunaanId+`'
+        WHERE reklasifikasi.penggunaanId = '`+req.body.penggunaanId+`'
 
-        ORDER BY pengembalian.createAt DESC
+        ORDER BY reklasifikasi.createAt DESC
 
         LIMIT `+data_star+`,`+data_batas+`
     `
@@ -90,7 +90,7 @@ router.post('/addData', upload.single("file"), (req,res)=>{
     var data = JSON.parse(req.body.data)
     var insert = '';
 
-    insert = `INSERT INTO pengembalian (id, pengunaanId, nomor, tgl, file, penerimaId, transaksi, keterangan, unitId, userId, createAt) 
+    insert = `INSERT INTO reklasifikasi (id, pengunaanId, nomor, tgl, file, penerimaId, transaksi, keterangan, unitId, userId, createAt) 
         VALUES ('`+uniqid()+`' ,'`+data.penggunaanId+`' ,'`+data.nomor+`' ,'`+data.tgl+`' , '`+req.file.filename+`', '`+data.penerimaId+`', '`+data.transaksi+`', '`+data.keterangan+`' ,'`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
         `;
 
@@ -110,7 +110,7 @@ router.post('/editData', upload.single("file"), (req,res)=>{
     var query = '';
     if (!req.file) {
     query = `
-        UPDATE pengembalian SET
+        UPDATE reklasifikasi SET
         penggunaanId = '`+data.penggunaanId+`',
         nomor = '`+data.nomor+`',
         tgl = '`+data.tgl+`',
@@ -124,7 +124,7 @@ router.post('/editData', upload.single("file"), (req,res)=>{
         `;
     } else {
         query = `
-        UPDATE pengembalian SET
+        UPDATE reklasifikasi SET
         penggunaanId = '`+data.penggunaanId+`',
         nomor = '`+data.nomor+`',
         tgl = '`+data.tgl+`',
@@ -153,7 +153,7 @@ router.post('/removeData', (req, res)=> {
     var file = req.body.file
     hapus_file(file);
     var query = `
-        DELETE FROM pengembalian WHERE id = '`+req.body.id+`'; 
+        DELETE FROM reklasifikasi WHERE id = '`+req.body.id+`'; 
     `;
     db.query(query, (err, row)=>{
         if(err){

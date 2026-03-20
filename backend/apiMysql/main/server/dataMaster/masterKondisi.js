@@ -114,4 +114,24 @@ router.post('/removeData', (req, res)=> {
     });
 })
 
+router.post('/list', (req, res) => {
+    
+    let view = `
+        SELECT 
+        kondisi.*
+
+        FROM e_aset.master_kondisi kondisi 
+
+        ORDER BY kondisi.uraian ASC
+    `
+            db.query(view, (err, result)=>{
+                if (err) {res.json(err)}
+                else{
+                    res.json({
+                        data : result
+                    })
+                }
+            })
+});
+
 module.exports = router;
