@@ -141,7 +141,7 @@
                                                 <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true, selectData(data)">
                                                     <q-tooltip>Edit Data</q-tooltip>
                                                 </q-btn>
-                                                <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_edit = true, selectData(data)">
+                                                <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true, selectData(data)">
                                                     <q-tooltip>Hapus Data</q-tooltip>
                                                 </q-btn>
                                             </q-btn-group>

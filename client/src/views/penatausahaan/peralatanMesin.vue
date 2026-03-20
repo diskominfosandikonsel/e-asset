@@ -143,7 +143,7 @@
                                                 <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true, selectData(data)">
                                                     <q-tooltip>Edit Data</q-tooltip>
                                                 </q-btn>
-                                                <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_edit = true, selectData(data)">
+                                                <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true, selectData(data)">
                                                     <q-tooltip>Hapus Data</q-tooltip>
                                                 </q-btn>
                                             </q-btn-group>
@@ -495,7 +495,7 @@
          <q-dialog v-model="mdl_remove" persistent>
             <q-card class="mdl-sm ">
                 <q-card-section class="q-pt-none text-center orageGrad">
-                    <form @submit.prevent="removeData(form.id, file_old)">
+                    <form @submit.prevent="removeData(form.id, form.file)">
                         <br>
                         <img src="img/alert.png" alt="" width="75"> <br>
                         <span class="h_notifikasi">APAKAH ANDA YAKIN INGIN MENGHAPUS DATA INI??</span>
@@ -526,7 +526,7 @@
 
                     <!-- Lampiran File -->
                     <div>
-                        <q-img :src="file_path+file_old" spinner-color="primary" style="max-height: 400px;
+                        <q-img :src="file_path+form.file" spinner-color="primary" style="max-height: 400px;
                             border: 1px solid #ddd;
                             border-radius: 6px;" />
                     </div>
