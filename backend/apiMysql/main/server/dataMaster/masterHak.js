@@ -114,4 +114,24 @@ router.post('/removeData', (req, res)=> {
     });
 })
 
+router.post('/list', (req, res) => {
+    
+    let view = `
+        SELECT 
+        hak.*
+
+        FROM e_aset.master_hak hak 
+
+        ORDER BY hak.uraian ASC
+    `
+            db.query(view, (err, result)=>{
+                if (err) {res.json(err)}
+                else{
+                    res.json({
+                        data : result
+                    })
+                }
+            })
+});
+
 module.exports = router;

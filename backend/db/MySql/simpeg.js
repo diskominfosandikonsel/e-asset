@@ -7,14 +7,12 @@ var db  = mysql.createPool({
     database : 'simpeg'
 });
 
-db.getConnection(function(err, connection) {
-    if (err) {
+db.getConnection((err)=>{
+    if(err){
         console.log(err);
-        throw err;
-    } else {
-        console.log('terkoneksi DATABASE SIMPEG');
+    }else{
+        console.log('Terkoneksi DATABASE SIMPEG');
     }
-
-});
+})
 
 module.exports = db;
