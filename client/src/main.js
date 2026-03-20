@@ -81,6 +81,9 @@ Vue.component('kompKoreksi', kompKoreksi);
 import kompUbahKondisi from './components/komponen/ubahKondisi.vue'
 Vue.component('kompUbahKondisi', kompUbahKondisi);
 
+import kompPengembalian from './components/komponen/pengembalian.vue'
+Vue.component('kompPengembalian', kompPengembalian);
+
 
 
 const options = {

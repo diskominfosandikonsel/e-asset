@@ -90,65 +90,38 @@ const postMasterMenuGetSideBar = async (id) => {
     })
 }
 
-// const getSubKegiatan = (val) => {
-//     fetch(store.state.url.URL_ASET + "subSubList", {
-//         method: "POST",
-//         headers: {
-//             "content-type": "application/json",
-//             authorization: "kikensbatara " + localStorage.token
-//         },
-//         body: JSON.stringify({
-//             val: val,
-//         })
-//     })
-//     .then(res => res.json())
-//     .then(res_data => {
-//         store.state.list_sub_sub = res_data.map(item => ({
-//             kode: item.kode,
-//             uraian: item.kode + " - " + item.uraian
-//         }))
-//     });
-// }
-
-const getSubKegiatan = (keyword = '') => {
-    let url = store.state.url.URL_DM_KODE_AKUN + "subSub";
-
-    // kalau ada input filter
-    if (keyword) {
-        url += "?q=" + encodeURIComponent(keyword);
-    }
-
-    fetch(url, {
-        method: "GET",
+const getSubKegiatan = (val) => {
+    fetch(store.state.url.URL_DM_KODE_AKUN + "getsubSub", {
+        method: "POST",
         headers: {
             "content-type": "application/json",
             authorization: "kikensbatara " + localStorage.token
-        }
+        },
+        body: JSON.stringify({
+            cari_value: val,
+        })
     })
     .then(res => res.json())
     .then(res_data => {
-        // console.log("SUBSUB:", res_data.data);
-
+        // console.log(res_data);
         store.state.list_sub_sub = res_data.data.map(item => {
-            const kodeGabung = [
+            const kode_lengkap = [
                 item.akunId,
-                item.jenisId,
                 item.kelompokId,
+                item.jenisId,
                 item.objekId,
                 item.rincianId,
                 item.subId,
                 item.kode
-            ]
-            .filter(Boolean) // buang null / undefined
-            .join(".");
+            ].join(".");
 
             return {
-                kode: kodeGabung,
-                uraian: kodeGabung + " - " + item.uraian
+                kode: kode_lengkap,
+                uraian: kode_lengkap + " - " + item.uraian
             };
         });
     });
-};
+}
 
 const getPengguna = (val) => {
     fetch(store.state.url.URL_PENGGUNA + "pengguna", {

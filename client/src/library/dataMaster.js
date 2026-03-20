@@ -78,7 +78,7 @@ const getHak = () => {
 
         })
     }).then((res) => res.json()).then((res_data) => {
-        store.state.list_hak = res_data
+        store.state.list_hak = res_data.data
         // console.log(res_data)
     })
 }
@@ -94,7 +94,7 @@ const getAsal = () => {
 
         })
     }).then((res) => res.json()).then((res_data) => {
-        store.state.list_asal = res_data
+        store.state.list_asal = res_data.data
         // console.log(res_data)
     })
 }
@@ -110,7 +110,7 @@ const getKondisi = () => {
 
         })
     }).then((res) => res.json()).then((res_data) => {
-        store.state.list_kondisi = res_data
+        store.state.list_kondisi = res_data.data
         // console.log(res_data)
     })
 }

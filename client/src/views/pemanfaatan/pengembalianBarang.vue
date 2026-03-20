@@ -42,35 +42,32 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="h_table_body" v-for="(data, index) in dataDummy" :key="data.id">
+                            <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                                 <td class="text-center">{{ index + 1 }}.</td>
-                                <td>{{ data.kd_aset }}</td>
+                                <td>{{ data.asetId }}</td>
                                 <td>{{ data.nm_aset }}</td>
-                                <td>{{ data.nm_pemakai }}</td>
+                                <td>{{ data.g_depan }} {{ data.nama }}, {{ data.g_belakang }}</td>
                                 <td>{{ data.jabatan }}</td>
-                                <td>{{ data.no_bast }}</td>
-                                <td>{{ data.tgl }}</td>
+                                <td>{{ data.nomor }}</td>
+                                <td>{{ UMUM.tglConvert(data.tgl) }}</td>
                                 <td class="text-center">
                                     <q-badge 
-                                        v-if="!data.status_pengembalian" 
+                                        v-if="!data.status" 
                                         color="orange"
                                         label="Belum Dikembalikan"
-                                        @click="mdl_status = true, selectData(data)"
                                     />
                                     <q-badge 
                                         v-else 
                                         color="green"
                                         label="Sudah Dikembalikan"
-                                        @click="mdl_status = true, selectData(data)"
                                     />
                                 </td>
                                 <td class="text-center">
                                     <q-btn-group flat>
-                                        <q-btn glossy color="blue" icon="search" size="sm"
-                                            @click="mdl_lihat = true, selectData(data)">
+                                        <q-btn glossy color="blue" icon="search" size="sm" @click="mdl_lihat = true, selectData(data)">
                                             <q-tooltip>Lihat Data</q-tooltip>
                                         </q-btn>
-                                        <q-btn glossy color="red-4" icon="double_arrow" size="sm" @click="mdl_pengembalian = true">
+                                        <q-btn glossy color="red-4" icon="double_arrow" size="sm" @click="selectData(data), openModal('PENGEMBALIAN')">
                                             <q-tooltip>Dokumen Pengembalian</q-tooltip>
                                         </q-btn>
                                     </q-btn-group>
@@ -373,7 +370,7 @@
 
                     <q-item>
                         <q-item-section class="col-4"><b>Kode Aset</b></q-item-section>
-                        <q-item-section>{{ form.kd_aset }}</q-item-section>
+                        <q-item-section>{{ form.asetId }}</q-item-section>
                     </q-item>
 
                     <q-item>
@@ -393,7 +390,7 @@
 
                     <q-item>
                         <q-item-section class="col-4"><b>Nama Pemakai</b></q-item-section>
-                        <q-item-section>{{ form.nm_pemakai }}</q-item-section>
+                        <q-item-section>{{ form.g_depan }} {{ form.nama }}, {{ form.g_belakang }}</q-item-section>
                     </q-item>
 
                     <q-item>
@@ -418,7 +415,7 @@
 
                     <q-item>
                         <q-item-section class="col-4"><b>Tanggal</b></q-item-section>
-                        <q-item-section>{{ form.tgl }}</q-item-section>
+                        <q-item-section>{{ UMUM.tglConvert(form.tgl) }}</q-item-section>
                     </q-item>
 
                     <q-item>
@@ -470,7 +467,7 @@
 
                     <q-item>
                         <q-item-section class="col-4"><b>Nama Pemakai</b></q-item-section>
-                        <q-item-section>{{ form.nm_pemakai }}</q-item-section>
+                        <q-item-section>{{ form.g_depan }} {{ form.nama }}, {{ form.g_belakang }}</q-item-section>
                     </q-item>
 
                     </q-list>
@@ -541,6 +538,14 @@
 
             </q-card>
         </q-dialog>
+
+        <q-dialog v-model="modal_komponen" persistent>
+            <q-card :class="cardClass">
+                <div v-if="modal_komponen_jenis == 'PENGEMBALIAN'">
+                    <kompPengembalian :penggunaanId = "form.id" />
+                </div>
+            </q-card>
+        </q-dialog>
         <!-- =================================================== MODAL =========================================================== -->
 
 
@@ -557,13 +562,9 @@ import UMUM from '../../library/umum'
 export default {
     computed: {
         cardClass() {
-            if (this.modal_komponen_jenis === 'RINCIAN') {
+            if (this.modal_komponen_jenis === 'PENGEMBALIAN') {
                 return 'mdl-lg';
-            } else if (this.modal_komponen_jenis === 'BAST') {
-                return 'mdl-lg';
-            } else if (this.modal_komponen_jenis === 'SP2D') {
-                return 'mdl-lg';
-            }
+            } 
             return 'mdl-default'; // Default class
         }
     },
@@ -730,7 +731,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_MasterKategori + "view", {
+            fetch(this.$store.state.url.URL_PENGGUNA + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -746,7 +747,7 @@ export default {
                     this.list_data = res_data.data;
                     this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    // console.log(res_data);
+                    console.log(res_data);
                 });
         },
 
@@ -797,9 +798,11 @@ export default {
 
         selectData: function (data) {
             this.form.id = data.id;
-            this.form.kd_aset = data.kd_aset;
+            this.form.asetId = data.asetId;
             this.form.nm_aset = data.nm_aset;
-            this.form.nm_pemakai = data.nm_pemakai;
+            this.form.nama = data.nama;
+            this.form.g_depan = data.g_depan;
+            this.form.g_belakang = data.g_belakang;
             this.form.jabatan = data.jabatan;
             this.form.no_bast = data.no_bast;
             this.form.tgl = data.tgl;
@@ -810,16 +813,6 @@ export default {
             this.modal_komponen = true;
             this.modal_komponen_jenis = data
         },
-
-
-        // ====================================== CONTOH AUTOCOMPLETE ====================================
-
-
-
-
-
-
-
 
         // ====================================== PAGINATE ====================================
         Notify: function (message, positive, icon) {
@@ -862,6 +855,7 @@ export default {
     },
 
     mounted() {
+        this.getView();
         FETCHING.getContohAtocomplete('')
     },
 }

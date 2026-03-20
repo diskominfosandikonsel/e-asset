@@ -512,12 +512,12 @@ export default {
     },
     watch: {
         'form.penggunaId'(id) {
-            // console.log("ID berubah:", id)
+            console.log("ID berubah:", id)
             if (!id) return
             const pengguna = this.$store.state.list_pengguna.find(
                 p => String(p.id) === String(id)
             )
-            // console.log("Data pengguna:", pengguna)
+            console.log("Data pengguna:", pengguna)
             if (!pengguna) return
             this.form.nip = pengguna.nip
             this.form.nik = pengguna.NIK
@@ -531,15 +531,19 @@ export default {
             if (val == 1) {
                 this.getKibA()
             }
+
+            if (val == 2) {
+                this.getKibB()
+            }
         },
         'form.asetId'(val) {
             const selected = this.list_aset.find(item => item.id === val)
 
             if (selected) {
-                this.form.asetId = selected.kode_aset
+                this.form.subSubId = selected.kode_aset
             }
 
-            console.log("KODE ASET:", this.form.asetId)
+            // console.log("KODE ASET:", this.form.subSubId)
         },
     },
     methods: {
@@ -561,7 +565,7 @@ export default {
                     this.list_data = res_data.data;
                     this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    console.log(res_data);
+                    // console.log(res_data);
                 });
         },
 
@@ -666,28 +670,29 @@ export default {
             })
         },
 
-        getAset(kode) {
-            fetch(this.$store.state.url.URL_PENGGUNA + `aset?kode=${kode}`, {
-                method: "GET",
+        getKibB() {
+            fetch(this.$store.state.url.URL_PERALATAN + "kib_b", {
+                method: "POST",
                 headers: {
-                    "Content-Type": "application/json",
+                    "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
-                }
+                },
+                body: JSON.stringify({})
             })
                 .then(res => res.json())
                 .then(res => {
-                    console.log("RESPONSE:", res)
-                    const data = res.data || res
-                    this.list_aset = data.map(item => ({
-                        id: item.kode_aset,
-                        uraian: item.kode_aset + " - " + item.uraian,
+                    console.log("DATA KIB B:", res)
+
+                    // mapping ke dropdown
+                    this.list_aset = res.data.map(item => ({
+                        id: item.subSubId,
+                        uraian: item.keterangan,
                     }))
                 })
-                .catch(err => {
-                    console.error("ERROR:", err)
-                    this.list_aset = []
-                })
-            },
+            .catch(err => {
+                console.log("ERROR:", err)
+            })
+        },
 
         // ====================================== PAGINATE ====================================
         Notify: function (message, positive, icon) {
