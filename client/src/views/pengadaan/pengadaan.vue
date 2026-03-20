@@ -98,7 +98,7 @@
                     <div class="lister1" v-for="data in list_data" :key="data.id">
                         <div class="lister_left">
                             <a class="clear_underline h_judulDoc" href="javascript:void(0);" @click="selectData(data), mdl_detil = true">{{ data.keterangan }}</a>
-                            <div class="h_sidebar_menu">Rp. {{ data.nilai }}</div>
+                            <div class="h_sidebar_menu">Rp. {{ UMUM.formatRupiah(data.nilai) }}</div>
                             <div class="h_nip">
                                 <span v-if="data.jenis == 0">Aset Baru</span>
                                 <span v-else-if="data.jenis == 1">Kapitalisasi</span>
