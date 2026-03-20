@@ -21,7 +21,7 @@
                     <tbody>
                         <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ index + 1 }}.</td>
-                            <td class="text-center">{{ data.akunId }}.{{ data.kelompokId }}.{{ data.jenisId }}.{{ data.objekId }}.{{ data.rincianId }}.{{ data.subId }}.{{ data.subSubId }}</td>
+                            <td class="text-center">{{ data.subSubId }}</td>
                             <td>{{ data.uraian }}</td>
                             <td>{{ data.keterangan }}</td>
                             <td class="text-center">
@@ -62,7 +62,7 @@
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
                             <q-select
-                                v-model="form.kodeAset"
+                                v-model="form.subSubId"
                                 use-input hide-selected fill-input
                                 input-debounce="300"
                                 :options="$store.state.list_sub_sub"
@@ -147,7 +147,7 @@
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
                             <q-select
-                                v-model="form.kodeAset"
+                                v-model="form.subSubId"
                                 use-input hide-selected fill-input
                                 input-debounce="300"
                                 :options="$store.state.list_sub_sub"
@@ -254,7 +254,7 @@
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Kode Aset</b></q-item-section>
                                 <q-item-section>
-                                    {{ form.akunId }}.{{ form.kelompokId }}.{{ form.jenisId }}.{{ form.objekId }}.{{ form.rincianId }}.{{ form.subId }}.{{ form.subSubId }}
+                                    {{ form.subSubId }}
                                 </q-item-section>
                             </q-item>
                             <q-item>
@@ -287,7 +287,7 @@
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Harga</b></q-item-section>
-                                <q-item-section>{{ form.harga }}</q-item-section>
+                                <q-item-section>Rp. {{ UMUM.formatRupiah(form.harga) }}</q-item-section>
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium"><b>Keterangan</b></q-item-section>
@@ -338,6 +338,7 @@
 
 import FETCHING from '../../library/fetching'
 import DATA_MASTER from '../../library/dataMaster'
+import UMUM from '../../library/umum'
 
 export default {
     props: ["pengadaanId"],
@@ -347,7 +348,7 @@ export default {
             form: {
                 id: '',
                 pengadaanId: this.pengadaanId,
-                kodeAset: '',
+                subSubId: '',
                 no: '',
                 merk: '',
                 type: '',
@@ -379,6 +380,7 @@ export default {
 
             FETCHING: FETCHING,
             DATA_MASTER: DATA_MASTER,
+            UMUM: UMUM,
         }
     },
     methods: {
