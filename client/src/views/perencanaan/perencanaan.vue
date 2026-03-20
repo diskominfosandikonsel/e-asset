@@ -51,7 +51,7 @@
                                         <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true, selectData(data)">
                                             <q-tooltip>Edit Data</q-tooltip>
                                         </q-btn>
-                                        <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true">
+                                        <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true, selectData(data)">
                                             <q-tooltip>Hapus Data</q-tooltip>
                                         </q-btn>
                                     </q-btn-group>
@@ -148,7 +148,7 @@
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
                             <q-select
-                                v-model="form.kodeAset"
+                                v-model="form.subSubId"
                                 use-input hide-selected fill-input
                                 input-debounce="300"
                                 :options="$store.state.list_sub_sub"
@@ -228,7 +228,7 @@
                     <div class="row q-col-gutter-sm">
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Nomor (auto increment)</span>
-                            <q-input v-model="form.no" value="1" outlined square dense disable class="bg-white" />
+                            <q-input v-model="form.id" value="1" outlined square dense disable class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
@@ -308,7 +308,7 @@
         <q-dialog v-model="mdl_remove" persistent>
             <q-card class="mdl-sm ">
                 <q-card-section class="q-pt-none text-center orageGrad">
-                    <form @submit.prevent="removeData">
+                    <form @submit.prevent="removeData(form.id, form.file)">
                         <br>
                         <img src="img/alert.png" alt="" width="75"> <br>
                         <span class="h_notifikasi">APAKAH ANDA YAKIN INGIN MENGHAPUS DATA INI??</span>
@@ -333,6 +333,13 @@
 
                 <!-- Body -->
                 <q-card-section class="q-gutter-md">
+                    <div>
+                        <q-img :src="file_path+form.file" spinner-color="primary" style="max-height: 500px;
+                            border: 1px solid #ddd;
+                            border-radius: 6px;"
+                        />
+                    </div>
+
                     <div>
                         <div class="text-subtitle1 text-bold q-mb-sm">Informasi Aset</div>
                         <q-list dense bordered separator class="rounded-borders">
@@ -465,6 +472,8 @@ export default {
 
             FETCHING: FETCHING,
             UMUM: UMUM,
+
+            file_path: this.$store.state.url.URL_APP + "uploads/",
         }
     },
     methods: {
@@ -488,7 +497,7 @@ export default {
                     this.list_data = res_data.data;
                     this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    // console.log(res_data);
+                    console.log(res_data);
                 });
         },
 
@@ -559,6 +568,7 @@ export default {
             this.form.total = data.total;
             this.form.rekening = data.rekening;
             this.form.keterangan = data.keterangan;
+            this.form.file = data.file;
         },
 
         autocomplete_getSubKegiatan : function (val, update) {
