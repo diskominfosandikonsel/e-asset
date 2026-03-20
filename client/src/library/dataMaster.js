@@ -227,21 +227,21 @@ const getSubSub = (subId) => {
     })
 }
 
-// const getPengguna = () => {
-//     fetch(store.state.url.URL_PENGGUNA + "pengguna", {
-//         method: 'POST',
-//         headers: {
-//             "content-type": "application/json",
-//             authorization: "kikensbatara " + localStorage.token
-//         },
-//         body: JSON.stringify({
+const getPengguna = () => {
+    fetch(store.state.url.URL_PENGGUNA + "pengguna", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
 
-//         })
-//     }).then((res) => res.json()).then((res_data) => {
-//         store.state.list_pengguna = res_data.data
-//         // console.log(res_data)
-//     })
-// }
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_pengguna = res_data.data
+        // console.log(res_data)
+    })
+}
 
 
 
@@ -265,6 +265,6 @@ module.exports = {
     getSub: getSub,
     getSubSub: getSubSub,
 
-    // getPengguna: getPengguna,
+    getPengguna: getPengguna,
 
 }

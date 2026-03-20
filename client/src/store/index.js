@@ -49,6 +49,8 @@ export default new Vuex.Store({
       URL_GEDUNG: URL+'api/v1/kib_c/',
       URL_JALAN_IRIGASI: URL+'api/v1/kib_d/',
       URL_ASET_TETAP_LAINNYA: URL+'api/v1/kib_e/',
+
+      URL_PENGGUNA: URL+'api/v1/penggunaan/',
     },
 
     // ====================================== CONTOH AUTOCOMPLETE ====================================
