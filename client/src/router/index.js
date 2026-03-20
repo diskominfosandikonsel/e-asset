@@ -141,6 +141,13 @@ function isLoggedIn(to, from, next) {
     beforeEnter: isLoggedIn,
   },
 
+  {
+    path: '/dm_reklasifikasi',
+    name: 'dm_reklasifikasi',
+    component: () => import('../views/dataMaster/dm_reklasifikasi.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
 
   {
     path: '/pengadaan',
