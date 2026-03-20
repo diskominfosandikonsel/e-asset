@@ -148,6 +148,13 @@ function isLoggedIn(to, from, next) {
     beforeEnter: isLoggedIn,
   },
 
+  {
+    path: '/dm_penghapusan',
+    name: 'dm_penghapusan',
+    component: () => import('../views/dataMaster/dm_penghapusan.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
 
   {
     path: '/pengadaan',
