@@ -13,49 +13,17 @@ router.post('/view', (req, res) => {
 
 
     let jml_data = `
-        SELECT penghapusan.*,
-        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
-        jabatan.uraian as jabatan, status.uraian as status
+        SELECT penghapusan.*
 
         FROM e_aset.penghapusan penghapusan
-
-        LEFT JOIN e_aset.penggunaan penggunaan
-        ON penggunaan.id = penghapusan.penggunaanId
-
-        LEFT JOIN simpeg.biodata biodata
-        ON biodata.id = penghapusan.penggunaId
-
-        LEFT JOIN simpeg.jns_pegawai status
-        ON status.id = biodata.jns_pegawai_id
-
-        LEFT JOIN simpeg.jabatan jabatan
-        ON jabatan.id = biodata.jabatan
-
-        WHERE penghapusan.penggunaanId = '`+req.body.penggunaanId+`'
 
         ORDER BY penghapusan.createAt DESC
     `
 
     let view = `
-        SELECT penghapusan.*,
-        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
-        jabatan.uraian as jabatan, status.uraian as status
+        SELECT penghapusan.*
 
         FROM e_aset.penghapusan penghapusan
-
-        LEFT JOIN e_aset.penggunaan penggunaan
-        ON penggunaan.id = penghapusan.penggunaanId
-
-        LEFT JOIN simpeg.biodata biodata
-        ON biodata.id = penghapusan.penggunaId
-
-        LEFT JOIN simpeg.jns_pegawai status
-        ON status.id = biodata.jns_pegawai_id
-
-        LEFT JOIN simpeg.jabatan jabatan
-        ON jabatan.id = biodata.jabatan
-
-        WHERE penghapusan.penggunaanId = '`+req.body.penggunaanId+`'
 
         ORDER BY penghapusan.createAt DESC
 
@@ -90,8 +58,8 @@ router.post('/addData', upload.single("file"), (req,res)=>{
     var data = JSON.parse(req.body.data)
     var insert = '';
 
-    insert = `INSERT INTO penghapusan (id, pengunaanId, nomor, tgl, file, penerimaId, transaksi, keterangan, unitId, userId, createAt) 
-        VALUES ('`+uniqid()+`' ,'`+data.penggunaanId+`' ,'`+data.nomor+`' ,'`+data.tgl+`' , '`+req.file.filename+`', '`+data.penerimaId+`', '`+data.transaksi+`', '`+data.keterangan+`' ,'`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
+    insert = `INSERT INTO penghapusan (id, nama, nomor, tgl, keterangan, file, alasan, informasi, kode, asetId, unitId, userId, createAt) 
+        VALUES ('`+uniqid()+`' ,'`+data.nama+`' ,'`+data.nomor+`' ,'`+data.tgl+`' , '`+data.keterangan+`', '`+req.file.filename+`', '`+data.alasan+`', '`+data.informasi+`', '`+data.kode+`', '`+data.asetId+`','`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
         `;
 
     db.query(insert, (err, row)=>{
@@ -111,12 +79,14 @@ router.post('/editData', upload.single("file"), (req,res)=>{
     if (!req.file) {
     query = `
         UPDATE penghapusan SET
-        penggunaanId = '`+data.penggunaanId+`',
+        nama = '`+data.nama+`',
         nomor = '`+data.nomor+`',
         tgl = '`+data.tgl+`',
-        penerimaId = '`+data.penerimaId+`',
-        transaksi = '`+data.transaksi+`',
         keterangan = '`+data.keterangan+`',
+        alasan = '`+data.alasan+`',
+        informasi = '`+data.informasi+`',
+        kode = '`+data.kode+`',
+        asetId = '`+data.asetId+`',
         unitId = '`+req.user.profile.unit_kerja+`',
         userId = '`+req.user._id+`',
         editedAt = NOW()
@@ -125,13 +95,15 @@ router.post('/editData', upload.single("file"), (req,res)=>{
     } else {
         query = `
         UPDATE penghapusan SET
-        penggunaanId = '`+data.penggunaanId+`',
+        nama = '`+data.nama+`',
         nomor = '`+data.nomor+`',
         tgl = '`+data.tgl+`',
-        file = '`+req.file.filename+`',
-        penerimaId = '`+data.penerimaId+`',
-        transaksi = '`+data.transaksi+`',
         keterangan = '`+data.keterangan+`',
+        file = '`+req.file.filename+`',
+        alasan = '`+data.alasan+`',
+        informasi = '`+data.informasi+`',
+        kode = '`+data.kode+`',
+        asetId = '`+data.asetId+`',
         unitId = '`+req.user.profile.unit_kerja+`',
         userId = '`+req.user._id+`',
         editedAt = NOW()

@@ -13,49 +13,17 @@ router.post('/view', (req, res) => {
 
 
     let jml_data = `
-        SELECT reklasifikasi.*,
-        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
-        jabatan.uraian as jabatan, status.uraian as status
+        SELECT reklasifikasi.*
 
         FROM e_aset.reklasifikasi reklasifikasi
-
-        LEFT JOIN e_aset.penggunaan penggunaan
-        ON penggunaan.id = reklasifikasi.penggunaanId
-
-        LEFT JOIN simpeg.biodata biodata
-        ON biodata.id = reklasifikasi.penggunaId
-
-        LEFT JOIN simpeg.jns_pegawai status
-        ON status.id = biodata.jns_pegawai_id
-
-        LEFT JOIN simpeg.jabatan jabatan
-        ON jabatan.id = biodata.jabatan
-
-        WHERE reklasifikasi.penggunaanId = '`+req.body.penggunaanId+`'
 
         ORDER BY reklasifikasi.createAt DESC
     `
 
     let view = `
-        SELECT reklasifikasi.*,
-        biodata.nama as nama, biodata.gelar_depan as g_depan, biodata.gelar_belakang as g_belakang, biodata.alamat as alamat, biodata.NIK as nik, biodata.nip as nip,
-        jabatan.uraian as jabatan, status.uraian as status
+        SELECT reklasifikasi.*
 
         FROM e_aset.reklasifikasi reklasifikasi
-
-        LEFT JOIN e_aset.penggunaan penggunaan
-        ON penggunaan.id = reklasifikasi.penggunaanId
-
-        LEFT JOIN simpeg.biodata biodata
-        ON biodata.id = reklasifikasi.penggunaId
-
-        LEFT JOIN simpeg.jns_pegawai status
-        ON status.id = biodata.jns_pegawai_id
-
-        LEFT JOIN simpeg.jabatan jabatan
-        ON jabatan.id = biodata.jabatan
-
-        WHERE reklasifikasi.penggunaanId = '`+req.body.penggunaanId+`'
 
         ORDER BY reklasifikasi.createAt DESC
 
@@ -90,8 +58,8 @@ router.post('/addData', upload.single("file"), (req,res)=>{
     var data = JSON.parse(req.body.data)
     var insert = '';
 
-    insert = `INSERT INTO reklasifikasi (id, pengunaanId, nomor, tgl, file, penerimaId, transaksi, keterangan, unitId, userId, createAt) 
-        VALUES ('`+uniqid()+`' ,'`+data.penggunaanId+`' ,'`+data.nomor+`' ,'`+data.tgl+`' , '`+req.file.filename+`', '`+data.penerimaId+`', '`+data.transaksi+`', '`+data.keterangan+`' ,'`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
+    insert = `INSERT INTO reklasifikasi (id, nama, nomor, tgl, keterangan, jenis, alasan, kode, spesifikasi, asetId, tahunId, unitId, userId, createAt) 
+        VALUES ('`+uniqid()+`' ,'`+data.nama+`' ,'`+data.nomor+`' ,'`+data.tgl+`' , '`+data.keterangan+`', '`+data.jenis+`', '`+data.alasan+`', '`+data.kode+`', '`+data.spesifikasi+`', '`+data.asetId+`', '`+data.tahunId+`','`+req.user.profile.unit_kerja+`' ,'`+req.user._id+`' , NOW() )
         `;
 
     db.query(insert, (err, row)=>{
@@ -111,12 +79,16 @@ router.post('/editData', upload.single("file"), (req,res)=>{
     if (!req.file) {
     query = `
         UPDATE reklasifikasi SET
-        penggunaanId = '`+data.penggunaanId+`',
+        nama = '`+data.nama+`',
         nomor = '`+data.nomor+`',
         tgl = '`+data.tgl+`',
-        penerimaId = '`+data.penerimaId+`',
-        transaksi = '`+data.transaksi+`',
         keterangan = '`+data.keterangan+`',
+        jenis = '`+data.jenis+`',
+        alasan = '`+data.alasan+`',
+        kode = '`+data.kode+`',
+        spesifikasi = '`+data.spesifikasi+`',
+        asetId = '`+data.asetId+`',
+        tahunId = '`+data.tahunId+`',
         unitId = '`+req.user.profile.unit_kerja+`',
         userId = '`+req.user._id+`',
         editedAt = NOW()
@@ -125,13 +97,16 @@ router.post('/editData', upload.single("file"), (req,res)=>{
     } else {
         query = `
         UPDATE reklasifikasi SET
-        penggunaanId = '`+data.penggunaanId+`',
+        nama = '`+data.nama+`',
         nomor = '`+data.nomor+`',
         tgl = '`+data.tgl+`',
-        file = '`+req.file.filename+`',
-        penerimaId = '`+data.penerimaId+`',
-        transaksi = '`+data.transaksi+`',
-        keterangan = '`+data.keterangan+`',
+        keterangan  = '`+data.keterangan+`',
+        jenis = '`+data.jenis+`',
+        alasan = '`+data.alasan+`',
+        kode = '`+data.kode+`',
+        spesifikasi = '`+data.spesifikasi+`',
+        asetId = '`+data.asetId+`',
+        tahunId = '`+data.tahunId+`',
         unitId = '`+req.user.profile.unit_kerja+`',
         userId = '`+req.user._id+`',
         editedAt = NOW()
