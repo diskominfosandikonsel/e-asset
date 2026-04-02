@@ -50,6 +50,15 @@ app.use('/api/v1/master_hak', middleware.isLoggedIn, middleware.sideMenuMidlewar
 const master_kondisi = require('./apiMysql/main/server/dataMaster/masterKondisi');
 app.use('/api/v1/master_kondisi', middleware.isLoggedIn, middleware.sideMenuMidleware, master_kondisi);
 
+const master_alasan = require('./apiMysql/main/server/dataMaster/masterAlasan');
+app.use('/api/v1/master_alasan', middleware.isLoggedIn, middleware.sideMenuMidleware, master_alasan);
+
+const master_penyebab = require('./apiMysql/main/server/dataMaster/masterPenyebab');
+app.use('/api/v1/master_penyebab', middleware.isLoggedIn, middleware.sideMenuMidleware, master_penyebab);
+
+const master_reklasifikasi = require('./apiMysql/main/server/dataMaster/masterReklasifikasi');
+app.use('/api/v1/master_reklasifikasi', middleware.isLoggedIn, middleware.sideMenuMidleware, master_reklasifikasi);
+
 const pengadaan = require('./apiMysql/main/server/pengadaan');
 app.use('/api/v1/pengadaan', middleware.isLoggedIn, middleware.sideMenuMidleware, pengadaan);
 
@@ -70,6 +79,12 @@ app.use('/api/v1/penggunaan', middleware.isLoggedIn, middleware.sideMenuMidlewar
 
 const pengembalian = require('./apiMysql/main/server/pengembalian');
 app.use('/api/v1/pengembalian', middleware.isLoggedIn, middleware.sideMenuMidleware, pengembalian);
+
+const reklasifikasi = require('./apiMysql/main/server/reklasifikasi');
+app.use('/api/v1/reklasifikasi', middleware.isLoggedIn, middleware.sideMenuMidleware, reklasifikasi);
+
+const penghapusan = require('./apiMysql/main/server/penghapusan');
+app.use('/api/v1/penghapusan', middleware.isLoggedIn, middleware.sideMenuMidleware, penghapusan);
 
 const kib_a = require('./apiMysql/main/server/kib_a');
 app.use('/api/v1/kib_a', middleware.isLoggedIn, middleware.sideMenuMidleware, kib_a);
