@@ -72,71 +72,71 @@ function isLoggedIn(to, from, next) {
   },
 
   {
-    path: '/akun',
-    name: 'akun',
+    path: '/dm_akun',
+    name: 'dm_akun',
     component: () => import('../views/dataMaster/kodeAset/akun.vue'),
     beforeEnter: isLoggedIn,
   },
 
   {
-    path: '/kelompok',
-    name: 'kelompok',
+    path: '/dm_kelompok',
+    name: 'dm_kelompok',
     component: () => import('../views/dataMaster/kodeAset/kelompok.vue'),
     beforeEnter: isLoggedIn,
   },
 
   {
-    path: '/jenis',
-    name: 'jenis',
+    path: '/dm_jenis',
+    name: 'dm_jenis',
     component: () => import('../views/dataMaster/kodeAset/jenis.vue'),
     beforeEnter: isLoggedIn,
   },
 
   {
-    path: '/objek',
-    name: 'objek',
+    path: '/dm_objek',
+    name: 'dm_objek',
     component: () => import('../views/dataMaster/kodeAset/objek.vue'),
     beforeEnter: isLoggedIn,
   },
 
   {
-    path: '/rincianObjek',
-    name: 'rincianObjek',
+    path: '/dm_rincianObjek',
+    name: 'dm_rincianObjek',
     component: () => import('../views/dataMaster/kodeAset/rincianObjek.vue'),
     beforeEnter: isLoggedIn,
   },
 
   {
-    path: '/subRincian',
-    name: 'subRincian',
+    path: '/dm_subRincian',
+    name: 'dm_subRincian',
     component: () => import('../views/dataMaster/kodeAset/subRincian.vue'),
     beforeEnter: isLoggedIn,
   },
 
   {
-    path: '/subRincianObjek',
-    name: 'subRincianObjek',
+    path: '/dm_subRincianObjek',
+    name: 'dm_subRincianObjek',
     component: () => import('../views/dataMaster/kodeAset/subRincianObjek.vue'),
     beforeEnter: isLoggedIn,
   },
 
   {
-    path: '/asalUsul',
-    name: 'asalUsul',
+    path: '/dm_asalUsul',
+    name: 'dm_asalUsul',
     component: () => import('../views/dataMaster/asalUsul.vue'),
     beforeEnter: isLoggedIn,
   },
 
   {
-    path: '/hakTanah',
-    name: 'hakTanah',
+    path: '/dm_hakTanah',
+    name: 'dm_hakTanah',
     component: () => import('../views/dataMaster/hakTanah.vue'),
     beforeEnter: isLoggedIn,
   },
 
   {
-    path: '/kondisiAset',
-    name: 'kondisiAset',
+    path: '/dm_kondisiAset',
+    name: 'dm_kondisiAset',
     component: () => import('../views/dataMaster/kondisiAset.vue'),
     beforeEnter: isLoggedIn,
   },
@@ -152,6 +152,13 @@ function isLoggedIn(to, from, next) {
     path: '/dm_penghapusan',
     name: 'dm_penghapusan',
     component: () => import('../views/dataMaster/dm_penghapusan.vue'),
+    beforeEnter: isLoggedIn,
+  },
+
+  {
+    path: '/dm_penyebab',
+    name: 'dm_penyebab',
+    component: () => import('../views/dataMaster/dm_penyebab.vue'),
     beforeEnter: isLoggedIn,
   },
 

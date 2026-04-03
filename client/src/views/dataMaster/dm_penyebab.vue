@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="text-h6 h_titleHead">Data Master</div>
-                        <div class="text-subtitle2">Reklasifikasi</div>
+                        <div class="text-subtitle2">Penyebab Penghapusan</div>
                     </div>
                     <div class="col-12 col-md-2"></div>
                     <div class="col-12 col-md-4">
@@ -192,15 +192,15 @@ export default {
 
             list_data: [],
             listData: [
-                { id: 1, uraian: "Salah Kode Rekening" },
-                { id: 2, uraian: "Perubahan Klasifikasi Aset" },
-                { id: 3, uraian: "Penyesuaian dengan Permendagri" },
-                { id: 4, uraian: "Kesalahan Input Data" },
-                { id: 5, uraian: "Penggabungan Aset" },
-                { id: 6, uraian: "Pemecahan Aset" },
-                { id: 7, uraian: "Perubahan Fungsi Aset" },
-                { id: 8, uraian: "Revisi Hasil Inventarisasi" },
-                { id: 9, uraian: "Penyesuaian Kodefikasi Barang" },
+                { id: 1, uraian: "Rusak Berat" },
+                { id: 2, uraian: "Usang / Tidak Layak Pakai" },
+                { id: 3, uraian: "Hilang" },
+                { id: 4, uraian: "Dijual / Lelang" },
+                { id: 5, uraian: "Dihibahkan" },
+                { id: 6, uraian: "Musnah (Terbakar / Bencana)" },
+                { id: 7, uraian: "Dialihkan ke Instansi Lain" },
+                { id: 8, uraian: "Koreksi Data / Double Input" },
+                { id: 9, uraian: "Putusan Pengadilan" },
                 { id: 10, uraian: "Lainnya" }
             ],
 
@@ -225,7 +225,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_DM_REKLASIFIKASI + "view", {
+            fetch(this.$store.state.url.URL_DM_PENYEBAB + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -247,7 +247,7 @@ export default {
 
 
         addData: function (number) {
-            fetch(this.$store.state.url.URL_DM_REKLASIFIKASI + "addData", {
+            fetch(this.$store.state.url.URL_DM_PENYEBAB + "addData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -262,7 +262,7 @@ export default {
 
 
         editData: function () {
-            fetch(this.$store.state.url.URL_DM_REKLASIFIKASI + "editData", {
+            fetch(this.$store.state.url.URL_DM_PENYEBAB + "editData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -276,7 +276,7 @@ export default {
         },
 
         removeData: function (E) {
-            fetch(this.$store.state.url.URL_DM_REKLASIFIKASI + "removeData", {
+            fetch(this.$store.state.url.URL_DM_PENYEBAB + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",

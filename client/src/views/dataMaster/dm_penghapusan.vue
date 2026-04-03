@@ -5,7 +5,7 @@
                 <div class="row">
                     <div class="col-12 col-md-6">
                         <div class="text-h6 h_titleHead">Data Master</div>
-                        <div class="text-subtitle2">Hak Tanah</div>
+                        <div class="text-subtitle2">Alasan Penghapusan</div>
                     </div>
                     <div class="col-12 col-md-2"></div>
                     <div class="col-12 col-md-4">
@@ -35,7 +35,7 @@
                             <th width="40%">Uraian</th>
                             <th width="20%"></th>
                         </tr>
-                        <tr class="h_table_body" v-for="(data, index) in listData" :key="data.id">
+                        <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                             <td class="text-center">{{ indexing(index + 1) }}.</td>
                             <td>{{ data.uraian }}</td>
                             <td class="text-center">
@@ -225,7 +225,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_DM_HAK + "view", {
+            fetch(this.$store.state.url.URL_DM_ALASAN + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -247,7 +247,7 @@ export default {
 
 
         addData: function (number) {
-            fetch(this.$store.state.url.URL_DM_HAK + "addData", {
+            fetch(this.$store.state.url.URL_DM_ALASAN + "addData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -262,7 +262,7 @@ export default {
 
 
         editData: function () {
-            fetch(this.$store.state.url.URL_DM_HAK + "editData", {
+            fetch(this.$store.state.url.URL_DM_ALASAN + "editData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -276,7 +276,7 @@ export default {
         },
 
         removeData: function (E) {
-            fetch(this.$store.state.url.URL_DM_HAK + "removeData", {
+            fetch(this.$store.state.url.URL_DM_ALASAN + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -355,7 +355,7 @@ export default {
     },
 
     mounted() {
-        // this.getView();
+        this.getView();
     },
 }
 </script>

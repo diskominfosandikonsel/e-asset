@@ -38,6 +38,9 @@ export default new Vuex.Store({
       URL_DM_KONDISI : URL+'api/v1/master_kondisi/',
       URL_DM_HAK : URL+'api/v1/master_hak/',
       URL_DM_ASAL_USUL : URL+'api/v1/master_asal/',
+      URL_DM_REKLASIFIKASI : URL+'api/v1/master_reklasifikasi/',
+      URL_DM_ALASAN : URL+'api/v1/master_alasan/',
+      URL_DM_PENYEBAB : URL+'api/v1/master_penyebab/',
 
       URL_PERENCANAAN : URL+'api/v1/perencanaan/',
       URL_PENGADAAN : URL+'api/v1/pengadaan/',
@@ -52,6 +55,7 @@ export default new Vuex.Store({
 
       URL_PENGGUNA: URL+'api/v1/penggunaan/',
       URL_PENGEMBALIAN: URL+'api/v1/pengembalian/',
+      URL_REKLASIFIKASI: URL+'api/v1/reklasifikasi/',
     },
 
     // ====================================== CONTOH AUTOCOMPLETE ====================================
