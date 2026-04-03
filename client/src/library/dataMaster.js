@@ -115,6 +115,22 @@ const getKondisi = () => {
     })
 }
 
+const getReklasifikasi = () => {
+    fetch(store.state.url.URL_DM_REKLASIFIKASI + "list", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_reklasifikasi = res_data.data
+        // console.log(res_data)
+    })
+}
+
 const getAset = () => {
     fetch(store.state.url.URL_ASET + "akun", {
         method: 'POST',
@@ -256,6 +272,7 @@ module.exports = {
     getHak: getHak,
     getAsal: getAsal,
     getKondisi: getKondisi,
+    getReklasifikasi: getReklasifikasi,
 
     getAset: getAset,
     getKelompok: getKelompok,

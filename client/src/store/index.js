@@ -63,17 +63,18 @@ export default new Vuex.Store({
     list_unit_kerja: [],
     list_instansi: [],
     // ====================================== CONTOH AUTOCOMPLETE ====================================
+    list_hak: [],
+    list_asal: [],
+    list_kondisi: [],
+    list_reklasifikasi: [],
+
     list_aset: [],
     list_kelompok: [],
     list_jenis: [],
     list_objek: [],
     list_rincian: [],
     list_sub: [],
-    list_sub_sub: [],
-
-    list_hak: [],
-    list_asal: [],
-    list_kondisi: [],
+    list_sub_sub: [],    
 
     list_pengguna: [],
     
