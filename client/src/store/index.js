@@ -56,6 +56,7 @@ export default new Vuex.Store({
       URL_PENGGUNA: URL+'api/v1/penggunaan/',
       URL_PENGEMBALIAN: URL+'api/v1/pengembalian/',
       URL_REKLASIFIKASI: URL+'api/v1/reklasifikasi/',
+      URL_PENGHAPUSAN: URL+'api/v1/penghapusan/',
     },
 
     // ====================================== CONTOH AUTOCOMPLETE ====================================
@@ -67,6 +68,8 @@ export default new Vuex.Store({
     list_asal: [],
     list_kondisi: [],
     list_reklasifikasi: [],
+    list_penyebab: [],
+    list_alasan: [],
 
     list_aset: [],
     list_kelompok: [],

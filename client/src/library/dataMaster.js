@@ -131,6 +131,38 @@ const getReklasifikasi = () => {
     })
 }
 
+const getAlasan = () => {
+    fetch(store.state.url.URL_DM_ALASAN + "list", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_alasan = res_data.data
+        // console.log(res_data)
+    })
+}
+
+const getPenyebab = () => {
+    fetch(store.state.url.URL_DM_PENYEBAB + "list", {
+        method: 'POST',
+        headers: {
+            "content-type": "application/json",
+            authorization: "kikensbatara " + localStorage.token
+        },
+        body: JSON.stringify({
+
+        })
+    }).then((res) => res.json()).then((res_data) => {
+        store.state.list_penyebab = res_data.data
+        // console.log(res_data)
+    })
+}
+
 const getAset = () => {
     fetch(store.state.url.URL_ASET + "akun", {
         method: 'POST',
@@ -273,6 +305,8 @@ module.exports = {
     getAsal: getAsal,
     getKondisi: getKondisi,
     getReklasifikasi: getReklasifikasi,
+    getAlasan: getAlasan,
+    getPenyebab: getPenyebab,
 
     getAset: getAset,
     getKelompok: getKelompok,

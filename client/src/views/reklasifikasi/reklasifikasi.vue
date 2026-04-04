@@ -495,7 +495,6 @@ export default {
     },
     data() {
         return {
-            optionsSubSub: [],
             form: {
                 id: '',
                 nama: '',
@@ -560,13 +559,7 @@ export default {
                 {id: 5, uraian: 'KIB E - Aset Tetap Lainnya'},
                 {id: 6, uraian: 'KIB F - Konstruksi Dalam Pengerjaan'},
             ],
-
-            list_status: [
-                {id: 1, uraian: 'PNS'},
-                {id: 2, uraian: 'PPPK'},
-                {id: 3, uraian: 'Non-ASN'},
-            ],
-
+            
             list_data: [],
             list_aset: [],
 

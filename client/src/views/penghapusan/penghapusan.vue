@@ -31,37 +31,35 @@
                         <thead>
                             <tr class="h_table_head bg-blue-2">
                                 <th class="text-center" width="5%">No</th>
-                                <th class="text-center" width="20%">Kode Barang</th>
-                                <th class="text-center" width="25%">Nama Barang</th>
-                                <th class="text-center" width="25%">Nomor SK</th>
-                                <th class="text-center" width="25%">Tanggal SK</th>
-                                <th class="text-center" width="25%">Kondisi Barang</th>
-                                <th class="text-center" width="25%">Sebab Penghapusan</th>
-                                <th class="text-center" width="25%">Kererangan Sebab Penghapusan</th>
-                                <th class="text-center" width="25%">Keterangan</th>
-                                <th class="text-center" width="15%"></th>
+                                <th class="text-center" width="12%">Kode Barang</th>
+                                <th class="text-center" width="15%">Nama Barang</th>
+                                <th class="text-center" width="12%">Nomor SK</th>
+                                <th class="text-center" width="12%">Tanggal SK</th>
+                                <th class="text-center" width="10%">Kondisi Barang</th>
+                                <th class="text-center" width="12%">Alasan Penghapusan</th>
+                                <th class="text-center" width="14%">Ket. Alasan</th>
+                                <th class="text-center" width="8%"></th>
                             </tr>
                         </thead>
                         <tbody>
-                            <tr class="h_table_body" v-for="(data, index) in dataDummy" :key="data.id">
+                            <tr class="h_table_body" v-for="(data, index) in list_data" :key="data.id">
                                 <td class="text-center">{{ index + 1 }}.</td>
-                                <td>{{ data.kd_aset }}</td>
+                                <td>{{ data.kode }}</td>
                                 <td>{{ data.nm_aset }}</td>
-                                <td>{{ data.no_sk }}</td>
-                                <td>{{ data.tgl_sk }}</td>
-                                <td>{{ data.kondisi }}</td>
-                                <td>{{ data.sebab }}</td>
-                                <td>{{ data.sebab_ket }}</td>
-                                <td>{{ data.keterangan }}</td>
+                                <td>{{ data.nomor }}</td>
+                                <td>{{ UMUM.tglConvert(data.tgl) }}</td>
+                                <td>{{ data.nama }}</td>
+                                <td>{{ data.alasan }}</td>
+                                <td>{{ data.informasi }}</td>
                                 <td class="text-center">
                                     <q-btn-group flat>
                                         <q-btn glossy color="blue" icon="search" size="sm" @click="mdl_lihat = true, selectData(data)">
                                             <q-tooltip>Lihat Data</q-tooltip>
                                         </q-btn>
-                                        <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true">
+                                        <q-btn glossy color="orange" icon="edit" size="sm" @click="mdl_edit = true, selectData(data)">
                                             <q-tooltip>Edit Data</q-tooltip>
                                         </q-btn>
-                                        <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true">
+                                        <q-btn glossy color="red" icon="delete" size="sm" @click="mdl_remove = true, selectData(data)">
                                             <q-tooltip>Hapus Data</q-tooltip>
                                         </q-btn>
                                     </q-btn-group>
@@ -153,6 +151,105 @@
                     <div class="text-h6">Tambah Data</div>
                 </q-card-section>
 
+                <form @submit.prevent="addData()">
+                    <q-card-section class="q-pa-md">
+                        <div class="row q-col-gutter-sm">
+                            <div class="col-12">
+                                <div class="text-subtitle2 text-primary q-mb-xs">Dokumen Penghapusan</div>
+                                <q-separator q-mb-md />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable">Penyebab Penghapusan</span>
+                                <q-select
+                                    v-model="form.nama"
+                                    :options="$store.state.list_penyebab"
+                                    option-value="id"
+                                    option-label="uraian"
+                                    outlined square :dense="true"
+                                    class="bg-white margin_btn"
+                                    emit-value map-options
+                                />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable">Nomor SK</span>
+                                <q-input v-model="form.nomor" outlined square dense class="bg-white" />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable">Tanggal</span>
+                                <q-input v-model="form.tgl" type="date" outlined square dense class="bg-white" />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable">Keterangan</span>
+                                <q-input v-model="form.keterangan" outlined square :dense="true" class="bg-white margin_btn" type="textarea" />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable ">Lampiran</span>
+                                <q-file v-model="form.file" outlined square :dense="true" class="bg-white margin_btn">
+                                    <template v-slot:prepend>
+                                        <q-icon name="attach_file" />
+                                    </template>
+                                </q-file>
+                            </div>
+                            <div class="col-12 q-mt-md">
+                                <div class="text-subtitle2 text-primary q-mb-xs">Penghapusan Barang</div>
+                                <q-separator q-mb-md />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable">Alasan Penghapusan</span>
+                                <q-select
+                                    v-model="form.alasan"
+                                    :options="$store.state.list_alasan"
+                                    option-value="id"
+                                    option-label="uraian"
+                                    outlined square :dense="true"
+                                    class="bg-white margin_btn"
+                                    emit-value map-options
+                                />
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable">Kode Aset</span>
+                                <q-select
+                                    v-model="form.kode"
+                                    use-input hide-selected fill-input
+                                    input-debounce="300"
+                                    :options="$store.state.list_sub_sub"
+                                    option-value="kode"
+                                    option-label="uraian"
+                                    emit-value map-options
+                                    @filter="autocomplete_getSubKegiatan"
+                                    @focus="loadSubSubAwal"
+                                    clearable outlined square dense
+                                >
+                                    <template v-slot:no-option>
+                                        <q-item>
+                                            <q-item-section class="text-grey">
+                                                Tidak ditemukan
+                                            </q-item-section>
+                                        </q-item>
+                                    </template>
+                                </q-select>
+                            </div>
+                            <div class="col-12 col-md-12 frame_cari">
+                                <span class="h_lable">Informasi Penghapusan </span>
+                                <q-input v-model="form.informasi" outlined square :dense="true" class="bg-white margin_btn" type="textarea" />
+                            </div>
+                        </div>
+                    </q-card-section>
+                </form>
+
+                <q-card-actions class="bg-grey-4 mdl-footer" align="right">
+                    <q-btn :loading="btn_add" color="primary" @click="addData()" label="Simpan" />
+                    <q-btn label="Batal" color="negative" v-close-popup />
+                </q-card-actions>
+            </q-card>
+        </q-dialog>
+
+        <q-dialog v-model="mdl_edit" persistent>
+            <q-card class="mdl-md">
+                <q-card-section class="bg-orange text-white">
+                    <div class="text-h6">Edit Data</div>
+                </q-card-section>
+
                 <q-card-section class="q-pa-md">
                     <div class="row q-col-gutter-sm">
                         <div class="col-12">
@@ -160,10 +257,10 @@
                             <q-separator q-mb-md />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Alasan Penghapusan</span>
+                            <span class="h_lable">Penyebab Penghapusan</span>
                             <q-select
-                                v-model="form.id_bmd"
-                                :options="list_bmd"
+                                v-model="form.nama"
+                                :options="$store.state.list_penyebab"
                                 option-value="id"
                                 option-label="uraian"
                                 outlined square :dense="true"
@@ -173,7 +270,7 @@
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Nomor SK</span>
-                            <q-input v-model="form.uraian" outlined square dense class="bg-white" />
+                            <q-input v-model="form.nomor" outlined square dense class="bg-white" />
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Tanggal</span>
@@ -198,116 +295,8 @@
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Alasan Penghapusan</span>
                             <q-select
-                                v-model="form.id_alasan"
-                                :options="list_alasan"
-                                option-value="id"
-                                option-label="uraian"
-                                outlined square :dense="true"
-                                class="bg-white margin_btn"
-                                emit-value map-options
-                            />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Kode Barang</span>
-                            <q-select
-                                v-model="form.subSubId"
-                                use-input hide-selected fill-input
-                                input-debounce="300"
-                                :options="optionsSubSub"
-                                option-value="kode"
-                                option-label="label"
-                                emit-value map-options
-                                @filter="autocomplete_getSubKegiatan"
-                                clearable outlined square dense
-                            >
-                                <template v-slot:no-option>
-                                    <q-item>
-                                        <q-item-section class="text-grey">
-                                            Tidak ditemukan
-                                        </q-item-section>
-                                    </q-item>
-                                </template>
-                            </q-select>
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Spesifikasi </span>
-                            <q-input v-model="form.spek" outlined square :dense="true" class="bg-white margin_btn" type="textarea" />
-                        </div>
-                    </div>
-                </q-card-section>
-
-                <q-card-actions class="bg-grey-4 mdl-footer" align="right">
-                    <q-btn :loading="btn_add" color="primary" label="Simpan" />
-                    <q-btn label="Batal" color="negative" v-close-popup />
-                </q-card-actions>
-            </q-card>
-        </q-dialog>
-
-        <q-dialog v-model="mdl_edit" persistent>
-            <q-card class="mdl-md">
-                <q-card-section class="bg-orange text-white">
-                    <div class="text-h6">Edit Data</div>
-                </q-card-section>
-
-                <q-card-section class="q-pa-md">
-                    <div class="row q-col-gutter-sm">
-                        <div class="col-12">
-                            <div class="text-subtitle2 text-primary q-mb-xs">Dokumen Reklasifikasi</div>
-                            <q-separator q-mb-md />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Nama Dokumen</span>
-                            <q-input v-model="form.uraian" outlined square dense class="bg-white" />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Nomor Dokumen</span>
-                            <q-input v-model="form.no" outlined square dense class="bg-white" />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Tanggal</span>
-                            <q-input v-model="form.tgl" type="date" outlined square dense class="bg-white" />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Keterangan</span>
-                            <q-input v-model="form.keterangan" outlined square :dense="true" class="bg-white margin_btn" type="textarea" />
-                        </div>
-                        <div class="col-12 q-mt-md">
-                            <div class="text-subtitle2 text-primary q-mb-xs">Informasi Barang</div>
-                            <q-separator q-mb-md />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Jenis BMD</span>
-                            <q-select
-                                v-model="form.id_bmd"
-                                :options="list_bmd"
-                                option-value="id"
-                                option-label="uraian"
-                                outlined square :dense="true"
-                                class="bg-white margin_btn"
-                                emit-value map-options
-                            />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Daftar Aset Sesuai KIB</span>
-                            <q-select
-                                v-model="form.id_bmd"
-                                :options="list_bmd"
-                                option-value="id"
-                                option-label="uraian"
-                                outlined square :dense="true"
-                                class="bg-white margin_btn"
-                                emit-value map-options
-                            />
-                        </div>
-                        <div class="col-12 q-mt-md">
-                            <div class="text-subtitle2 text-primary q-mb-xs">Barang Reklasifikasi</div>
-                            <q-separator q-mb-md />
-                        </div>
-                        <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Alasan Reklasifikasi</span>
-                            <q-select
-                                v-model="form.id_alasan"
-                                :options="list_alasan"
+                                v-model="form.alasan"
+                                :options="$store.state.list_alasan"
                                 option-value="id"
                                 option-label="uraian"
                                 outlined square :dense="true"
@@ -318,14 +307,15 @@
                         <div class="col-12 col-md-12 frame_cari">
                             <span class="h_lable">Kode Aset</span>
                             <q-select
-                                v-model="form.subSubId"
+                                v-model="form.kode"
                                 use-input hide-selected fill-input
                                 input-debounce="300"
-                                :options="optionsSubSub"
+                                :options="$store.state.list_sub_sub"
                                 option-value="kode"
-                                option-label="label"
+                                option-label="uraian"
                                 emit-value map-options
                                 @filter="autocomplete_getSubKegiatan"
+                                @focus="loadSubSubAwal"
                                 clearable outlined square dense
                             >
                                 <template v-slot:no-option>
@@ -338,8 +328,8 @@
                             </q-select>
                         </div>
                         <div class="col-12 col-md-12 frame_cari">
-                            <span class="h_lable">Spesifikasi Barang Tujuan</span>
-                            <q-input v-model="form.spek" outlined square :dense="true" class="bg-white margin_btn" type="textarea" />
+                            <span class="h_lable">Informasi Penghapusan </span>
+                            <q-input v-model="form.informasi" outlined square :dense="true" class="bg-white margin_btn" type="textarea" />
                         </div>
                     </div>
                 </q-card-section>
@@ -372,95 +362,64 @@
 
         <q-dialog v-model="mdl_lihat" persistent>
             <q-card class="mdl-md">
-
-            <!-- Header -->
-            <q-card-section class="bg-blue-3 text-white">
-            <div class="text-h6">Detail Penghapusan Aset</div>
-            </q-card-section>
-
-            <q-separator/>
-
-            <q-card-section class="q-gutter-md">
-
-            <!-- Informasi Barang -->
-            <div>
-            <div class="text-subtitle1 text-bold q-mb-sm">Informasi Barang</div>
-
-            <q-list bordered dense separator>
-
-            <q-item>
-            <q-item-section class="col-4"><b>Kode Barang</b></q-item-section>
-            <q-item-section>{{ form.kd_aset }}</q-item-section>
-            </q-item>
-
-            <q-item>
-            <q-item-section class="col-4"><b>Nama Barang</b></q-item-section>
-            <q-item-section>{{ form.nm_aset }}</q-item-section>
-            </q-item>
-
-            <q-item>
-            <q-item-section class="col-4"><b>Kondisi Barang</b></q-item-section>
-            <q-item-section>{{ form.kondisi }}</q-item-section>
-            </q-item>
-
-            </q-list>
-            </div>
-
-
-            <!-- Informasi SK -->
-            <div>
-            <div class="text-subtitle1 text-bold q-mb-sm">Informasi SK Penghapusan</div>
-
-            <q-list bordered dense separator>
-
-            <q-item>
-            <q-item-section class="col-4"><b>Nomor SK</b></q-item-section>
-            <q-item-section>{{ form.no_sk }}</q-item-section>
-            </q-item>
-
-            <q-item>
-            <q-item-section class="col-4"><b>Tanggal SK</b></q-item-section>
-            <q-item-section>{{ form.tgl_sk }}</q-item-section>
-            </q-item>
-
-            </q-list>
-            </div>
-
-
-            <!-- Informasi Penghapusan -->
-            <div>
-            <div class="text-subtitle1 text-bold q-mb-sm">Informasi Penghapusan</div>
-
-            <q-list bordered dense separator>
-
-            <q-item>
-            <q-item-section class="col-4"><b>Sebab Penghapusan</b></q-item-section>
-            <q-item-section>{{ form.sebab }}</q-item-section>
-            </q-item>
-
-            <q-item>
-            <q-item-section class="col-4"><b>Keterangan Sebab</b></q-item-section>
-            <q-item-section>{{ form.sebab_ket }}</q-item-section>
-            </q-item>
-
-            <q-item>
-            <q-item-section class="col-4"><b>Keterangan</b></q-item-section>
-            <q-item-section>{{ form.keterangan }}</q-item-section>
-            </q-item>
-
-            </q-list>
-            </div>
-
-            </q-card-section>
-
-            <q-separator/>
-
-            <q-card-actions align="right" class="bg-grey-3">
-            <q-btn label="Tutup" color="negative" v-close-popup/>
-            </q-card-actions>
-
+                <q-card-section class="bg-blue-3 text-white">
+                    <div class="text-h6">Detail Penghapusan Aset</div>
+                </q-card-section>
+                <q-separator/>
+                <q-card-section class="q-gutter-md">
+                    <div>
+                        <div class="text-subtitle1 text-bold q-mb-sm">Informasi Dokumen</div>
+                        <q-list bordered dense separator>
+                            <q-item>
+                                <q-item-section class="col-4"><b>Penyebab Penghapusan</b></q-item-section>
+                                <q-item-section>{{ form.penyebab }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-4"><b>Nomor SK</b></q-item-section>
+                                <q-item-section>{{ form.nomor }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-4"><b>Tanggal</b></q-item-section>
+                                <q-item-section>{{ UMUM.tglConvert(form.tgl) }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-4"><b>Keterangan</b></q-item-section>
+                                <q-item-section>{{ form.keterangan }}</q-item-section>
+                            </q-item>
+                        </q-list>
+                    </div>
+                    <div>
+                        <div class="text-subtitle1 text-bold q-mb-sm">Informasi Penghapusan</div>
+                        <q-list bordered dense separator>
+                            <q-item>
+                                <q-item-section class="col-4"><b>Alasan Penghapusan</b></q-item-section>
+                                <q-item-section>{{ form.alasan }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-4"><b>Kode Aset</b></q-item-section>
+                                <q-item-section>{{ form.sebab_ket }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-4"><b>Nama Aset</b></q-item-section>
+                                <q-item-section>{{ form.sebab_ket }}</q-item-section>
+                            </q-item>
+                            <q-item>
+                                <q-item-section class="col-4"><b>Keterangan</b></q-item-section>
+                                <q-item-section>{{ form.keterangan }}</q-item-section>
+                            </q-item>
+                        </q-list>
+                    </div>
+                    <div>
+                        <div class="text-subtitle1 text-bold q-mb-sm">Lampiran</div>
+                        <embed :src="file_path + form.file" width="100%" height="600">
+                    </div>
+                </q-card-section>
+                <q-separator/>
+                <q-card-actions align="right" class="bg-grey-3">
+                    <q-btn label="Tutup" color="negative" v-close-popup/>
+                </q-card-actions>
             </q-card>
-            </q-dialog>
+        </q-dialog>
         <!-- =================================================== MODAL =========================================================== -->
 
 
@@ -473,6 +432,7 @@
 
 import FETCHING from '../../library/fetching'
 import UMUM from '../../library/umum'
+import DATA_MASTER from '../../library/dataMaster'
 
 export default {
     computed: {
@@ -492,103 +452,16 @@ export default {
             optionsSubSub: [],
             form: {
                 id: '',
-                no: '',
-                merk: '',
-                type: '',
-                ukuran: '',
-                jumlah: '',
-                harga: '',
-                total: '',
-                rekening: '',
+                nama: '',
+                nomor: '',
+                tgl: '',
                 keterangan: '',
                 file: null,
+                alasan: '',
+                informasi: '',
+                kode: '',
+                asetId: '',
             },
-
-            dataDummy: [
-                {
-                    id:1,
-                    kd_aset:"1.3.2.10.01.02.002.001",
-                    nm_aset:"Laptop Macbook Pro M2",
-                    no_sk:"SK-001/BMD/2026",
-                    tgl_sk:"2026-01-15",
-                    kondisi:"Rusak Berat",
-                    sebab:"Kerusakan",
-                    sebab_ket:"Mainboard rusak total",
-                    keterangan:"Diusulkan penghapusan karena biaya perbaikan tinggi"
-                    },
-
-                    {
-                    id:2,
-                    kd_aset:"1.3.2.10.01.02.002.002",
-                    nm_aset:"Printer HP LaserJet 402",
-                    no_sk:"SK-002/BMD/2026",
-                    tgl_sk:"2026-02-10",
-                    kondisi:"Rusak Berat",
-                    sebab:"Kerusakan",
-                    sebab_ket:"Mesin printer tidak berfungsi",
-                    keterangan:"Tidak dapat diperbaiki"
-                    },
-
-                    {
-                    id:3,
-                    kd_aset:"1.3.2.10.01.02.003.001",
-                    nm_aset:"Server Dell PowerEdge R740",
-                    no_sk:"SK-003/BMD/2026",
-                    tgl_sk:"2026-02-20",
-                    kondisi:"Usang",
-                    sebab:"Usia Teknis",
-                    sebab_ket:"Sudah melewati masa manfaat",
-                    keterangan:"Diganti dengan server baru"
-                    },
-
-                    {
-                    id:4,
-                    kd_aset:"1.3.2.10.01.02.004.001",
-                    nm_aset:"Proyektor Epson EB-X500",
-                    no_sk:"SK-004/BMD/2026",
-                    tgl_sk:"2026-03-01",
-                    kondisi:"Rusak Berat",
-                    sebab:"Kerusakan",
-                    sebab_ket:"Lampu proyektor rusak permanen",
-                    keterangan:"Tidak ekonomis untuk diperbaiki"
-                    }
-            ],
-
-            list_bmd: [
-                {id: 1, uraian: 'KIB A - Tanah'},
-                {id: 2, uraian: 'KIB B - Peralatan dan Mesin'},
-                {id: 3, uraian: 'KIB C - Gedung dan Bangunan'},
-                {id: 4, uraian: 'KIB D - Jalan, Irigasi, dan Jaringan'},
-                {id: 5, uraian: 'KIB E - Aset Tetap Lainnya'},
-                {id: 6, uraian: 'KIB F - Konstruksi Dalam Pengerjaan'},
-            ],
-
-            list_alasan: [
-                {id: 1, uraian: 'TERDAPAT KESALAHAN PENCACATAN, PENGGOLONGAN DAN KODEFIKASI BMD'},
-                {id: 2, uraian: 'PERUBAHAN FUNGSI'},
-                {id: 3, uraian: 'RUSAK BERAT/USANG'},
-                {id: 4, uraian: 'HILANG'},
-                {id: 5, uraian: 'ASET BERSEJARAH'},
-                {id: 6, uraian: 'KETENTUAN PERATURAN PERUNDANG-UNDANGAN'},
-                {id: 7, uraian: 'EKSTRAKOM'},
-                {id: 8, uraian: 'INTRAKOM'},
-                {id: 9, uraian: 'PERSEDIAAN RUSAK'},
-                {id: 10, uraian: 'KARENA SEBAB LAIN'},
-            ],
-
-            list_status: [
-                {id: 1, uraian: 'PNS'},
-                {id: 2, uraian: 'PPPK'},
-                {id: 3, uraian: 'Non-ASN'},
-            ],
-
-
-            // ====================================== CONTOH AUTOCOMPLETE ====================================
-            autocomplete_db: '',
-            // ====================================== CONTOH AUTOCOMPLETE ====================================
-
-
-
 
             list_data: [],
 
@@ -596,7 +469,7 @@ export default {
             page_last: 0,
             cari_value: "",
             cek_load_data: true,
-
+            file_path: this.$store.state.url.URL_APP + "uploads/",
 
             mdl_add: false,
             mdl_edit: false,
@@ -609,6 +482,7 @@ export default {
 
             FETCHING: FETCHING,
             UMUM: UMUM,
+            DATA_MASTER: DATA_MASTER,
         }
     },
     methods: {
@@ -616,7 +490,7 @@ export default {
 
         getView: function () {
             this.$store.commit("shoWLoading");
-            fetch(this.$store.state.url.URL_MasterKategori + "view", {
+            fetch(this.$store.state.url.URL_PENGHAPUSAN + "view", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -632,19 +506,23 @@ export default {
                     this.list_data = res_data.data;
                     this.page_last = res_data.jml_data;
                     this.$store.commit("hideLoading");
-                    // console.log(res_data);
+                    console.log(res_data);
                 });
         },
 
 
-        addData: function (number) {
-            fetch(this.$store.state.url.URL_MasterKategori + "Add", {
+        addData: function () {
+            var formData = new FormData();
+            formData.append('data', JSON.stringify(this.form))
+            formData.append("file", this.form.file);
+
+            fetch(this.$store.state.url.URL_PENGHAPUSAN + "addData", {
                 method: "POST",
                 headers: {
-                    "content-type": "application/json",
+                    // "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.form)
+                body: formData
             }).then(res_data => {
                 this.Notify('Sukses Menambah Data', 'primary', 'check_circle_outline');
                 this.getView();
@@ -653,13 +531,17 @@ export default {
 
 
         editData: function () {
-            fetch(this.$store.state.url.URL_MasterKategori + "editData", {
+            var formData = new FormData();
+            formData.append('data', JSON.stringify(this.form))
+            formData.append("file", this.form.file);
+
+            fetch(this.$store.state.url.URL_PENGHAPUSAN + "editData", {
                 method: "POST",
                 headers: {
-                    "content-type": "application/json",
+                    // "content-type": "application/json",
                     authorization: "kikensbatara " + localStorage.token
                 },
-                body: JSON.stringify(this.form)
+                body: formData
             }).then(res_data => {
                 this.Notify('Sukses Merubah Data', 'warning', 'check_circle_outline');
                 this.getView();
@@ -667,7 +549,7 @@ export default {
         },
 
         removeData: function (E) {
-            fetch(this.$store.state.url.URL_MasterKategori + "removeData", {
+            fetch(this.$store.state.url.URL_PENGHAPUSAN + "removeData", {
                 method: "POST",
                 headers: {
                     "content-type": "application/json",
@@ -682,15 +564,17 @@ export default {
         },
 
         selectData: function (data) {
-            this.form = { ...data }
             this.form.id = data.id;
-            this.form.kd_aset = data.kd_aset;
-            this.form.nm_aset = data.nm_aset;
-            this.form.nm_pemakai = data.nm_pemakai;
-            this.form.jabatan = data.jabatan;
-            this.form.no_bast = data.no_bast;
+            this.form.nama = data.nama;
+            this.form.nomor = data.nomor;
             this.form.tgl = data.tgl;
             this.form.keterangan = data.keterangan;
+            this.form.file = data.file;
+            this.file_old = data.file;
+            this.form.alasan = data.alasan;
+            this.form.informasi = data.informasi;
+            this.form.kode = data.kode;
+            this.form.asetId = data.asetId;
         },
 
         openModal(data) {
@@ -718,6 +602,10 @@ export default {
                     }))
                 })
             })
+        },
+
+        loadSubSubAwal() {
+            FETCHING.getSubKegiatan('')
         },
 
         Notify: function (message, positive, icon) {
@@ -760,6 +648,9 @@ export default {
     },
 
     mounted() {
+        this.getView();
+        DATA_MASTER.getAlasan();
+        DATA_MASTER.getPenyebab();
         FETCHING.getContohAtocomplete('')
     },
 }
