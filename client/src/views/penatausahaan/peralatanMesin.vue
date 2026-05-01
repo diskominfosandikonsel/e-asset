@@ -242,8 +242,7 @@
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Bahan</span>
-                                <q-input v-model="form.bahan" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.bahan" outlined square :dense="true" class="bg-white margin_btn" />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">No. Rangka</span>
@@ -291,18 +290,15 @@
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Harga</span>
-                                <q-input v-model="form.harga" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.harga" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Masa Manfaat</span>
-                                <q-input v-model="form.masa_manfaat" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.manfaat" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Nilai Sisa</span>
-                                <q-input v-model="form.nilai_sisa" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.nilai" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Keterangan</span>
@@ -402,8 +398,7 @@
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Bahan</span>
-                                <q-input v-model="form.bahan" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.bahan" outlined square :dense="true" class="bg-white margin_btn" />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">No. Rangka</span>
@@ -451,18 +446,15 @@
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Harga</span>
-                                <q-input v-model="form.harga" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.harga" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                             </div>
                             <div class="col-12 col-md-6 frame_cari frame_cari">
                                 <span class="h_lable ">Masa Manfaat</span>
-                                <q-input v-model="form.masa_manfaat" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.manfaat" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Nilai Sisa</span>
-                                <q-input v-model="form.nilai_sisa" outlined square :dense="true"
-                                    class="bg-white margin_btn" />
+                                <q-input v-model="form.nilai" outlined square :dense="true" class="bg-white margin_btn" type="number" />
                             </div>
                             <div class="col-12 col-md-12 frame_cari">
                                 <span class="h_lable ">Keterangan</span>
@@ -477,7 +469,6 @@
                                     </template>
                                 </q-file>
                             </div>
-
                         </div>
                     </q-card-section>
 
@@ -588,11 +579,11 @@
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium word-wrap"><b>Masa Manfaat</b></q-item-section>
-                                <q-item-section>{{ form.masa_manfaat }} Tahun</q-item-section>
+                                <q-item-section>{{ form.manfaat }} Tahun</q-item-section>
                             </q-item>
                             <q-item>
                                 <q-item-section class="col-3 text-weight-medium word-wrap"><b>Nilai Sisa</b></q-item-section>
-                                <q-item-section>{{ form.nilai_sisa }}</q-item-section>
+                                <q-item-section>{{ form.nilai }}</q-item-section>
                             </q-item>
 
                             <q-item>
@@ -698,7 +689,7 @@ export default {
             form: {
                 id: '',
                 kodep: 12,
-                subSubid: '',
+                subSubId: '',
                 no_reg: '',
                 ruang: '',
                 tgl_beli: '',
@@ -713,8 +704,8 @@ export default {
                 id_asal: '',
                 id_kondisi: '',
                 harga: '',
-                masa_manfaat: '',
-                nilai_sisa: '',
+                manfaat: '',
+                nilai: '',
                 keterangan: '',
                 file_old: '',
                 file: null,
@@ -834,8 +825,8 @@ export default {
             this.form.subSubId = data.subSubId;
             this.form.no_reg = data.no_reg;
             this.form.ruang = data.ruang;
-            this.form.tgl_beli = data.tgl_beli;
-            this.form.tgl_pembukuan = data.tgl_pembukuan;
+            this.form.tgl_beli = data.tgl_beli ? data.tgl_beli.split('T')[0] : ''
+            this.form.tgl_buku = data.tgl_buku ? data.tgl_buku.split('T')[0] : ''
             this.form.merk = data.merk;
             this.form.type = data.type;
             this.form.no_pabrik = data.no_pabrik;
@@ -849,8 +840,8 @@ export default {
             this.form.asal_usul = data.asal_usul;
             this.form.kondisi = data.kondisi;
             this.form.harga = data.harga;
-            this.form.masa_manfaat = data.masa_manfaat;
-            this.form.nilai_sisa = data.nilai_sisa;
+            this.form.manfaat = data.manfaat;
+            this.form.nilai = data.nilai;
             this.form.keterangan = data.keterangan;
             this.form.file = data.file;
             this.form.file_old = data.file;
