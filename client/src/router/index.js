@@ -290,6 +290,12 @@ function isLoggedIn(to, from, next) {
     component: () => import('../views/pemanfaatan/pengembalianBarang.vue'),
     beforeEnter: isLoggedIn,
   },
+  {
+    path: '/kir',
+    name: 'kir',
+    component: () => import('../views/pemanfaatan/kir.vue'),
+    beforeEnter: isLoggedIn,
+  },
 
   {
     path: '/reklasifikasi',

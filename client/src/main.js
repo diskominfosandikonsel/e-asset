@@ -84,6 +84,9 @@ Vue.component('kompUbahKondisi', kompUbahKondisi);
 import kompPengembalian from './components/komponen/pengembalian.vue'
 Vue.component('kompPengembalian', kompPengembalian);
 
+import kompDaftarAset from './components/komponen/daftarAset.vue'
+Vue.component('kompDaftarAset', kompDaftarAset);
+
 
 
 const options = {
